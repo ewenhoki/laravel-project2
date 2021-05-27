@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Student;
 use App\User;
 use App\File;
+use App\lecturer;
 
 class StudentController extends Controller
 {
@@ -64,5 +65,20 @@ class StudentController extends Controller
     public function updateProposal(File $file,Request $request){
         $file->update($request->all());
         return redirect('/student/dashboard/proposal_submission');
+    }
+
+    public function addSupervisor(){
+        $lecturers_all = Lecturer::all();
+        $lecturers = array();
+        foreach($lecturers_all as $lec){
+            if($lec->students()->count()<10){
+                $lecturers[] = $lec->id;
+            }
+        }
+        $lecturer = Lecturer::whereIn('lecturers.id',$lecturers)
+            ->join('users','users.id','=','lecturers.user_id')
+            ->orderBy('users.name')
+            ->pluck('users.name','lecturers.id');
+        return view('dashboards.student.add-supervisor',compact(['lecturer']));
     }
 }

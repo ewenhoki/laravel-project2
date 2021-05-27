@@ -35,6 +35,9 @@
                 <li>
                     <a href="/student/dashboard/proposal_submission" class="collapsible-header"><i class="material-icons">assignment_returned</i><span class="hide-menu"> Upload Dokumen </span></a>
                 </li>
+                <li>
+                    <a href="/add/supervisor" class="collapsible-header"><i class="material-icons">account_circle</i><span class="hide-menu"> Dosen Pembimbing </span></a>
+                </li>
                 @endif
                 <li>
                     <a href="/logout" class="collapsible-header"><i class="material-icons">directions</i><span class="hide-menu"> Log Out </span></a>
