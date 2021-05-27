@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('header')
-    <title>Math Unpad - Add Admin</title>
+    <title>Math Unpad - Upload</title>
     <link href="{{asset('admin/dist/css/pages/form-page.css')}}" rel="stylesheet">
     <link href="{{asset('admin/assets/extra-libs/prism/prism.css')}}" rel="stylesheet">
 @endsection
@@ -10,10 +10,10 @@
 <div class="page-wrapper">
     <div class="page-titles">
         <div class="d-flex align-items-center">
-            <h5 class="font-medium m-b-0">Form Pengajuan Proposal </h5>
+            <h5 class="font-medium m-b-0">Upload Dokumen Pengajuan Tugas Akhir</h5>
             <div class="custom-breadcrumb ml-auto">
-                <a href="#" class="breadcrumb">Dashboard</a>
-                <a href="/users/add" class="breadcrumb">Form Pengajuan Proposal</a>
+                <a href="/student/dashboard/student_profile" class="breadcrumb">Dashboard</a>
+                <a href="/users/add" class="breadcrumb">Upload Dokumen Pengajuan Tugas Akhir</a>
             </div>
         </div>
     </div>
@@ -22,19 +22,19 @@
             <div class="col s12">
                 <div class="card">
                     <div class="card-content">
-                        <h5 class="card-title activator">Form Pengajuan Proposal</h5>
-                        <h6 class="card-subtitle">Please complete this form below to create new admin user.</h6>
+                        <h5 class="card-title activator">Form Pengajuan Tugas Akhir</h5>
+                        <h6 class="card-subtitle">Silakan upload dokumen pengajuan tugas akhir di bawah ini.</h6>
                     </div>
                     @if ($student->file==NULL)
                     {!! Form::open(['url' => '/proposal/create','class'=>'h-form b-form striped-lables formValidate','id'=>'formValidate']) !!}
                         <div class="form-body">
                             <div class="divider"></div>
                             <div class="card-content">
-                                <h6 class="font-medium">Pengajuan Proposal</h6>
+                                <h6 class="font-medium">Upload Dokumen</h6>
                                 <div class="row">
                                     <div class="col s3">
                                         <div class="h-form-label">
-                                            <label for="title">Title</label>
+                                            <label for="title">Judul</label>
                                         </div>
                                     </div>
                                     <div class="input-field col s9">
@@ -108,13 +108,13 @@
                         <div class="card-content">
                             <div class="form-action">
                                 <button class="btn cyan waves-effect waves-light submit" type="submit" name="action">Submit</button>
-                                <a class="btn waves-effect waves-light grey darken-4" href="/super_admin/dashboard/data_overview" name="action">Cancel
+                                <a class="btn waves-effect waves-light grey darken-4" href="/student/dashboard/student_profile" name="action">Cancel
                                 </a>
                             </div>
                         </div>
                     {!! Form::close() !!}
                     @else
-                    {!! Form::open(['url' => '/proposal/create','class'=>'h-form b-form striped-lables formValidate','id'=>'formValidate']) !!}
+                    {!! Form::open(['url' => '/proposal/update/'.$student->file->id,'class'=>'h-form b-form striped-lables formValidate','id'=>'formValidate']) !!}
                         <div class="form-body">
                             <div class="divider"></div>
                             <div class="card-content">
@@ -196,7 +196,7 @@
                         <div class="card-content">
                             <div class="form-action">
                                 <button class="btn cyan waves-effect waves-light submit" type="submit" name="action">Submit</button>
-                                <a class="btn waves-effect waves-light grey darken-4" href="/super_admin/dashboard/data_overview" name="action">Cancel
+                                <a class="btn waves-effect waves-light grey darken-4" href="/student/dashboard/student_profile" name="action">Cancel
                                 </a>
                             </div>
                         </div>

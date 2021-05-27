@@ -58,13 +58,11 @@ class StudentController extends Controller
         $file->paper = $request->paper;
         $file->upload_date = Carbon::now()->toDateTimeString();
         $file->save();
-        // $student = Student::find(auth()->user()->student->id);
-        // $student->title = $request->title;
-        // $student->krs = $request->krs;
-        // $student->kss = $request->kss;
-        // $student->proposal = $request->proposal;
-        // $student->paper = $request->paper;
-        // $student->save();
+        return redirect('/student/dashboard/proposal_submission');
+    }
+
+    public function updateProposal(File $file,Request $request){
+        $file->update($request->all());
         return redirect('/student/dashboard/proposal_submission');
     }
 }
