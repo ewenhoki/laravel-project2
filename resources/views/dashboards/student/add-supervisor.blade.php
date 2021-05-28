@@ -81,7 +81,7 @@
                                     <h3 class="card-title">Progress</h3>
                                     <p>Belum Mengajukan Dosen Pembimbing</p>
                                 @else
-                                    <p>{{ auth()->user()->student->lecturers()->wherePivot('order',2)->first()->first_name.' '.auth()->user()->student->lecturers()->wherePivot('order',1)->first()->last_name }}</p>
+                                    <p>{{ auth()->user()->student->lecturers()->wherePivot('order',2)->first()->first_name.' '.auth()->user()->student->lecturers()->wherePivot('order',2)->first()->last_name }}</p>
                                     <h3 class="card-title">Progress</h3>
                                     <p>{{ $status[auth()->user()->student->lecturers()->wherePivot('order',2)->first()->pivot->progress-1] }}</p>
                                 @endif

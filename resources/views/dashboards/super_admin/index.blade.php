@@ -2,9 +2,10 @@
 
 @section('header')
     <title>Math Unpad - Dashboard</title>
-    <link href="{{asset('admin/dist/css/pages/data-table.css')}}" rel="stylesheet">
+    {{-- <link href="{{asset('admin/dist/css/pages/data-table.css')}}" rel="stylesheet"> --}}
     <link href="{{asset('admin/assets/libs/sweetalert2/dist/sweetalert2.min.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('admin/assets/libs/toastr/build/toastr.min.css')}}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
 @endsection
 
 @section('content')
@@ -174,7 +175,8 @@
 @endsection
 
 @section('footer')
-    <script src="{{asset('admin/assets/extra-libs/Datatables/datatables.min.js')}}"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    {{-- <script src="{{asset('admin/assets/extra-libs/Datatables/datatables.min.js')}}"></script> --}}
     <script src="{{asset('admin/assets/libs/sweetalert2/dist/sweetalert2.min.js')}}"></script>
     <script src="{{asset('admin/assets/libs/toastr/build/toastr.min.js')}}"></script>
     {{-- <script src="{{asset('admin/dist/js/pages/datatable/datatable-basic.init.js')}}"></script> --}}
@@ -200,9 +202,7 @@
                 }
             });
         });
-        $('#zero_config').DataTable({
-            select:true,
-        });
+        $('#zero_config').DataTable();
         });
     </script>
     @if (session('success'))
