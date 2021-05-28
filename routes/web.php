@@ -54,7 +54,9 @@ Route::group(['middleware' => ['auth','verified','checkrole:Student']], function
     Route::get('/student/dashboard/proposal_submission', 'StudentController@addProposal');
     Route::post('/proposal/create', 'StudentController@createProposal');
     Route::post('/proposal/update/{file}', 'StudentController@updateProposal');
-    Route::get('/add/supervisor','StudentController@addSupervisor');
+    Route::get('/add/supervisor', 'StudentController@addSupervisor');
+    Route::post('/postsupervisor/1', 'StudentController@postSupervisor1');
+    Route::post('/postsupervisor/2', 'StudentController@postSupervisor2');
 });
 
 Route::group(['middleware' => ['auth','verified','checkrole:Lecturer']], function(){

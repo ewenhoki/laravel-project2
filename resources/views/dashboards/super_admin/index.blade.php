@@ -179,6 +179,7 @@
     <script src="{{asset('admin/assets/libs/toastr/build/toastr.min.js')}}"></script>
     {{-- <script src="{{asset('admin/dist/js/pages/datatable/datatable-basic.init.js')}}"></script> --}}
     <script>
+        $(document).ready(function () {
         $('.deleteu').click(function(){
             var user_id = $(this).attr('user-id');
             var user_name = $(this).attr('user-name');
@@ -199,8 +200,10 @@
                 }
             });
         });
-
-        $('#zero_config').DataTable();
+        $('#zero_config').DataTable({
+            select:true,
+        });
+        });
     </script>
     @if (session('success'))
     <script>

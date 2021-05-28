@@ -17,6 +17,6 @@ class Student extends Model
     }
 
     public function lecturers(){
-        return $this->belongsToMany(Lecturer::class)->withPivot(['progress'])->withTimestamps();
+        return $this->belongsToMany(Lecturer::class)->withPivot(['progress','order'])->withTimestamps();
     }
 }

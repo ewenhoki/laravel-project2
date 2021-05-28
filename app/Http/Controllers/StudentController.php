@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Student;
 use App\User;
@@ -69,16 +70,63 @@ class StudentController extends Controller
 
     public function addSupervisor(){
         $lecturers_all = Lecturer::all();
+        // $lecturers = '';
+        // foreach($lecturers_all as $lec){
+        //     if($lec->students()->count()<10){
+        //         if($lecturers==''){
+        //             $lecturers = $lecturers.$lec->id;
+        //         }
+        //         else{
+        //             $lecturers = $lecturers.','.$lec->id;
+        //         }
+        //     }
+        // }
         $lecturers = array();
         foreach($lecturers_all as $lec){
             if($lec->students()->count()<10){
                 $lecturers[] = $lec->id;
             }
         }
+        // $lecturer = DB::select('select lecturers.id,users.name from lecturers inner join users on users.id = CAST(lecturers.user_id as int) where lecturers.id in ('.$lecturers.') order by users.name asc');
         $lecturer = Lecturer::whereIn('lecturers.id',$lecturers)
             ->join('users','users.id','=','lecturers.user_id')
             ->orderBy('users.name')
             ->pluck('users.name','lecturers.id');
-        return view('dashboards.student.add-supervisor',compact(['lecturer']));
+        $lecturer->prepend('Pilih Dosen', 0);
+        $status = [
+            'Menunggu Persetujuan Kaprodi',
+            'Menunggu Persetujuan Dosen',
+            'Menunggu Surat Tugas dari TU',
+            'Permohonan Disetujui'
+        ];
+        return view('dashboards.student.add-supervisor',compact(['lecturer','status']));
+    }
+
+    public function postSupervisor1(Request $request){
+        if(auth()->user()->student->lecturers!=NULL){
+            if(auth()->user()->student->lecturers()->wherePivot('order',1)->first()){
+                return back()->with('exists','Already Exists');
+            }
+        }
+        if($request->lecturer_id==0){
+            return back()->with('fail','Add Fail');
+        }
+        $student = Student::find(auth()->user()->student->id);
+        $student->lecturers()->attach($request->lecturer_id,['progress'=>1,'order'=>1]);
+        return redirect('/add/supervisor')->with('success','Add Success');
+    }
+
+    public function postSupervisor2(Request $request){
+        if(auth()->user()->student->lecturers!=NULL){
+            if(auth()->user()->student->lecturers()->wherePivot('order',2)->first()){
+                return back()->with('exists','Already Exists');
+            }
+        }
+        if($request->lecturer_id==0){
+            return back()->with('fail','Add Fail');
+        }
+        $student = Student::find(auth()->user()->student->id);
+        $student->lecturers()->attach($request->lecturer_id,['progress'=>1,'order'=>2]);
+        return redirect('/add/supervisor')->with('success','Add Success');
     }
 }
