@@ -2,10 +2,10 @@
 
 @section('header')
     <title>Math Unpad - Dashboard</title>
-    {{-- <link href="{{asset('admin/dist/css/pages/data-table.css')}}" rel="stylesheet"> --}}
+    <link href="{{asset('admin/dist/css/pages/data-table.css')}}" rel="stylesheet">
     <link href="{{asset('admin/assets/libs/sweetalert2/dist/sweetalert2.min.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('admin/assets/libs/toastr/build/toastr.min.css')}}" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+    {{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css"> --}}
 @endsection
 
 @section('content')
@@ -86,8 +86,12 @@
             <div class="col s12">
                 <div class="card">
                     <div class="card-content">
-                        <h3 class="card-title">Users Table</h3>
-                        <a href="/users/add" class="right waves-effect waves-light btn indigo">Add Admin User</a>
+                        <div class="row">
+                            <h3 class="card-title col s6">Users Table</h3>
+                            <div class="col s6">
+                                <a href="/users/add" class="right waves-effect waves-light btn indigo">Add Admin User</a>
+                            </div>
+                        </div>
                         <table id="zero_config" class="responsive-table highlight display" style="width:100%">
                             <thead>
                                 <tr>
@@ -181,7 +185,6 @@
     <script src="{{asset('admin/assets/libs/toastr/build/toastr.min.js')}}"></script>
     {{-- <script src="{{asset('admin/dist/js/pages/datatable/datatable-basic.init.js')}}"></script> --}}
     <script>
-        $(document).ready(function () {
         $('.deleteu').click(function(){
             var user_id = $(this).attr('user-id');
             var user_name = $(this).attr('user-name');
@@ -203,7 +206,6 @@
             });
         });
         $('#zero_config').DataTable();
-        });
     </script>
     @if (session('success'))
     <script>
