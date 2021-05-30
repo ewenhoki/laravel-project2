@@ -1,10 +1,7 @@
 @extends('layouts.master')
 
 @section('header')
-    <title>Math Unpad - Dashboard</title>
-    <link href="{{asset('admin/dist/css/pages/data-table.css')}}" rel="stylesheet">
-    <link href="{{asset('admin/assets/libs/sweetalert2/dist/sweetalert2.min.css')}}" rel="stylesheet" type="text/css">
-    <link href="{{asset('admin/assets/libs/toastr/build/toastr.min.css')}}" rel="stylesheet">
+    <title>Dashboard</title>
     {{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css"> --}}
 @endsection
 
@@ -13,8 +10,8 @@
     <div class="card info-gradient m-t-0 m-b-0">
         <div class="card-content">
             <div class="p-b-40 p-t-20">
-                <h3 class="white-text">Welcome back {{ auth()->user()->name }} !</h3>
-                <p class="white-text op-7 m-b-20">Success is not a destination, its a Journey!!!</p>
+                <h3 class="white-text">Selamat Datang {{ auth()->user()->name }} !</h3>
+                <p class="white-text op-7 m-b-20">Scroll ke bawah untuk melakukan manajemen pengguna.</p>
             </div>
         </div>
     </div>
@@ -26,7 +23,7 @@
                         <div class="d-flex no-block align-items-center">
                             <div>
                                 <h2 class="white-text m-b-5">{{ $users->count() }}</h2>
-                                <h6 class="white-text op-5 light-blue-text">Users</h6>
+                                <h6 class="white-text op-5 light-blue-text">Total User</h6>
                             </div>
                             <div class="ml-auto">
                                 <span class="white-text display-6"><i class="material-icons">account_box</i></span>
@@ -42,7 +39,7 @@
                         <div class="d-flex no-block align-items-center">
                             <div>
                                 <h2 class="white-text m-b-5">{{ $students->count() }}</h2></h2>
-                                <h6 class="white-text op-5">Students</h6>
+                                <h6 class="white-text op-5">Total Mahasiswa</h6>
                             </div>
                             <div class="ml-auto">
                                 <span class="white-text display-6"><i class="material-icons">assignment_ind</i></span>
@@ -58,7 +55,7 @@
                         <div class="d-flex no-block align-items-center">
                             <div>
                                 <h2 class="white-text m-b-5">{{ $lecturers->count() }}</h2>
-                                <h6 class="white-text op-5 text-darken-2">Lecturers</h6>
+                                <h6 class="white-text op-5 text-darken-2">Total Dosen</h6>
                             </div>
                             <div class="ml-auto">
                                 <span class="white-text display-6"><i class="material-icons">account_circle</i></span>
@@ -74,7 +71,7 @@
                         <div class="d-flex no-block align-items-center">
                             <div>
                                 <h2 class="white-text m-b-5">45</h2>
-                                <h6 class="white-text op-5">Posts</h6>
+                                <h6 class="white-text op-5">Menunggu Persetujuan</h6>
                             </div>
                             <div class="ml-auto">
                                 <span class="white-text display-6"><i class="material-icons">assignment</i></span>
@@ -87,9 +84,9 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="row">
-                            <h3 class="card-title col s6">Users Table</h3>
+                            <h3 class="card-title col s6">Tabel Pengguna</h3>
                             <div class="col s6">
-                                <a href="/users/add" class="right waves-effect waves-light btn indigo">Add Admin User</a>
+                                <a href="/users/add" class="right waves-effect waves-light btn indigo">Tambah User Admin</a>
                             </div>
                         </div>
                         <table id="zero_config" class="responsive-table highlight display" style="width:100%">
@@ -97,12 +94,12 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Role</th>
-                                    <th>Name</th>
+                                    <th>Nama</th>
                                     <th>Email</th>
-                                    <th>Created At</th>
+                                    <th>Dibuat Di</th>
                                     <th>Status</th>
                                     <th>Last Seen</th>
-                                    <th>Action</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -113,9 +110,9 @@
                                         @if($user->role=='Super Admin')
                                             <span class="label label-info">{{ $user->role }}</span>
                                         @elseif($user->role=='Student')
-                                            <span class="label label-warning">{{ $user->role }}</span>
+                                            <span class="label label-warning">Mahasiswa</span>
                                         @elseif($user->role=='Lecturer')
-                                            <span class="label label-primary">{{ $user->role }}</span>
+                                            <span class="label label-primary">Dosen</span>
                                         @else
                                             <span class="label cyan">{{ $user->role }}</span>
                                         @endif
@@ -133,26 +130,13 @@
                                     <td>{{ \Carbon\Carbon::parse($user->last_seen)->diffForHumans() }}</td>
                                     <td>
                                         @if ($user->role=='Super Admin')
-                                            <a href="#" class="disabled waves-effect waves-light btn red deleteu" user-id="{{ $user->id }}">Delete</a>
+                                            <a href="javascript:void(0);" class="disabled waves-effect waves-light btn red deleteu" user-id="{{ $user->id }}"><i class="fas fa-trash-alt"></i></a>
                                         @else
-                                            <a href="#" class="waves-effect waves-light btn red deleteu" user-id="{{ $user->id }}" user-name="{{ $user->name }}">Delete</a>
+                                            <a href="javascript:void(0);" class="waves-effect waves-light btn red deleteu" user-id="{{ $user->id }}" user-name="{{ $user->name }}"><i class="fas fa-trash-alt"></i></a>
                                             @if(is_null($user->email_verified_at))
-                                                <a href="/users/verifbyadmin/{{$user->id}}" class="waves-effect waves-light btn blue">Verify</a>
+                                                <a href="/users/verifbyadmin/{{$user->id}}" class="waves-effect waves-light btn blue"><i class="fas fa-check"></i></a>
                                             @endif
                                         @endif
-                                        {{-- <form action="/users/{{$user->id}}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            @if ($user->role=='Super Admin')
-                                            <button type="submit" class="disabled waves-effect waves-light btn red"> 
-                                                Delete
-                                            </button>
-                                            @else
-                                            <button type="submit" class="waves-effect waves-light btn red"> 
-                                                Delete
-                                            </button>
-                                            @endif
-                                        </form> --}}
                                     </td>
                                 </tr>
                                 @endforeach
@@ -161,12 +145,12 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Role</th>
-                                    <th>Name</th>
+                                    <th>Nama</th>
                                     <th>Email</th>
-                                    <th>Created At</th>
+                                    <th>Dibuat Di</th>
                                     <th>Status</th>
                                     <th>Last Seen</th>
-                                    <th>Action</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -181,21 +165,19 @@
 @section('footer')
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
     {{-- <script src="{{asset('admin/assets/extra-libs/Datatables/datatables.min.js')}}"></script> --}}
-    <script src="{{asset('admin/assets/libs/sweetalert2/dist/sweetalert2.min.js')}}"></script>
-    <script src="{{asset('admin/assets/libs/toastr/build/toastr.min.js')}}"></script>
     {{-- <script src="{{asset('admin/dist/js/pages/datatable/datatable-basic.init.js')}}"></script> --}}
     <script>
         $('.deleteu').click(function(){
             var user_id = $(this).attr('user-id');
             var user_name = $(this).attr('user-name');
             swal({   
-                title: "Are you sure?",   
-                text: "You will not be able to recover user "+user_name+".",   
+                title: "Yakin ?",   
+                text: "Hapus user dengan nama "+user_name+"?",   
                 type: "warning",   
                 showCancelButton: true,   
                 confirmButtonColor: "#DD6B55",   
-                confirmButtonText: "Yes, delete it !",   
-                cancelButtonText: "No, cancel !",   
+                confirmButtonText: "Ya",   
+                cancelButtonText: "Tidak",   
                 closeOnConfirm: false,   
                 closeOnCancel: false 
             })
@@ -209,12 +191,17 @@
     </script>
     @if (session('success'))
     <script>
-        toastr.success('User Delete Success !',{ positionClass: 'toast-top-full-width', containerId: 'toast-top-full-width' });
+        toastr.success('Hapus User Berhasil !',{ positionClass: 'toast-top-full-width', containerId: 'toast-top-full-width' });
     </script>
     @endif
     @if (session('created'))
     <script>
-        toastr.success('Add Admin User Success !',{ positionClass: 'toast-top-full-width', containerId: 'toast-top-full-width' });
+        toastr.success('Tambah User Admin Berhasil !',{ positionClass: 'toast-top-full-width', containerId: 'toast-top-full-width' });
+    </script>
+    @endif
+    @if (session('verif'))
+    <script>
+        toastr.success('Verifikasi User Berhasil !',{ positionClass: 'toast-top-full-width', containerId: 'toast-top-full-width' });
     </script>
     @endif
 @endsection

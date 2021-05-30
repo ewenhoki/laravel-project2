@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('header')
-    <title>Math Unpad - Add Admin</title>
+    <title>Tambah Admin</title>
     <link href="{{asset('admin/dist/css/pages/form-page.css')}}" rel="stylesheet">
     <link href="{{asset('admin/assets/extra-libs/prism/prism.css')}}" rel="stylesheet">
 @endsection
@@ -10,7 +10,7 @@
 <div class="page-wrapper">
     <div class="page-titles">
         <div class="d-flex align-items-center">
-            <h5 class="font-medium m-b-0">Admin User Form</h5>
+            <h5 class="font-medium m-b-0">Form User Admin</h5>
             <div class="custom-breadcrumb ml-auto">
                 <a href="/super_admin/dashboard/data_overview" class="breadcrumb">Dashboard</a>
                 <a href="/super_admin/dashboard/data_overview" class="breadcrumb">Data Overview</a>

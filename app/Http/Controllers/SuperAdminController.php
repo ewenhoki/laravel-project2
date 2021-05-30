@@ -134,4 +134,35 @@ class SuperAdminController extends Controller
         $user->save();
         return redirect('/super_admin/dashboard/profile');
     }
+
+    public function requestSupervisor(){
+        $students = Student::all();
+        $tooltip = [
+            'red',
+            'purple',
+            'orange',
+            'blue',
+            'cyan',
+            'green',
+        ];
+        $status = [
+            'Menunggu Persetujuan Kaprodi',
+            'Menunggu Persetujuan Dosen',
+            'Menunggu Surat Tugas dari TU',
+            'Permohonan Disetujui',
+            'Dalam tahap bimbingan',
+            'Selesai'
+        ];
+        return view('dashboards.super_admin.request-supervisor',compact(['students','status','tooltip']));
+    }
+
+    public function acceptRequest(Student $student, $id_lecturer){
+        $student->lecturers()->updateExistingPivot($id_lecturer, ['progress' => 2]);
+        return redirect('/super_admin/dashboard/request')->with('accepted','Success');
+    }
+
+    public function rejectRequest(Student $student, $id_lecturer){
+        $student->lecturers()->detach($id_lecturer);
+        return redirect('/super_admin/dashboard/request')->with('rejected','fail');
+    }
 }

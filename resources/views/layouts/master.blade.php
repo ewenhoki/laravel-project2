@@ -10,6 +10,9 @@
     {{-- <link href="{{asset('admin/assets/libs/chartist/dist/chartist.min.css')}}" rel="stylesheet">
     <link href="{{asset('admin/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css')}}" rel="stylesheet"> --}}
     <link href="{{asset('admin/dist/css/style.css')}}" rel="stylesheet">
+    <link href="{{asset('admin/dist/css/pages/data-table.css')}}" rel="stylesheet">
+    <link href="{{asset('admin/assets/libs/sweetalert2/dist/sweetalert2.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('admin/assets/libs/toastr/build/toastr.min.css')}}" rel="stylesheet">
     <!-- This page CSS -->
     <link href="{{asset('admin/dist/css/pages/dashboard1.css')}}" rel="stylesheet">
     @yield('header')
@@ -158,6 +161,8 @@
     <script src="{{asset('admin/assets/libs/jquery/dist/jquery.min.js')}}"></script>
     <script src="{{asset('admin/dist/js/materialize.min.js')}}"></script>
     <script src="{{asset('admin/assets/libs/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.min.js')}}"></script>
+    <script src="{{asset('admin/assets/libs/sweetalert2/dist/sweetalert2.min.js')}}"></script>
+    <script src="{{asset('admin/assets/libs/toastr/build/toastr.min.js')}}"></script>
     <!-- ============================================================== -->
     <!-- Apps -->
     <!-- ============================================================== -->

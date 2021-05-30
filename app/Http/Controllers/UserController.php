@@ -24,6 +24,6 @@ class UserController extends Controller
         // $user = User::find($id);
         $user->email_verified_at = Carbon::now()->toDateTimeString();
         $user->save();
-        return redirect('/super_admin/dashboard/data_overview');
+        return redirect('/super_admin/dashboard/data_overview')->with('verif','Success');
     }
 }

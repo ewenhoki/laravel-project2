@@ -6,13 +6,16 @@
                 <li class="small-cap"><span class="hide-menu">Menu</span></li>
                 @if(auth()->user()->role == 'Super Admin')
                 <li>
-                    <a href="/super_admin/dashboard/data_overview" class="collapsible-header"><i class="material-icons">data_usage</i><span class="hide-menu"> Data Overview </span></a>
+                    <a href="/super_admin/dashboard/data_overview" class="collapsible-header"><i class="material-icons">data_usage</i><span class="hide-menu"> Ringkasan Data </span></a>
                 </li>
                 <li>
                     <a href="/super_admin/dashboard/students" class="collapsible-header"><i class="material-icons">assignment_ind</i><span class="hide-menu"> Students </span></a>
                 </li>
                 <li>
                     <a href="/super_admin/dashboard/lecturers" class="collapsible-header"><i class="material-icons">account_circle</i><span class="hide-menu"> Lecturers </span></a>
+                </li>
+                <li>
+                    <a href="/super_admin/dashboard/request" class="collapsible-header"><i class="material-icons">collections_bookmark</i><span class="hide-menu"> Pengajuan Pembimbing </span></a>
                 </li>
                 <li>
                     <a href="/super_admin/dashboard/profile" class="collapsible-header"><i class="material-icons">person_pin</i><span class="hide-menu"> Profile </span></a>

@@ -97,7 +97,9 @@ class StudentController extends Controller
             'Menunggu Persetujuan Kaprodi',
             'Menunggu Persetujuan Dosen',
             'Menunggu Surat Tugas dari TU',
-            'Permohonan Disetujui'
+            'Permohonan Disetujui',
+            'Dalam tahap bimbingan',
+            'Selesai'
         ];
         return view('dashboards.student.add-supervisor',compact(['lecturer','status']));
     }

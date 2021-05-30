@@ -41,6 +41,9 @@ Route::group(['middleware' => ['auth','verified','checkrole:Super Admin']], func
     Route::get('/super_admin/dashboard/lecturers', 'SuperAdminController@lecturers');
     Route::get('/super_admin/dashboard/profile', 'SuperAdminController@profile');
     Route::post('/postadminprofile', 'SuperAdminController@update');
+    Route::get('/super_admin/dashboard/request', 'SuperAdminController@requestSupervisor');
+    Route::get('/request/accept/{student}/{id_lecturer}', 'SuperAdminController@acceptRequest');
+    Route::get('/request/reject/{student}/{id_lecturer}', 'SuperAdminController@rejectRequest');
 });
 
 Route::group(['middleware' => ['auth','verified','checkrole:Admin']], function(){
