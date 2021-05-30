@@ -140,8 +140,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/favicon.png">
-    <title>Materialart Admin Template</title>
+    <title>Math Unpad - Login</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('admin/img/logo-unpad.png')}}">
     <link href="{{asset('admin/assets/libs/sweetalert2/dist/sweetalert2.min.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('admin/dist/css/style.css')}}" rel="stylesheet">
     <!-- This page CSS -->
@@ -172,12 +172,12 @@
         <!-- ============================================================== -->
         <!-- Login box.scss -->
         <!-- ============================================================== -->
-        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background:url({{asset('admin/assets/images/big/auth-bg2.jpg')}}) no-repeat left center;">
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background:url({{asset('admin/assets/images/big/auth-bg5.png')}}) no-repeat left center;">
             <div class="container">
                 <div class="row">
                     <div class="col s12 l8 m6 demo-text">
-                        <span class="db"><img src="{{asset('admin/assets/images/logo-icon.png')}}" alt="logo" /></span>
-                        <span class="db"><img src="{{asset('admin/assets/images/logo-text.png')}}" alt="logo" /></span>
+                        <span class="db"><img width="50" height="50" src="{{asset('admin/img/logo-unpad.png')}}" alt="logo" /></span>
+                        <span class="db"><img width="155" height="25" src="{{asset('admin/img/hitam.png')}}" alt="logo" /></span>
                         <h1 class="font-light m-t-40">Selamat Datang di <br><span class="font-medium black-text"> Departemen Matematika FMIPA Unpad</span></h1>
                         <p>Silakan login untuk melakukan pengajuan tugas akhir.</p>
                         <a class="btn btn-round red m-t-5">Beranda</a>
