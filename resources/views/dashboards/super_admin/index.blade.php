@@ -11,7 +11,7 @@
         <div class="card-content">
             <div class="p-b-40 p-t-20">
                 <h3 class="white-text">Selamat Datang {{ auth()->user()->name }} !</h3>
-                <p class="white-text op-7 m-b-20">Scroll ke bawah untuk melakukan manajemen pengguna.</p>
+                <p class="white-text op-7 m-b-20">Scroll ke bawah untuk melakukan pengelolaan user.</p>
             </div>
         </div>
     </div>
@@ -70,7 +70,7 @@
                     <div class="card-content">
                         <div class="d-flex no-block align-items-center">
                             <div>
-                                <h2 class="white-text m-b-5">45</h2>
+                                <h2 class="white-text m-b-5">{{ $pending }}</h2>
                                 <h6 class="white-text op-5">Menunggu Persetujuan</h6>
                             </div>
                             <div class="ml-auto">

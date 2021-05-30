@@ -8,10 +8,10 @@
 <div class="page-wrapper">
     <div class="page-titles">
         <div class="d-flex align-items-center">
-            <h5 class="font-medium m-b-0">Profile</h5>
+            <h5 class="font-medium m-b-0">Profil</h5>
             <div class="custom-breadcrumb ml-auto">
-                <a href="#!" class="breadcrumb">Dashboard</a>
-                <a href="#!" class="breadcrumb">Profile</a>
+                <a href="/super_admin/dashboard/data_overview" class="breadcrumb">Dashboard</a>
+                <a href="/super_admin/dashboard/profile" class="breadcrumb">Profil</a>
             </div>
         </div>
     </div>
@@ -30,11 +30,11 @@
                 </div>
                 <div class="card">
                     <div class="card-content">
-                        <small>Email address </small>
+                        <small>Email </small>
                         <h6>{{ auth()->user()->email }}</h6>
-                        <small>Phone Number </small>
+                        <small>Nomor Telepon </small>
                         <h6>{{ auth()->user()->phone }}</h6>
-                        <small>Name </small>
+                        <small>Nama </small>
                         <h6>{{ auth()->user()->name }}</h6>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                     <div class="row">
                         <div class="col s12">
                             <ul class="tabs">
-                                <li class="tab col s3"><a class="active" href="#settings">Settings</a></li>
+                                <li class="tab col s3"><a class="active" href="#settings">Pengaturan</a></li>
                             </ul>
                         </div> 
                         <div id="settings" class="col s12">
@@ -52,25 +52,25 @@
                                 {!! Form::open(['url' => '/postadminprofile','class'=>'formValidate','id'=>'formValidate']) !!}                 
                                     <div class="row">
                                         <div class="input-field col s12">
-                                            {!! Form::text('name', auth()->user()->name, ['placeholder'=>'Name']) !!}
-                                            <label for="name">Name</label>
+                                            {!! Form::text('name', auth()->user()->name, ['placeholder'=>'Nama']) !!}
+                                            <label for="name">Nama</label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12">
-                                            {!! Form::text('phone', auth()->user()->phone, ['placeholder'=>'Phone']) !!}
-                                            <label for="phone">Phone Number</label>
+                                            {!! Form::text('phone', auth()->user()->phone, ['placeholder'=>'Nomor Telepon']) !!}
+                                            <label for="phone">Nomor Telepon</label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12">
-                                            {!! Form::password('password',['placeholder'=>'New Password']) !!}
-                                            <label for="password">Change Password</label>
+                                            {!! Form::password('password',['placeholder'=>'Kata Sandi Baru']) !!}
+                                            <label for="password">Ganti Kata Sandi</label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12">
-                                            <button class="btn teal waves-effect waves-light" type="submit" name="action">Update Profile</button>
+                                            <button class="btn teal waves-effect waves-light" type="submit" name="action">Perbaharui Profil</button>
                                         </div>
                                     </div>
                                 {!! Form::close() !!}

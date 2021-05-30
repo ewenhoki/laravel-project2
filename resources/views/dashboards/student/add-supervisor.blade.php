@@ -4,7 +4,6 @@
     <title>Math Unpad - Dosen Pembimbing</title>
     <link href="{{asset('admin/dist/css/pages/form-page.css')}}" rel="stylesheet">
     <link href="{{asset('admin/assets/extra-libs/prism/prism.css')}}" rel="stylesheet">
-    <link href="{{asset('admin/assets/libs/sweetalert2/dist/sweetalert2.min.css')}}" rel="stylesheet" type="text/css">
 @endsection
 
 @section('content')
@@ -18,6 +17,7 @@
             </div>
         </div>
     </div>
+    @if(auth()->user()->student->file!=NULL)
     <div class="container-fluid">
         <div class="row">
             <div class="col s12">
@@ -120,11 +120,25 @@
             </div>
         </div>
     </div>
+    @else
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-content">
+                        <h3 class="card-title">Anda Belum Melakukan Upload Dokumen</h3>
+                        <p>Silakan upload dokumen dengan menekan tombol dibawah ini.</p>
+                        <a href="/student/dashboard/proposal_submission" class="waves-effect waves-light btn indigo">Upload Dokumen</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
 </div>
 @endsection
 
 @section('footer')
-    <script src="{{asset('admin/assets/libs/sweetalert2/dist/sweetalert2.min.js')}}"></script>
     <script src="{{asset('admin/assets/extra-libs/prism/prism.js')}}"></script>
     <script src="{{asset('admin/dist/js/pages/forms/jquery.validate.min.js')}}"></script>
     <script>

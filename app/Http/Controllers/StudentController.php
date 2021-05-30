@@ -19,6 +19,10 @@ class StudentController extends Controller
 
     public function destroy(Student $student){
         $student->user->delete();
+        if($student->file!=NULL){
+            $student->file->delete();
+        }
+        $student->lecturers()->detach();
         $student->delete();
         return redirect('/super_admin/dashboard/students')->with('success','Delete Success');
     }

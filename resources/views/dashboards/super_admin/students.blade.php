@@ -1,20 +1,17 @@
 @extends('layouts.master')
 
 @section('header')
-    <title>Math Unpad - Students</title>
-    <link href="{{asset('admin/dist/css/pages/data-table.css')}}" rel="stylesheet">
-    <link href="{{asset('admin/assets/libs/sweetalert2/dist/sweetalert2.min.css')}}" rel="stylesheet" type="text/css">
-    <link href="{{asset('admin/assets/libs/toastr/build/toastr.min.css')}}" rel="stylesheet">
+    <title>Mahasiswa</title>
 @endsection
 
 @section('content')
 <div class="page-wrapper">
     <div class="page-titles">
         <div class="d-flex align-items-center">
-            <h5 class="font-medium m-b-0">Students Management</h5>
+            <h5 class="font-medium m-b-0">Pengelolaan Mahasiswa</h5>
             <div class="custom-breadcrumb ml-auto">
                 <a href="/super_admin/dashboard/data_overview" class="breadcrumb">Dashboard</a>
-                <a href="/super_admin/dashboard/students" class="breadcrumb">Students Management</a>
+                <a href="/super_admin/dashboard/students" class="breadcrumb">Pengelolaan Mahasiswa</a>
             </div>
         </div>
     </div>
@@ -23,20 +20,23 @@
             <div class="col s12">
                 <div class="card">
                     <div class="card-content">
-                        <h3 class="card-title">Students Table</h3>
-                        <a href="/studentuser/add" class="right waves-effect waves-light btn indigo">Add Students</a>
+                        <div class="row">
+                            <h3 class="card-title col s6">Tabel Mahasiswa</h3>
+                            <div class="col s6">
+                                <a href="/studentuser/add" class="right waves-effect waves-light btn indigo">Tambah Mahasiswa</a>
+                            </div>
+                        </div>         
                         <table id="student" class="responsive-table highlight display" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>NPM</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Phone Number</th>
-                                    <th>GPA</th>
-                                    <th>Class of</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
+                                    <th>Nama Depan</th>
+                                    <th>Nama Belakang</th>
+                                    <th>Nomor Telepon</th>
+                                    <th>IPK</th>
+                                    <th>Angkatan</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -50,10 +50,9 @@
                                     <td>{{ $student->gpa }}</td>
                                     <td>{{ $student->angkatan }}</td>
                                     <td>
-                                        <span class="label label-danger">Pending</span>
-                                    </td>
-                                    <td>
-                                        <a href="#" class="waves-effect waves-light btn red deletestudent" student-id="{{ $student->id }}" student-name="{{ $student->first_name }} {{ $student->last_name }}">Delete</a>
+                                        <a href="javascript:void(0);" class="waves-effect waves-light btn red deletestudent" student-id="{{ $student->id }}" student-name="{{ $student->first_name }} {{ $student->last_name }}">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -62,13 +61,12 @@
                                 <tr>
                                     <th>#</th>
                                     <th>NPM</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Phone Number</th>
-                                    <th>GPA</th>
-                                    <th>Class of</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
+                                    <th>Nama Depan</th>
+                                    <th>Nama Belakang</th>
+                                    <th>Nomor Telepon</th>
+                                    <th>IPK</th>
+                                    <th>Angkatan</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -81,23 +79,21 @@
 @endsection
 
 @section('footer')
-    <script src="{{asset('admin/assets/extra-libs/Datatables/datatables.min.js')}}"></script>
-    <script src="{{asset('admin/assets/libs/sweetalert2/dist/sweetalert2.min.js')}}"></script>
-    {{-- <script src="{{asset('admin/dist/js/pages/datatable/datatable-basic.init.js')}}"></script> --}}
-    <script src="{{asset('admin/assets/libs/toastr/build/toastr.min.js')}}"></script>
-    
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    {{-- <scrip src="{{asset('admin/assets/extra-libs/Datatables/datatables.min.js')}}"></scrip> --}}
+    {{-- <scrip src="{{asset('admin/dist/js/pages/datatable/datatable-basic.init.js')}}"></scrip> --}}
     <script>
         $('.deletestudent').click(function(){
             var student_id = $(this).attr('student-id');
             var student_name = $(this).attr('student-name');
             swal({   
-                title: "Are you sure?",   
-                text: "You will not be able to recover student "+student_name+".",   
+                title: "Yakin ?",   
+                text: "Hapus mahasiswa dengan nama "+student_name+"?",   
                 type: "warning",   
                 showCancelButton: true,   
                 confirmButtonColor: "#DD6B55",   
-                confirmButtonText: "Yes, delete it !",   
-                cancelButtonText: "No, cancel !",   
+                confirmButtonText: "Ya",   
+                cancelButtonText: "Tidak",   
                 closeOnConfirm: false,   
                 closeOnCancel: false 
             })
@@ -111,12 +107,12 @@
     </script>
     @if (session('success'))
         <script>
-            toastr.success('Student Delete Success !',{ positionClass: 'toast-top-full-width', containerId: 'toast-top-full-width' });
+            toastr.success('Hapus Mahasiswa Berhasil !',{ positionClass: 'toast-top-full-width', containerId: 'toast-top-full-width' });
         </script>
     @endif
     @if (session('created'))
         <script>
-            toastr.success('Add Student User Success !',{ positionClass: 'toast-top-full-width', containerId: 'toast-top-full-width' });
+            toastr.success('Tambah User Mahasiswa Berhasil !',{ positionClass: 'toast-top-full-width', containerId: 'toast-top-full-width' });
         </script>
     @endif
 @endsection

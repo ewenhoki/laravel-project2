@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use App\Student;
 use App\User;
 use App\lecturer;
@@ -14,7 +15,8 @@ class SuperAdminController extends Controller
         $users = User::all();
         $students = Student::all();
         $lecturers = Lecturer::all();
-        return view('dashboards.super_admin.index',compact(['users','students','lecturers']));
+        $pending = DB::table('lecturer_student')->where('progress',1)->count();
+        return view('dashboards.super_admin.index',compact(['users','students','lecturers','pending']));
     }
     
     public function students(){

@@ -9,31 +9,31 @@
                     <a href="/super_admin/dashboard/data_overview" class="collapsible-header"><i class="material-icons">data_usage</i><span class="hide-menu"> Ringkasan Data </span></a>
                 </li>
                 <li>
-                    <a href="/super_admin/dashboard/students" class="collapsible-header"><i class="material-icons">assignment_ind</i><span class="hide-menu"> Students </span></a>
+                    <a href="/super_admin/dashboard/students" class="collapsible-header"><i class="material-icons">assignment_ind</i><span class="hide-menu"> Mahasiswa </span></a>
                 </li>
                 <li>
-                    <a href="/super_admin/dashboard/lecturers" class="collapsible-header"><i class="material-icons">account_circle</i><span class="hide-menu"> Lecturers </span></a>
+                    <a href="/super_admin/dashboard/lecturers" class="collapsible-header"><i class="material-icons">account_circle</i><span class="hide-menu"> Dosen </span></a>
                 </li>
                 <li>
                     <a href="/super_admin/dashboard/request" class="collapsible-header"><i class="material-icons">collections_bookmark</i><span class="hide-menu"> Pengajuan Pembimbing </span></a>
                 </li>
                 <li>
-                    <a href="/super_admin/dashboard/profile" class="collapsible-header"><i class="material-icons">person_pin</i><span class="hide-menu"> Profile </span></a>
+                    <a href="/super_admin/dashboard/profile" class="collapsible-header"><i class="material-icons">person_pin</i><span class="hide-menu"> Profil </span></a>
                 </li>
                 @endif
                 @if(auth()->user()->role == 'Admin')
                 <li>
-                    <a href="/admin/dashboard/admin_profile" class="collapsible-header"><i class="material-icons">person_pin</i><span class="hide-menu"> Profile </span></a>
+                    <a href="/admin/dashboard/admin_profile" class="collapsible-header"><i class="material-icons">person_pin</i><span class="hide-menu"> Profil </span></a>
                 </li>
                 @endif
                 @if(auth()->user()->role == 'Lecturer')
                 <li>
-                    <a href="/lecturer/dashboard/lecturer_profile" class="collapsible-header"><i class="material-icons">person_pin</i><span class="hide-menu"> Profile </span></a>
+                    <a href="/lecturer/dashboard/lecturer_profile" class="collapsible-header"><i class="material-icons">person_pin</i><span class="hide-menu"> Profil </span></a>
                 </li>
                 @endif
                 @if(auth()->user()->role == 'Student')
                 <li>
-                    <a href="/student/dashboard/student_profile" class="collapsible-header"><i class="material-icons">person_pin</i><span class="hide-menu"> Profile </span></a>
+                    <a href="/student/dashboard/student_profile" class="collapsible-header"><i class="material-icons">person_pin</i><span class="hide-menu"> Profil </span></a>
                 </li>
                 <li>
                     <a href="/student/dashboard/proposal_submission" class="collapsible-header"><i class="material-icons">assignment_returned</i><span class="hide-menu"> Upload Dokumen </span></a>

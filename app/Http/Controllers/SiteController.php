@@ -12,7 +12,7 @@ use App\User;
 class SiteController extends Controller
 {
     public function register(){
-        return redirect('/login');
+        return view('auth.register');
     }
     
     public function postregister(Request $request){

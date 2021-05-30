@@ -61,25 +61,25 @@
                               <div class="u-text">
                                   <h4>{{auth()->user()->name}}</h4>
                                   <p>{{auth()->user()->email}}</p>
-                                  <a class="waves-effect waves-light btn-small red white-text">View Profile</a>
+                                  <a class="waves-effect waves-light btn-small red white-text">Lihat Profil</a>
                               </div>
                           </div>
                       </li>
                       <li role="separator" class="divider"></li>
                       @if(auth()->user()->role == 'Super Admin')
-                        <li><a href="/super_admin/dashboard/profile"><i class="material-icons">account_circle</i> My Profile</a></li>
+                        <li><a href="/super_admin/dashboard/profile"><i class="material-icons">account_circle</i> Profil Saya</a></li>
                       @endif
                       @if(auth()->user()->role == 'Admin')
-                        <li><a href="/admin/dashboard/admin_profile"><i class="material-icons">account_circle</i> My Profile</a></li>
+                        <li><a href="/admin/dashboard/admin_profile"><i class="material-icons">account_circle</i> Profil Saya</a></li>
                       @endif
                       @if(auth()->user()->role == 'Lecturer')
-                        <li><a href="/lecturer/dashboard/lecturer_profile"><i class="material-icons">account_circle</i> My Profile</a></li>
+                        <li><a href="/lecturer/dashboard/lecturer_profile"><i class="material-icons">account_circle</i> Profil Saya</a></li>
                       @endif
                       @if(auth()->user()->role == 'Student')
-                        <li><a href="/student/dashboard/student_profile"><i class="material-icons">account_circle</i> My Profile</a></li>
+                        <li><a href="/student/dashboard/student_profile"><i class="material-icons">account_circle</i> Profil Saya</a></li>
                       @endif
                       <li role="separator" class="divider"></li>
-                      <li><a href="#"><i class="material-icons">settings</i> Account Setting</a></li>
+                      <li><a href="javascript:void(0);"><i class="material-icons">settings</i> Pengaturan Akun</a></li>
                       <li role="separator" class="divider"></li>
                       <li><a href="/logout"><i class="material-icons">power_settings_new</i> Logout</a></li>
                   </ul>

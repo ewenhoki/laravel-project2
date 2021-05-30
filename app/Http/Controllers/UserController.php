@@ -12,9 +12,14 @@ class UserController extends Controller
     public function destroy(User $user){
         // $user = User::find($id);
         if($user->role=='Lecturer'){
+            $user->lecturer->students()->detach();
             $user->lecturer->delete();
         }
         else if($user->role=='Student'){
+            $user->student->lecturers()->detach();
+            if($user->student->file!=NULL){
+                $user->student->file->delete();
+            }
             $user->student->delete();
         }
         $user->delete();

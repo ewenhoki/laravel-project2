@@ -1,10 +1,7 @@
 @extends('layouts.master')
 
 @section('header')
-    <title>Math Unpad - Students</title>
-    <link href="{{asset('admin/dist/css/pages/data-table.css')}}" rel="stylesheet">
-    <link href="{{asset('admin/assets/libs/sweetalert2/dist/sweetalert2.min.css')}}" rel="stylesheet" type="text/css">
-    <link href="{{asset('admin/assets/libs/toastr/build/toastr.min.css')}}" rel="stylesheet">
+    <title>Pengajuan Pembimbing</title>
 @endsection
 
 @section('content')
@@ -34,7 +31,7 @@
                                     <th>Pembimbing ke-</th>
                                     <th>Status</th>
                                     <th>Dokumen</th>
-                                    <th>Action</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -55,7 +52,7 @@
                                     </td>
                                     <td>
                                         @if($student->lecturers()->wherePivot('order',1)->first()->pivot->progress==1)
-                                        <a href="/request/accept/{{ $student->id }}/{{ $student->lecturers()->wherePivot('order',1)->first()->id }}" class="waves-effect waves-light btn blue">
+                                        <a href="/request/accept/{{ $student->id }}/{{ $student->lecturers()->wherePivot('order',1)->first()->id }}" class="waves-effect waves-light btn green">
                                             <i class="fas fa-check"></i>
                                         </a>
                                         @endif
@@ -83,7 +80,7 @@
                                     </td>
                                     <td>
                                         @if($student->lecturers()->wherePivot('order',2)->first()->pivot->progress==1)
-                                        <a href="/request/accept/{{ $student->id }}/{{ $student->lecturers()->wherePivot('order',2)->first()->id }}" class="waves-effect waves-light btn blue">
+                                        <a href="/request/accept/{{ $student->id }}/{{ $student->lecturers()->wherePivot('order',2)->first()->id }}" class="waves-effect waves-light btn green">
                                             <i class="fas fa-check"></i>
                                         </a>
                                         @endif
@@ -104,7 +101,7 @@
                                     <th>Pembimbing ke-</th>
                                     <th>Status</th>
                                     <th>Dokumen</th>
-                                    <th>Action</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -117,10 +114,8 @@
 @endsection
 
 @section('footer')
-    <script src="{{asset('admin/assets/extra-libs/Datatables/datatables.min.js')}}"></script>
-    <script src="{{asset('admin/assets/libs/sweetalert2/dist/sweetalert2.min.js')}}"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
     {{-- <script src="{{asset('admin/dist/js/pages/datatable/datatable-basic.init.js')}}"></script> --}}
-    <script src="{{asset('admin/assets/libs/toastr/build/toastr.min.js')}}"></script>
     <script>
         $('.deletereq1').click(function(){
             var student_id = $(this).attr('student-id');
@@ -166,9 +161,14 @@
         });
         $('#student').DataTable();
     </script>
-    @if (session('success'))
+    @if (session('accepted'))
         <script>
-            toastr.success('Lecturer Delete Success !',{ positionClass: 'toast-top-full-width', containerId: 'toast-top-full-width' });
+            toastr.success('Berhasil menyetujui pengajuan dosen pembimbing !',{ positionClass: 'toast-top-full-width', containerId: 'toast-top-full-width' });
         </script>
     @endif
+    @if (session('rejected'))
+    <script>
+        toastr.success('Berhasil menolak pengajuan dosen pembimbing !',{ positionClass: 'toast-top-full-width', containerId: 'toast-top-full-width' });
+    </script>
+@endif
 @endsection

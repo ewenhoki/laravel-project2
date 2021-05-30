@@ -15,6 +15,7 @@ class LecturerController extends Controller
 
     public function destroy(Lecturer $lecturer){
         $lecturer->user->delete();
+        $lecturer->students()->detach();
         $lecturer->delete();
         return redirect('/super_admin/dashboard/lecturers')->with('success','Delete Success');
     }
