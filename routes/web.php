@@ -60,6 +60,7 @@ Route::group(['middleware' => ['auth','verified','checkrole:Student']], function
     Route::get('/add/supervisor', 'StudentController@addSupervisor');
     Route::post('/postsupervisor/1', 'StudentController@postSupervisor1');
     Route::post('/postsupervisor/2', 'StudentController@postSupervisor2');
+    Route::get('/request/cancel/{student}/{lecturer_id}', 'StudentController@cancelSupervisor');
 });
 
 Route::group(['middleware' => ['auth','verified','checkrole:Lecturer']], function(){

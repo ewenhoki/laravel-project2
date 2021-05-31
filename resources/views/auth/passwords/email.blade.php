@@ -55,7 +55,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <link rel="icon" type="image/png" sizes="16x16" href="{{asset('admin/img/logo-unpad.png')}}">
-    <title>Recover Password</title>
+    <title>Pemulihan Kata Sandi</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="{{asset('admin/assets/libs/toastr/build/toastr.min.css')}}" rel="stylesheet">
     <link href="{{asset('admin/dist/css/style.css')}}" rel="stylesheet">
@@ -82,7 +82,7 @@
                 <div class="card" style="width: 30%;margin: 0 auto;">
                     <div class="card-content">
                         <img width=45 height=45 src="{{asset('admin/img/logo-unpad.png')}}">
-                        <h6>Recover Password</h6>
+                        <h6>Pemulihan Kata Sandi</h6>
                         <form method="POST" action="{{ route('password.email') }}">
                             @csrf
                             <div class="input-field">
@@ -93,7 +93,7 @@
                                     </span>
                                 @enderror
                             </div>
-                            <button  type="submit" class="waves-effect waves-light btn indigo">{{ __('Send Password Reset Link') }}</button>
+                            <button  type="submit" class="waves-effect waves-light btn indigo">{{ __('Kirim Link Reset Kata Sandi') }}</button>
                         </form>
                     </div>
                 </div>
@@ -109,7 +109,7 @@
     <script src="{{asset('admin/assets/libs/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.min.js')}}"></script>
     <script src="{{asset('admin/dist/js/custom.min.js')}}"></script>
     @if (session('status'))
-        <script>toastr.success('{{ session('status') }}','Email Sent !',{ positionClass: 'toast-top-full-width', containerId: 'toast-top-full-width' });</script>
+        <script>toastr.success('{{ session('status') }}','Email terkirim !',{ positionClass: 'toast-top-full-width', containerId: 'toast-top-full-width' });</script>
     @endif
 </body>
 

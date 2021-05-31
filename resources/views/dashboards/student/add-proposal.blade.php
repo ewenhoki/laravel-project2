@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('header')
-    <title>Math Unpad - Upload</title>
+    <title>Upload Dokumen</title>
     <link href="{{asset('admin/dist/css/pages/form-page.css')}}" rel="stylesheet">
     <link href="{{asset('admin/assets/extra-libs/prism/prism.css')}}" rel="stylesheet">
 @endsection
@@ -13,7 +13,7 @@
             <h5 class="font-medium m-b-0">Upload Dokumen Pengajuan Tugas Akhir</h5>
             <div class="custom-breadcrumb ml-auto">
                 <a href="/student/dashboard/student_profile" class="breadcrumb">Dashboard</a>
-                <a href="/users/add" class="breadcrumb">Upload Dokumen Pengajuan Tugas Akhir</a>
+                <a href="/student/dashboard/proposal_submission" class="breadcrumb">Upload Dokumen Pengajuan Tugas Akhir</a>
             </div>
         </div>
     </div>
@@ -38,7 +38,7 @@
                                         </div>
                                     </div>
                                     <div class="input-field col s9">
-                                        {!! Form::text('title','', ['placeholder'=>'Title','id'=>'title']) !!}
+                                        {!! Form::text('title','', ['placeholder'=>'Judul','id'=>'title']) !!}
                                     </div>
                                 </div>
                                 <div class="row">
@@ -107,8 +107,8 @@
                         <div class="divider"></div>
                         <div class="card-content">
                             <div class="form-action">
-                                <button class="btn cyan waves-effect waves-light submit" type="submit" name="action">Submit</button>
-                                <a class="btn waves-effect waves-light grey darken-4" href="/student/dashboard/student_profile" name="action">Cancel
+                                <button class="btn cyan waves-effect waves-light submit" type="submit" name="action">Kirim</button>
+                                <a class="btn waves-effect waves-light grey darken-4" href="/student/dashboard/student_profile" name="action">Batal
                                 </a>
                             </div>
                         </div>
@@ -122,11 +122,11 @@
                                 <div class="row">
                                     <div class="col s3">
                                         <div class="h-form-label">
-                                            <label for="title">Title</label>
+                                            <label for="title">Judul</label>
                                         </div>
                                     </div>
                                     <div class="input-field col s9">
-                                        {!! Form::text('title', $student->file->title, ['placeholder'=>'Title','id'=>'title']) !!}
+                                        {!! Form::text('title', $student->file->title, ['placeholder'=>'Judul','id'=>'title']) !!}
                                     </div>
                                 </div>
                                 <div class="row">
@@ -195,8 +195,8 @@
                         <div class="divider"></div>
                         <div class="card-content">
                             <div class="form-action">
-                                <button class="btn cyan waves-effect waves-light submit" type="submit" name="action">Submit</button>
-                                <a class="btn waves-effect waves-light grey darken-4" href="/student/dashboard/student_profile" name="action">Cancel
+                                <button class="btn cyan waves-effect waves-light submit" type="submit" name="action">Kirim</button>
+                                <a class="btn waves-effect waves-light grey darken-4" href="/student/dashboard/student_profile" name="action">Batal
                                 </a>
                             </div>
                         </div>

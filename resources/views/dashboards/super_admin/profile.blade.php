@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('header')
-    <title>Math Unpad - Profile</title>
+    <title>Profil</title>
 @endsection
 
 @section('content')
@@ -125,4 +125,9 @@
             });
         });
     </script>
+    @if (session('updated'))
+      <script>
+          toastr.success('Akun berhasil diperbaharui !',{ positionClass: 'toast-top-full-width', containerId: 'toast-top-full-width' });
+      </script>
+    @endif
 @endsection

@@ -134,7 +134,7 @@ class SuperAdminController extends Controller
             $user->password = bcrypt($request->password);
         }
         $user->save();
-        return redirect('/super_admin/dashboard/profile');
+        return redirect('/super_admin/dashboard/profile')->with('updated','success');
     }
 
     public function requestSupervisor(){

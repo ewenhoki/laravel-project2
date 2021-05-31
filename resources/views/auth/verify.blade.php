@@ -41,20 +41,20 @@
             <div class="col s12">
                 <div class="card">
                     <div class="card-content">
-                        <h3 class="card-title">{{ __('Verify Your Email Address') }}</h3>
+                        <h3 class="card-title">{{ __('Verifikasi Alamat Email Anda') }}</h3>
                         <div class>
                             @if (session('resent'))
                                 <div class="alert alert-success" role="alert">
-                                    {{ __('A fresh verification link has been sent to your email address.') }}
+                                    {{ __('Link verifikasi baru telah dikirim ke alamat email Anda.') }}
                                 </div>
                             @endif
                             <p>
-                            {{ __('Before proceeding, please click button below and check your email for a verification link.') }}
-                            {{ __('If you did not receive the email') }}, please try pressing the button below again.
+                            {{ __('Sebelum melanjutkan, silakan klik tombol di bawah dan periksa email Anda untuk link verifikasi.') }}
+                            {{ __('Jika Anda tidak menerima email') }}, coba tekan tombol di bawah lagi.
                             </p>
                             <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
                                 @csrf
-                                <button type="submit" class="waves-effect waves-light btn blue">{{ __('click here to request email verification') }}</button>.
+                                <button type="submit" class="waves-effect waves-light btn blue">{{ __('Klik di sini untuk meminta verifikasi email') }}</button>.
                             </form>
                         </div>
                     </div>
@@ -68,6 +68,6 @@
 @section('footer')
     <script src="{{asset('admin/assets/libs/toastr/build/toastr.min.js')}}"></script>
     @if (session('resent'))
-        <script>toastr.success('A fresh verification link has been sent to your email address.','Email Sent !',{ positionClass: 'toast-top-full-width', containerId: 'toast-top-full-width' });</script>
+        <script>toastr.success('Link verifikasi baru telah dikirim ke alamat email Anda.','Email Terkirim !',{ positionClass: 'toast-top-full-width', containerId: 'toast-top-full-width' });</script>
     @endif
 @endsection

@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('header')
-    <title>Math Unpad - Profile</title>
+    <title>Profil</title>
 @endsection
 
 @section('content')
@@ -12,8 +12,8 @@
     <div class="card warning-gradient m-t-0 m-b-0">
         <div class="card-content">
             <div class="p-b-40 p-t-20">
-                <h3 class="white-text">Welcome back {{ auth()->user()->name }} !</h3>
-                <p class="white-text op-7 m-b-20">Success is not a destination, its a Journey!!!</p>
+                <h3 class="white-text">Selamat Datang {{ auth()->user()->name }} !</h3>
+                <p class="white-text op-7 m-b-20">Scroll ke bawah untuk melihat informasi user.</p>
             </div>
         </div>
     </div>
@@ -35,22 +35,36 @@
                 </div>
                 <div class="card">
                     <div class="card-content">
-                        <small>Email address </small>
+                        <small>Email </small>
                         <h6>{{ auth()->user()->email }}</h6>
-                        <small>Phone Number </small>
+                        <small>Nomor Telepon </small>
                         <h6>{{ auth()->user()->phone }}</h6>
                         <small>NPM</small>
                         <h6>{{ $student->npm }}</h6>
-                        <small>First Name</small>
+                        <small>Nama Depan</small>
                         <h6>{{ $student->first_name }}</h6>
-                        <small>Last Name</small>
+                        <small>Nama Belakang</small>
                         <h6>{{ $student->last_name }}</h6>
-                        <small>GPA</small>
+                        <small>IPK</small>
                         <h6>{{ $student->gpa }}</h6>
-                        <small>Supervisor 1</small>
-                        <h6>-</h6>
-                        <small>Supervisor 2</small>
-                        <h6>-</h6>
+                        <small>Dosen Pembimbing 1</small>
+                        @if($student->lecturers()->wherePivot('order',1)->first())
+                            <h6>{{ $student->lecturers()->wherePivot('order',1)->first()->user->name }}</h6>
+                            @if($student->lecturers()->wherePivot('order',1)->first()->pivot->progree<5)
+                                <h6> (Dalam Proses Pengajuan)</h6>
+                            @endif
+                        @else
+                            <h6>-</h6>
+                        @endif
+                        <small>Dosen Pembimbing 2</small>
+                        @if($student->lecturers()->wherePivot('order',2)->first())
+                            <h6>{{ $student->lecturers()->wherePivot('order',2)->first()->user->name }}</h6>
+                            @if($student->lecturers()->wherePivot('order',2)->first()->pivot->progree<5)
+                                <h6> (Dalam Proses Pengajuan)</h6>
+                            @endif
+                        @else
+                            <h6>-</h6>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -59,8 +73,8 @@
                     <div class="row">
                         <div class="col s12">
                             <ul class="tabs">
-                                <li class="tab col s3"><a class="active" href="#timeline">Timeline</a></li>
-                                <li class="tab col s3"><a href="#settings">Settings</a></li>
+                                <li class="tab col s3"><a class="active" href="#timeline">Bimbingan</a></li>
+                                <li class="tab col s3"><a href="#settings">Pengaturan</a></li>
                             </ul>
                         </div>
                         <div id="timeline" class="col s12">
@@ -94,37 +108,37 @@
                                 {!! Form::open(['url' => '/poststudentprofile','class'=>'formValidate','id'=>'formValidate']) !!}  
                                     <div class="row">
                                         <div class="input-field col s12">
-                                            {!! Form::text('first_name', auth()->user()->student->first_name, ['placeholder'=>'First Name']) !!}
-                                            <label for="first_name">First Name</label>
+                                            {!! Form::text('first_name', auth()->user()->student->first_name, ['placeholder'=>'Nama Depan']) !!}
+                                            <label for="first_name">Nama Depan</label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12">
-                                            {!! Form::text('last_name', auth()->user()->student->last_name, ['placeholder'=>'Last Name']) !!}
-                                            <label for="last_name">Last Name</label>
+                                            {!! Form::text('last_name', auth()->user()->student->last_name, ['placeholder'=>'Nama Belakang']) !!}
+                                            <label for="last_name">Nama Belakang</label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12">
-                                            {!! Form::text('gpa', auth()->user()->student->gpa, ['placeholder'=>'GPA']) !!}
-                                            <label for="gpa">GPA</label>
+                                            {!! Form::text('gpa', auth()->user()->student->gpa, ['placeholder'=>'IPK']) !!}
+                                            <label for="gpa">IPK</label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12">
-                                            {!! Form::text('phone', auth()->user()->phone, ['placeholder'=>'Phone']) !!}
-                                            <label for="phone">Phone Number</label>
+                                            {!! Form::text('phone', auth()->user()->phone, ['placeholder'=>'Nomor Telepon']) !!}
+                                            <label for="phone">Nomor Telepon</label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12">
-                                            {!! Form::password('password',['placeholder'=>'New Password']) !!}
-                                            <label for="password">Change Password</label>
+                                            {!! Form::password('password',['placeholder'=>'Kata Sandi Baru']) !!}
+                                            <label for="password">Ganti Kata Sandi</label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12">
-                                            <button class="btn teal waves-effect waves-light" type="submit" name="action">Update Profile</button>
+                                            <button class="btn teal waves-effect waves-light" type="submit" name="action">Perbaharui Profil</button>
                                         </div>
                                     </div>
                                 {!! Form::close() !!}
@@ -184,4 +198,9 @@
             });
         });
     </script>
+    @if (session('updated'))
+     <script>
+         toastr.success('Akun berhasil diperbaharui !',{ positionClass: 'toast-top-full-width', containerId: 'toast-top-full-width' });
+     </script>
+    @endif
 @endsection

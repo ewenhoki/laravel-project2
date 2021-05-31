@@ -73,7 +73,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <link rel="icon" type="image/png" sizes="16x16" href="{{asset('admin/img/logo-unpad.png')}}">
-    <title>Recover Password</title>
+    <title>Pemulihan Kata Sandi</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="{{asset('admin/assets/libs/toastr/build/toastr.min.css')}}" rel="stylesheet">
     <link href="{{asset('admin/dist/css/style.css')}}" rel="stylesheet">
@@ -100,12 +100,12 @@
                 <div class="card" style="width: 30%;margin: 0 auto;">
                     <div class="card-content">
                         <img width=45 height=45 src="{{asset('admin/img/logo-unpad.png')}}">
-                        <h6>Recover Password</h6>
+                        <h6>Pemulihan Kata Sandi</h6>
                         <form method="POST" action="{{ route('password.update') }}">
                             @csrf
                             <input type="hidden" name="token" value="{{ $token }}">
                             <div class="input-field">
-                                <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                                <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Alamat Email') }}</label>
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
                                 @error('email')
                                     <span class="invalid-feedback" role="alert" style="color:red;">
@@ -114,7 +114,7 @@
                                 @enderror
                             </div>
                             <div class="input-field">
-                                <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                                <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Kata Sandi Baru') }}</label>
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
                                 @error('password')
                                     <span class="invalid-feedback" role="alert" style="color:red;">
@@ -123,10 +123,10 @@
                                 @enderror
                             </div>
                             <div class="input-field">
-                                <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
+                                <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Konfirmasi Kata Sandi') }}</label>
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
-                            <button  type="submit" class="waves-effect waves-light btn indigo">{{ __('Reset Password') }}</button>
+                            <button  type="submit" class="waves-effect waves-light btn indigo">{{ __('Reset Kata Sandi') }}</button>
                         </form>
                     </div>
                 </div>

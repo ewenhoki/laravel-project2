@@ -34,6 +34,7 @@
                                     <th>Nama Depan</th>
                                     <th>Nama Belakang</th>
                                     <th>Nomor Telepon</th>
+                                    <th>Jumlah Mahasiswa</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -45,6 +46,7 @@
                                     <td>{{ $lecturer->first_name }}</td>
                                     <td>{{ $lecturer->last_name }}</td>
                                     <td>{{ $lecturer->user->phone }}</td>
+                                    <td>{{ $lecturer->students->count() }}</td>
                                     <td>
                                         <a href="#" class="waves-effect waves-light btn red deletelecturer" lecturer-id="{{ $lecturer->id }}" lecturer-name="{{ $lecturer->first_name }} {{ $lecturer->last_name }}">
                                             <i class="fas fa-trash-alt"></i>
@@ -60,6 +62,7 @@
                                     <th>Nama Depan</th>
                                     <th>Nama Belakang</th>
                                     <th>Nomor Telepon</th>
+                                    <th>Jumlah Mahasiswa</th>
                                     <th>Aksi</th>
                                 </tr>
                             </tfoot>

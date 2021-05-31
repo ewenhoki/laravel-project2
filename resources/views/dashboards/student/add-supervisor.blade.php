@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('header')
-    <title>Math Unpad - Dosen Pembimbing</title>
+    <title>Dosen Pembimbing</title>
     <link href="{{asset('admin/dist/css/pages/form-page.css')}}" rel="stylesheet">
     <link href="{{asset('admin/assets/extra-libs/prism/prism.css')}}" rel="stylesheet">
 @endsection
@@ -13,7 +13,7 @@
             <h5 class="font-medium m-b-0">Dosen Pembimbing</h5>
             <div class="custom-breadcrumb ml-auto">
                 <a href="/student/dashboard/student_profile" class="breadcrumb">Dashboard</a>
-                <a href="/users/add" class="breadcrumb">Dosen Pembimbing</a>
+                <a href="/add/supervisor" class="breadcrumb">Dosen Pembimbing</a>
             </div>
         </div>
     </div>
@@ -34,8 +34,8 @@
                                     <p>{{ auth()->user()->student->lecturers()->wherePivot('order',1)->first()->first_name.' '.auth()->user()->student->lecturers()->wherePivot('order',1)->first()->last_name }}</p>
                                     <h3 class="card-title">Progress</h3>
                                     <p>{{ $status[auth()->user()->student->lecturers()->wherePivot('order',1)->first()->pivot->progress-1] }}</p>
+                                    <a href="javascript:void(0);" class="red accent-4 btn-large deletereq1" student-id="{{ auth()->user()->student->id }}" lecturer-id="{{ auth()->user()->student->lecturers()->wherePivot('order',1)->first()->id }}">Hapus Dosen Pembimbing</a>
                                 @endif
-                                <a href="#" class="red accent-4 btn-large">Hapus Dosen Pembimbing</a>
                             </div>
                         </div>
                         <div class="col s12 l8 b-l">
@@ -58,8 +58,8 @@
                                 <div class="divider"></div>
                                 <div class="form-action right-align">
                                     <br>
-                                    <button class="btn cyan waves-effect waves-light submit" type="submit" name="action">Submit</button>
-                                    <a class="btn waves-effect waves-light grey darken-4" href="/student/dashboard/student_profile" name="action">Cancel
+                                    <button class="btn cyan waves-effect waves-light submit" type="submit" name="action">Kirim</button>
+                                    <a class="btn waves-effect waves-light grey darken-4" href="/student/dashboard/student_profile" name="action">Batal
                                     </a>
                                 </div>
                                 {!! Form::close() !!}
@@ -84,8 +84,8 @@
                                     <p>{{ auth()->user()->student->lecturers()->wherePivot('order',2)->first()->first_name.' '.auth()->user()->student->lecturers()->wherePivot('order',2)->first()->last_name }}</p>
                                     <h3 class="card-title">Progress</h3>
                                     <p>{{ $status[auth()->user()->student->lecturers()->wherePivot('order',2)->first()->pivot->progress-1] }}</p>
+                                    <a href="javascript:void(0);" class="red accent-4 btn-large deletereq2" student-id="{{ auth()->user()->student->id }}" lecturer-id="{{ auth()->user()->student->lecturers()->wherePivot('order',2)->first()->id }}">Hapus Dosen Pembimbing</a>
                                 @endif
-                                <a href="#" class="red accent-4 btn-large">Hapus Dosen Pembimbing</a>
                             </div>
                         </div>
                         <div class="col s12 l8 b-l">
@@ -108,8 +108,8 @@
                                 <div class="divider"></div>
                                 <div class="form-action right-align">
                                     <br>
-                                    <button class="btn cyan waves-effect waves-light submit" type="submit" name="action">Submit</button>
-                                    <a class="btn waves-effect waves-light grey darken-4" href="/student/dashboard/student_profile" name="action">Cancel
+                                    <button class="btn cyan waves-effect waves-light submit" type="submit" name="action">Kirim</button>
+                                    <a class="btn waves-effect waves-light grey darken-4" href="/student/dashboard/student_profile" name="action">Batal
                                     </a>
                                 </div>
                                 {!! Form::close() !!}
@@ -188,11 +188,51 @@
                 },
             });
         });
+        $('.deletereq1').click(function(){
+            var student_id = $(this).attr('student-id');
+            var lecturer_id = $(this).attr('lecturer-id');
+            swal({   
+                title: "Yakin ?",   
+                text: "Batalkan pengajuan dosen pembimbing 1 ?",   
+                type: "warning",   
+                showCancelButton: true,   
+                confirmButtonColor: "#DD6B55",   
+                confirmButtonText: "Ya",   
+                cancelButtonText: "Tidak",   
+                closeOnConfirm: false,   
+                closeOnCancel: false 
+            })
+            .then(function(WillDelete){
+                if(WillDelete.value){
+                    window.location = "/request/cancel/"+student_id+"/"+lecturer_id;
+                }
+            });
+        });
+        $('.deletereq2').click(function(){
+            var student_id = $(this).attr('student-id');
+            var lecturer_id = $(this).attr('lecturer-id');
+            swal({   
+                title: "Yakin ?",   
+                text: "Batalkan pengajuan dosen pembimbing 2 ?",   
+                type: "warning",   
+                showCancelButton: true,   
+                confirmButtonColor: "#DD6B55",   
+                confirmButtonText: "Ya",   
+                cancelButtonText: "Tidak",   
+                closeOnConfirm: false,   
+                closeOnCancel: false 
+            })
+            .then(function(WillDelete){
+                if(WillDelete.value){
+                    window.location = "/request/cancel/"+student_id+"/"+lecturer_id;;
+                }
+            });
+        });
     </script>
      @if (session('fail'))
         <script>
             swal({   
-                title: "Warning",   
+                title: "Peringatan",   
                 text: "Anda belum memilih dosen !",   
                 type: "warning",   
                 confirmButtonColor: "#DD6B55",   
@@ -204,8 +244,20 @@
      @if (session('exists'))
         <script>
             swal({   
-                title: "Warning",   
+                title: "Peringatan",   
                 text: "Anda sudah memilih dosen !",   
+                type: "warning",   
+                confirmButtonColor: "#DD6B55",   
+                confirmButtonText: "Close",     
+                closeOnConfirm: true,   
+            });
+        </script>
+    @endif
+    @if (session('already'))
+        <script>
+            swal({   
+                title: "Peringatan",   
+                text: "Anda tidak dapat memilih dosen yang sama !",   
                 type: "warning",   
                 confirmButtonColor: "#DD6B55",   
                 confirmButtonText: "Close",     
@@ -222,4 +274,13 @@
             });
         </script>
     @endif
+    @if (session('deleted'))
+    <script>
+        swal({   
+            title: "Success",   
+            text: "Berhasil membatalkan dosen pembimbing !",   
+            type: "success",   
+        });
+    </script>
+@endif
 @endsection
