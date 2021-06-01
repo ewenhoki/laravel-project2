@@ -5,4 +5,5 @@
 @endsection
 
 @section('content')
+<a>Test</a>
 @endsection
