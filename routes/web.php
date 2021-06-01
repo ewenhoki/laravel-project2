@@ -17,6 +17,15 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => true]);
 
+//--------------------
+//LANDING PAGE
+/*
+Route::get('/', function(){
+  return view();
+});
+*/
+//--------------------
+
 Route::get('/register', 'SiteController@register');
 
 Route::post('/postregister', 'SiteController@postregister');
