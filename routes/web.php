@@ -74,5 +74,9 @@ Route::group(['middleware' => ['auth','verified','checkrole:Student']], function
 
 Route::group(['middleware' => ['auth','verified','checkrole:Lecturer']], function(){
     Route::get('/lecturer/dashboard/lecturer_profile', 'LecturerController@profile');
+    Route::post('/postlecturerprofile', 'LecturerController@update');
+    Route::get('/lecturer/dashboard/student_request', 'LecturerController@studentRequest');
+    Route::get('/request/accept_by_lecturer/{student}', 'LecturerController@studentAccept');
+    Route::get('/request/reject_by_lecturer/{student}', 'LecturerController@studentReject');
     // Route::post('/postlecturerprofile', 'LecturerController@update');
 });

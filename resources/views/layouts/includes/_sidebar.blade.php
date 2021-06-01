@@ -30,6 +30,9 @@
                 <li>
                     <a href="/lecturer/dashboard/lecturer_profile" class="collapsible-header"><i class="material-icons">person_pin</i><span class="hide-menu"> Profil </span></a>
                 </li>
+                <li>
+                    <a href="/lecturer/dashboard/student_request" class="collapsible-header"><i class="material-icons">collections_bookmark</i><span class="hide-menu"> Pengajuan oleh Mahasiswa </span></a>
+                </li>
                 @endif
                 @if(auth()->user()->role == 'Student')
                 <li>
