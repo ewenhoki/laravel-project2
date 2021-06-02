@@ -16,7 +16,7 @@ class CreateStudentsTable extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('npm');
-            $table->string('user_id');
+            $table->integer('user_id');
             $table->string('first_name');
             $table->string('last_name')->nullable();
             $table->float('gpa');

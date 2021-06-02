@@ -34,7 +34,11 @@
                                     <p>{{ auth()->user()->student->lecturers()->wherePivot('order',1)->first()->first_name.' '.auth()->user()->student->lecturers()->wherePivot('order',1)->first()->last_name }}</p>
                                     <h3 class="card-title">Progress</h3>
                                     <p>{{ $status[auth()->user()->student->lecturers()->wherePivot('order',1)->first()->pivot->progress-1] }}</p>
-                                    <a href="javascript:void(0);" class="red accent-4 btn-large deletereq1" student-id="{{ auth()->user()->student->id }}" lecturer-id="{{ auth()->user()->student->lecturers()->wherePivot('order',1)->first()->id }}">Hapus Dosen Pembimbing</a>
+                                    @if(auth()->user()->student->lecturers()->wherePivot('order',1)->first()->pivot->progress>=4)
+                                        <a href="{{ auth()->user()->student->file->letter_1 }}" target="_blank" class="cyan accent-4 btn-large">Download Surat Tugas</a>
+                                    @else
+                                        <a href="javascript:void(0);" class="red accent-4 btn-large deletereq1" student-id="{{ auth()->user()->student->id }}" lecturer-id="{{ auth()->user()->student->lecturers()->wherePivot('order',1)->first()->id }}">Hapus Dosen Pembimbing</a>
+                                    @endif
                                 @endif
                             </div>
                         </div>
@@ -84,7 +88,11 @@
                                     <p>{{ auth()->user()->student->lecturers()->wherePivot('order',2)->first()->first_name.' '.auth()->user()->student->lecturers()->wherePivot('order',2)->first()->last_name }}</p>
                                     <h3 class="card-title">Progress</h3>
                                     <p>{{ $status[auth()->user()->student->lecturers()->wherePivot('order',2)->first()->pivot->progress-1] }}</p>
-                                    <a href="javascript:void(0);" class="red accent-4 btn-large deletereq2" student-id="{{ auth()->user()->student->id }}" lecturer-id="{{ auth()->user()->student->lecturers()->wherePivot('order',2)->first()->id }}">Hapus Dosen Pembimbing</a>
+                                    @if(auth()->user()->student->lecturers()->wherePivot('order',2)->first()->pivot->progress>=4)
+                                        <a href="{{ auth()->user()->student->file->letter_2 }}" target="_blank" class="cyan accent-4 btn-large">Download Surat Tugas</a>
+                                    @else
+                                        <a href="javascript:void(0);" class="red accent-4 btn-large deletereq2" student-id="{{ auth()->user()->student->id }}" lecturer-id="{{ auth()->user()->student->lecturers()->wherePivot('order',2)->first()->id }}">Hapus Dosen Pembimbing</a>
+                                    @endif
                                 @endif
                             </div>
                         </div>

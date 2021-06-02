@@ -18,6 +18,7 @@ class CreateLecturerStudentTable extends Migration
             $table->integer('lecturer_id');
             $table->integer('student_id');
             $table->integer('progress');
+            $table->integer('order')->nullable();
             $table->timestamps();
         });
     }

@@ -21,9 +21,11 @@ class CreateFilesTable extends Migration
             $table->string('kss')->nullable();
             $table->string('proposal')->nullable();
             $table->string('paper')->nullable();
-            $table->string('letter')->nullable();
+            $table->string('letter_1')->nullable();
+            $table->string('letter_2')->nullable();
             $table->timestamp('upload_date')->nullable();
-            $table->timestamp('letter_date')->nullable();
+            $table->timestamp('letter_1_date')->nullable();
+            $table->timestamp('letter_2_date')->nullable();
             $table->timestamps();
         });
     }

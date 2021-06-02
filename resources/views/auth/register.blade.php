@@ -31,7 +31,7 @@
                         <span class="db"><img width="155" height="25" src="{{asset('admin/img/hitam.png')}}" alt="logo" /></span>
                         <h1 class="font-light m-t-40">Selamat Datang di <br><span class="font-medium black-text"> Departemen Matematika FMIPA Unpad</span></h1>
                         <p>Silakan login untuk melakukan pengajuan tugas akhir.</p>
-                        <a class="btn btn-round red m-t-5">Beranda</a>
+                        <a href="/" class="btn btn-round red m-t-5">Beranda</a>
                     </div>
                 </div>
                 <div class="auth-box auth-sidebar">

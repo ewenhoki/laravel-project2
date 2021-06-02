@@ -25,6 +25,9 @@
                 <li>
                     <a href="/admin/dashboard/admin_profile" class="collapsible-header"><i class="material-icons">person_pin</i><span class="hide-menu"> Profil </span></a>
                 </li>
+                <li>
+                    <a href="/admin/dashboard/request" class="collapsible-header"><i class="material-icons">collections_bookmark</i><span class="hide-menu"> Pengajuan Pembimbing </span></a>
+                </li>
                 @endif
                 @if(auth()->user()->role == 'Lecturer')
                 <li>

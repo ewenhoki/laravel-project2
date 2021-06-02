@@ -11,20 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return redirect('/login');
-});
+// Route::get('/', function () {
+//     return redirect('/login');
+// });
+Route::get('/', 'SiteController@landing');
 
 Auth::routes(['verify' => true]);
-
-//--------------------
-//LANDING PAGE
-/*
-Route::get('/', function(){
-  return view();
-});
-*/
-//--------------------
 
 Route::get('/register', 'SiteController@register');
 
@@ -57,7 +49,11 @@ Route::group(['middleware' => ['auth','verified','checkrole:Super Admin']], func
 
 Route::group(['middleware' => ['auth','verified','checkrole:Admin']], function(){
     Route::get('/admin/dashboard/admin_profile', 'AdminController@profile');
-    // Route::post('/postadminprofile', 'AdminController@update');
+    Route::post('/postadminliteprofile', 'AdminController@update');
+    Route::get('/admin/dashboard/request', 'AdminController@requestSupervisor');
+    Route::get('/request/upload/{student}', 'AdminController@upload');
+    Route::post('/postuploadletter1/{student}', 'AdminController@postUpload1');
+    Route::post('/postuploadletter2/{student}', 'AdminController@postUpload2');
 });
 
 Route::group(['middleware' => ['auth','verified','checkrole:Student']], function(){
@@ -78,5 +74,4 @@ Route::group(['middleware' => ['auth','verified','checkrole:Lecturer']], functio
     Route::get('/lecturer/dashboard/student_request', 'LecturerController@studentRequest');
     Route::get('/request/accept_by_lecturer/{student}', 'LecturerController@studentAccept');
     Route::get('/request/reject_by_lecturer/{student}', 'LecturerController@studentReject');
-    // Route::post('/postlecturerprofile', 'LecturerController@update');
 });

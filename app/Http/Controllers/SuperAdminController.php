@@ -141,7 +141,6 @@ class SuperAdminController extends Controller
         $students = Student::all();
         $tooltip = [
             'red',
-            'purple',
             'orange',
             'blue',
             'cyan',
@@ -151,7 +150,6 @@ class SuperAdminController extends Controller
             'Menunggu Persetujuan Kaprodi',
             'Menunggu Persetujuan Dosen',
             'Menunggu Surat Tugas dari TU',
-            'Permohonan Disetujui',
             'Dalam tahap bimbingan',
             'Selesai'
         ];

@@ -50,7 +50,7 @@
                         <small>Dosen Pembimbing 1</small>
                         @if($student->lecturers()->wherePivot('order',1)->first())
                             <h6>{{ $student->lecturers()->wherePivot('order',1)->first()->user->name }}</h6>
-                            @if($student->lecturers()->wherePivot('order',1)->first()->pivot->progree<5)
+                            @if($student->lecturers()->wherePivot('order',1)->first()->pivot->progress<4)
                                 <h6> (Dalam Proses Pengajuan)</h6>
                             @endif
                         @else
@@ -59,7 +59,7 @@
                         <small>Dosen Pembimbing 2</small>
                         @if($student->lecturers()->wherePivot('order',2)->first())
                             <h6>{{ $student->lecturers()->wherePivot('order',2)->first()->user->name }}</h6>
-                            @if($student->lecturers()->wherePivot('order',2)->first()->pivot->progree<5)
+                            @if($student->lecturers()->wherePivot('order',2)->first()->pivot->progress<4)
                                 <h6> (Dalam Proses Pengajuan)</h6>
                             @endif
                         @else

@@ -11,7 +11,7 @@
             <h5 class="font-medium m-b-0">Daftar Pengajuan Dosen Pembimbing</h5>
             <div class="custom-breadcrumb ml-auto">
                 <a href="/super_admin/dashboard/data_overview" class="breadcrumb">Dashboard</a>
-                <a href="/super_admin/dashboard/students" class="breadcrumb">Daftar Pengajuan Dosen Pembimbing</a>
+                <a href="/super_admin/dashboard/request" class="breadcrumb">Daftar Pengajuan Dosen Pembimbing</a>
             </div>
         </div>
     </div>
