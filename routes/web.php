@@ -27,7 +27,7 @@ Route::get('/register', 'SiteController@register');
 Route::group(array('https'), function(){
     Route::post('/postregister', 'SiteController@postregister');
     Route::post('/postlogin', 'AuthController@postlogin');
-}
+});
 
 Route::get('/login', 'AuthController@login')->name('login');
 Route::get('/dashboard', 'SiteController@check');
