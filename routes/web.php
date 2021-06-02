@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\URL;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,12 +25,9 @@ Auth::routes(['verify' => true]);
 
 Route::get('/register', 'SiteController@register');
 
-Route::group(array('https'), function(){
-    Route::post('/postregister', 'SiteController@postregister');
-    Route::post('/postlogin', 'AuthController@postlogin');
-});
-
+Route::post('/postregister', 'SiteController@postregister');
 Route::get('/login', 'AuthController@login')->name('login');
+Route::post('/postlogin', 'AuthController@postlogin');
 Route::get('/dashboard', 'SiteController@check');
 Route::get('/logout', 'AuthController@logout');
 
