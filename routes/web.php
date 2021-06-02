@@ -11,10 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return redirect('/login');
-});
-// Route::get('/', 'SiteController@landing');
+// Route::get('/', function () {
+//     return redirect('/login');
+// });
+Route::get('/', 'SiteController@landing');
 
 Auth::routes(['verify' => true]);
 
