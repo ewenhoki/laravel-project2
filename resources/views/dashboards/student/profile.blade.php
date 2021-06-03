@@ -73,33 +73,94 @@
                     <div class="row">
                         <div class="col s12">
                             <ul class="tabs">
-                                <li class="tab col s3"><a class="active" href="#timeline">Bimbingan</a></li>
-                                <li class="tab col s3"><a href="#settings">Pengaturan</a></li>
+                                <li class="tab col s3"><a class="active" href="#timeline">Aktivitas</a></li>
+                                <li class="tab col s3"><a class="" href="#settings">Pengaturan</a></li>
                             </ul>
                         </div>
                         <div id="timeline" class="col s12">
                             <div class="card-content">
                                 <div class="profiletimeline">
+                                    @if($student->file!=NULL)
                                     <hr>
                                     <div class="sl-item">
                                         <div class="sl-left"> <img src="{{ asset('admin/img/profile-default.png')}}" alt="user" class="circle" /> </div>
                                         <div class="sl-right">
-                                            <div><a href="javascript:void(0)" class="">{{ auth()->user()->name }}</a> <span class="sl-date">5 minutes ago</span>
-                                                <p class="m-t-10"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper </p>
+                                            <div><a href="javascript:void(0)" class="">{{ auth()->user()->name }}</a> <span class="sl-date">{{ $student->file->upload_date }}</span>
+                                                <p class="m-t-10"> Upload Dokumen Berhasil. </p>
                                             </div>
                                         </div>
                                     </div>
                                     <hr>
+                                    @else
+                                    <hr>
                                     <div class="sl-item">
                                         <div class="sl-left"> <img src="{{ asset('admin/img/profile-default.png')}}" alt="user" class="circle" /> </div>
                                         <div class="sl-right">
-                                            <div><a href="javascript:void(0)" class="">{{ auth()->user()->name }}</a> <span class="sl-date">5 minutes ago</span>
-                                                <blockquote class="m-t-10">
-                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
-                                                </blockquote>
+                                            <div><a href="javascript:void(0)" class="">{{ auth()->user()->name }}</a>
+                                                <p class="m-t-10"> Belum Ada Aktivitas </p>
                                             </div>
                                         </div>
                                     </div>
+                                    <hr>
+                                    @endif
+                                    @if($student->lecturers())
+                                        @if($student->lecturers()->wherePivot('order',1)->first())
+                                            <div class="sl-item">
+                                                <div class="sl-left"> <img src="{{ asset('admin/img/profile-default.png')}}" alt="user" class="circle" /> </div>
+                                                <div class="sl-right">
+                                                    <div><a href="javascript:void(0)" class="">{{ auth()->user()->name }}</a> <span class="sl-date">{{ $student->lecturers()->wherePivot('order',1)->first()->pivot->updated_at }}</span>
+                                                        <p class="m-t-10"> Pembimbing 1 </p>
+                                                    @for ($i = 0; $i < $student->lecturers()->wherePivot('order',1)->first()->pivot->progress; $i++)
+                                                    <blockquote class="m-t-10">
+                                                        {{ $status[$i] }}
+                                                    </blockquote>
+                                                    @endfor
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                        @endif
+                                        @if($student->lecturers()->wherePivot('order',2)->first())
+                                            <div class="sl-item">
+                                                <div class="sl-left"> <img src="{{ asset('admin/img/profile-default.png')}}" alt="user" class="circle" /> </div>
+                                                <div class="sl-right">
+                                                    <div><a href="javascript:void(0)" class="">{{ auth()->user()->name }}</a> <span class="sl-date">{{ $student->lecturers()->wherePivot('order',2)->first()->pivot->updated_at }}</span>
+                                                        <p class="m-t-10"> Pembimbing 2 </p>
+                                                    @for ($i = 0; $i < $student->lecturers()->wherePivot('order',2)->first()->pivot->progress; $i++)
+                                                    <blockquote class="m-t-10">
+                                                        {{ $status[$i] }}
+                                                    </blockquote>
+                                                    @endfor
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                        @endif
+                                    @endif
+                                    @if($student->file)
+                                    @if($student->file->letter_1_date)
+                                        <div class="sl-item">
+                                            <div class="sl-left"> <img src="{{ asset('admin/img/profile-default.png')}}" alt="user" class="circle" /> </div>
+                                            <div class="sl-right">
+                                                <div><a href="javascript:void(0)" class="">Admin</a> <span class="sl-date">{{ $student->file->letter_1_date }}</span>
+                                                    <p class="m-t-10"> Surat Tugas Pembimbing 1 Sudah Tersedia </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    @endif
+                                    @if($student->file->letter_2_date)
+                                        <div class="sl-item">
+                                            <div class="sl-left"> <img src="{{ asset('admin/img/profile-default.png')}}" alt="user" class="circle" /> </div>
+                                            <div class="sl-right">
+                                                <div><a href="javascript:void(0)" class="">Admin</a> <span class="sl-date">{{ $student->file->letter_2_date }}</span>
+                                                    <p class="m-t-10"> Surat Tugas Pembimbing 2 Sudah Tersedia </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    @endif
+                                    @endif
                                 </div>
                             </div>
                         </div>

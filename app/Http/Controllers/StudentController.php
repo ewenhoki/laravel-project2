@@ -14,7 +14,14 @@ class StudentController extends Controller
 {
     public function profile(){
         $student = Student::where('user_id','=',auth()->user()->id)->first();
-        return view('dashboards.student.profile',compact(['student']));
+        $status = [
+            'Menunggu Persetujuan Kaprodi',
+            'Menunggu Persetujuan Dosen',
+            'Menunggu Surat Tugas dari TU',
+            'Dalam Tahap Bimbingan',
+            'Selesai'
+        ];
+        return view('dashboards.student.profile',compact(['student','status']));
     }
 
     public function destroy(Student $student){

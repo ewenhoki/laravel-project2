@@ -50,12 +50,12 @@
                             </a>
                             <ul>
                                 <li>
-                                    <a href="#home">home</a>
+                                    <a href="#home">Beranda</a>
                                 </li>
                                 <li>
-                                    <a href="#about">About</a>
+                                    <a href="#about">Tentang</a>
                                 </li>
-                                <li><a href="#contact">Contact Support</a></li>
+                                <li><a href="#contact">Bantuan & Dukungan</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -70,34 +70,33 @@
         <!-- Header section -->
         <!-- Payloan_header_bg section -->
         <div class="header_bg_1">
-          <section class="payloan_header_bg header_bg_2" id="home">
-              <div class="container">
-                  <div class="align-items-center">
-                      <div class="col-lg-6">
-                          <div class="welcome_area">
-                              <div class="welcome_text">
-                                  <h1>Selamat Datang<br> Di Departemen Matematika FMIPA <span>UNPAD</span></h1>
-                                  <p>Proses adalah segalanya. Dan hasil hanyalah produk sampingan</p>
-                              </div>
-                              <div class="row">
-                                <div class="welcome_button col-bg-2 m-3">
-                                  <a class="common_btn" href="/register">Sign Up</a>
+            <section class="payloan_header_bg header_bg_2" id="home">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="welcome_area">
+                                <div class="welcome_text">
+                                    <h1>Selamat Datang<br> Di Departemen Matematika FMIPA <span>UNPAD</span></h1>
+                                    <p>Proses adalah segalanya. Dan hasil hanyalah produk sampingan</p>
                                 </div>
-                                <div class="welcome_button col-bg-2 m-3">
-                                    <a class="common_btn" href="/login">Login</a>
+                                <div class="row">
+                                    <div class="welcome_button col-bg-2 m-3">
+                                    <a class="common_btn" href="/register">Daftar</a>
+                                    </div>
+                                    <div class="welcome_button col-bg-2 m-3">
+                                        <a class="common_btn" href="/login">Login</a>
+                                    </div>
                                 </div>
-                                <!--IMAGE-->
-
-                              </div>
                             </div>
-                            <!--BUTTON-->
-
-                          </div>
-
-                      </div>
-                  </div>
-              </div>
-          </section>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="header_img">
+                                <img src="{{ asset('asset_login/images/slider/data.png') }}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
           <!-- Payloan_header_bg section -->
           <!-- Visi Misi -->
           <section class="commonSection applicatioProces_2"  id="about">
@@ -196,8 +195,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="bannerTitle text-left">
-                                <h2>Contact Us</h2>
-                                <p>We are here to help you when you need your<br>financial support, then we are help you.</p>
+                                <h2>Hubungi Kami</h2>
+                                <p>Kami di sini untuk membantu Anda ketika Anda membutuhkan<br>dukungan teknis, maka kami siap membantu anda.</p>
                             </div>
                         </div>
                     </div>
@@ -215,25 +214,25 @@
                                     <div class="col-lg-7 col-md-7">
                                         <form action="#" method="post" class="contactFrom row" id="contactForm">
                                             <div class="col-md-6">
-                                                <input class="required" type="text"  name="f_name" id="f_name" placeholder="First name*">
+                                                <input class="required" type="text"  name="f_name" id="f_name" placeholder="Nama Depan*">
                                             </div>
                                             <div class="col-md-6">
-                                                <input class="required" type="text"  name="l_name" id="l_name" placeholder="Last name*">
+                                                <input class="required" type="text"  name="l_name" id="l_name" placeholder="Nama Belakang*">
                                             </div>
                                             <div class="col-md-12">
-                                                <input class="required" type="email" name="email" id="email" placeholder="Email here*">
+                                                <input class="required" type="email" name="email" id="email" placeholder="Email*">
                                             </div>
                                             <div class="col-md-6">
-                                                <input class="required" type="text" name="phone" id="phone" placeholder="Phone*">
+                                                <input class="required" type="text" name="phone" id="phone" placeholder="Nomor Telepon*">
                                             </div>
                                             <div class="col-md-6">
-                                                <input class="required" type="text" name="address" id="address" placeholder="Address*">
+                                                <input class="required" type="text" name="address" id="address" placeholder="Alamat*">
                                             </div>
                                             <div class="col-md-12">
-                                                <textarea class="required" name="con_message*" id="con_message" placeholder="Text here...."></textarea>
+                                                <textarea class="required" name="con_message*" id="con_message" placeholder="Teks di sini...."></textarea>
                                             </div>
                                             <div class="col-md-12">
-                                                <button name="submit" type="submit" id="con_submit" class="common_btn">Send Message</button>
+                                                <button name="submit" type="submit" id="con_submit" class="common_btn">Kirim Pesan</button>
                                             </div>
                                         </form>
                                     </div>
