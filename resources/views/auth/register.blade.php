@@ -110,6 +110,16 @@
                                         <label for="password">Kata Sandi</label>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        {!! Form::password('password_confirm', ['id'=>'password_confirm']) !!}
+                                        @if($errors->has('password_confirm'))
+                                            <span class="help-block" style="color:red;">{{$errors->first('password_confirm')}}</span>
+                                            @php $err_reg=1 @endphp
+                                        @endif
+                                        <label for="password_confirm">Konfirmasi Kata Sandi</label>
+                                    </div>
+                                </div>
                                 <div class="row m-t-5">
                                     <div class="col s7">
                                         <label>
@@ -138,6 +148,7 @@
     <!-- All Required js -->
     <!-- ============================================================== -->
     <script src="{{asset('admin/assets/libs/jquery/dist/jquery.min.js')}}"></script>
+    <script src="{{asset('asset_login/js/jquery.maskedinput.js')}}" type="text/javascript"></script>
     <script src="{{asset('admin/dist/js/materialize.min.js')}}"></script>
     <!-- ============================================================== -->
     <!-- This page plugin js -->
@@ -146,13 +157,17 @@
     <script>
         function myFunction() {
             var x = document.getElementById("password");
+            var y = document.getElementById("password_confirm");
             if (x.type === "password") {
                 x.type = "text";
+                y.type = "text";
             } else {
                 x.type = "password";
+                y.type = "password";
             }
         }
         $(function() {
+            $("#npm").mask("140110999999");
             $("#formValidate").validate({
                 rules: {
                     first_name: {
@@ -183,7 +198,12 @@
                     password: {
                         required: true,
                         minlength: 8,
-                    }
+                    },
+                    password_confirm: {
+                        required: true,
+                        minlength: 8,
+                        equalTo : "#password",
+                    },
                 },
                 errorElement: 'div',
                 errorPlacement: function(error, element) {

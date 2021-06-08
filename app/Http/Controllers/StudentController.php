@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use App\Student;
 use App\User;
@@ -38,21 +39,26 @@ class StudentController extends Controller
         $user = User::find(auth()->user()->id);
         $modfirst_name = ucwords(strtolower(trim($request->first_name)));
         $modlast_name = ucwords(strtolower(trim($request->last_name)));
-        $request->merge([
-            'first_name' => $modfirst_name,
-            'last_name' => $modlast_name,
-        ]);
-        $user->student->update([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'gpa' => $request->gpa
-        ]);
-        $user->name = $request->first_name.' '.$request->last_name;
-        $user->phone = $request->phone;
-        if($request->password!=NULL){
-            $user->password = bcrypt($request->password);
+        if (Hash::check($request->password_old, $user->password)) {
+            $request->merge([
+                'first_name' => $modfirst_name,
+                'last_name' => $modlast_name,
+            ]);
+            $user->student->update([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'gpa' => $request->gpa
+            ]);
+            $user->name = $request->first_name.' '.$request->last_name;
+            $user->phone = $request->phone;
+            if($request->password!=NULL){
+                $user->password = bcrypt($request->password);
+            }
+            $user->save();
         }
-        $user->save();
+        else{
+            return back()->with('fail','wrong passsword');
+        }
         return redirect('/student/dashboard/student_profile')->with('updated','success');
     }
 

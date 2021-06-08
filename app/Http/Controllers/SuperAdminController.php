@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use App\Student;
 use App\User;
 use App\lecturer;
@@ -130,10 +131,15 @@ class SuperAdminController extends Controller
         $request->merge(['name'=>$modname]);
         $user->phone = $request->phone;
         $user->name = $request->name;
-        if($request->password!=NULL){
-            $user->password = bcrypt($request->password);
+        if (Hash::check($request->password_old, $user->password)) {
+            if($request->password!=NULL){
+                $user->password = bcrypt($request->password);
+            }
+            $user->save();
         }
-        $user->save();
+        else{
+            return back()->with('fail','wrong passsword');
+        }
         return redirect('/super_admin/dashboard/profile')->with('updated','success');
     }
 

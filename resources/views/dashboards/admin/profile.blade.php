@@ -63,8 +63,20 @@
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12">
-                                            {!! Form::password('password',['placeholder'=>'Kata Sandi Baru']) !!}
+                                            {!! Form::password('password',['placeholder'=>'Kata Sandi Baru','id'=>'password']) !!}
                                             <label for="password">Ganti Kata Sandi</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            {!! Form::password('password_confirm',['placeholder'=>'Konfirmasi Kata Sandi Baru']) !!}
+                                            <label for="password_confirm">Konfirmasi Kata Sandi Baru</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            {!! Form::password('password_old',['placeholder'=>'Kata Sandi Saat Ini']) !!}
+                                            <label for="password_old">Kata Sandi</label>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -105,6 +117,13 @@
                     password: {
                         minlength: 8,
                     },
+                    password_confirm: {
+                        minlength: 8,
+                        equalTo : "#password",
+                    },
+                    password_old: {
+                        required: true,
+                    },
                 },
                 errorElement: 'div',
                 errorPlacement: function(error, element) {
@@ -129,4 +148,9 @@
           toastr.success('Akun berhasil diperbaharui !',{ positionClass: 'toast-top-full-width', containerId: 'toast-top-full-width' });
       </script>
     @endif
+    @if(session('fail'))
+    <script>
+        swal("Gagal Perbaharui Data !", "Kata sandi tidak cocok.", "error");
+    </script>
+@endif
 @endsection

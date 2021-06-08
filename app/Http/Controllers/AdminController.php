@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use App\User;
 use App\Student;
@@ -21,10 +22,15 @@ class AdminController extends Controller
         $request->merge(['name'=>$modname]);
         $user->phone = $request->phone;
         $user->name = $request->name;
-        if($request->password!=NULL){
-            $user->password = bcrypt($request->password);
+        if (Hash::check($request->password_old, $user->password)) {
+            if($request->password!=NULL){
+                $user->password = bcrypt($request->password);
+            }
+            $user->save();
         }
-        $user->save();
+        else{
+            return back()->with('fail','wrong passsword');
+        }
         return redirect('/admin/dashboard/admin_profile')->with('updated','success');
     }
     
