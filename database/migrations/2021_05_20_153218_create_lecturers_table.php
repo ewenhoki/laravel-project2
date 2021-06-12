@@ -19,6 +19,7 @@ class CreateLecturersTable extends Migration
             $table->integer('user_id');
             $table->string('first_name');
             $table->string('last_name')->nullable();
+            $table->integer('slot')->nullable();
             $table->timestamps();
         });
     }

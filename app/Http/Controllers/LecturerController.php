@@ -52,17 +52,13 @@ class LecturerController extends Controller
         $students = auth()->user()->lecturer->students()->get();
         $tooltip = [
             'red',
-            'purple',
-            'orange',
             'blue',
             'cyan',
             'green',
         ];
         $status = [
-            'Menunggu Persetujuan Kaprodi',
             'Menunggu Persetujuan Dosen',
             'Menunggu Surat Tugas dari TU',
-            'Permohonan Disetujui',
             'Dalam tahap bimbingan',
             'Selesai'
         ];
@@ -70,11 +66,34 @@ class LecturerController extends Controller
     }
 
     public function studentAccept(Student $student){
-        $student->lecturers()->updateExistingPivot(auth()->user()->lecturer->id, ['progress' => 3]);
+        $student->lecturers()->updateExistingPivot(auth()->user()->lecturer->id, ['progress' => 2]);
         return redirect('/lecturer/dashboard/student_request')->with('accepted','Success');
     }
 
     public function studentReject(Student $student){
+        if(auth()->user()->lecturer->students()->where('students.id',$student->id)->first()->pivot->order==1){
+            $lecturer = Lecturer::find(auth()->user()->lecturer->id);
+            $lecturer->slot++;
+            $lecturer->save();
+            if($student->lecturers()->wherePivot('order',2)->first()){
+                if($student->lecturers()->wherePivot('order',2)->first()->pivot->progress>2){
+                    $student->lecturers()->updateExistingPivot($student->lecturers()->wherePivot('order',2)->first()->id, ['progress' => 2]);
+                }
+            }
+        }
+        if(auth()->user()->lecturer->students()->where('students.id',$student->id)->first()->pivot->order==2){
+            if($student->lecturers()->wherePivot('order',1)->first()){
+                if($student->lecturers()->wherePivot('order',1)->first()->pivot->progress>2){
+                    $student->lecturers()->updateExistingPivot($student->lecturers()->wherePivot('order',1)->first()->id, ['progress' => 2]);
+                }
+            }
+        }
+        if($student->file->letter_2){
+            $student->file->update([
+                'letter_2'=>NULL,
+                'letter_2_date'=>NULL
+            ]);
+        }
         auth()->user()->lecturer->students()->detach($student->id);
         return redirect('/lecturer/dashboard/student_request')->with('rejected','fail');
     }

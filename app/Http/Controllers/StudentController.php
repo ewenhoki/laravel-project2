@@ -16,7 +16,6 @@ class StudentController extends Controller
     public function profile(){
         $student = Student::where('user_id','=',auth()->user()->id)->first();
         $status = [
-            'Menunggu Persetujuan Kaprodi',
             'Menunggu Persetujuan Dosen',
             'Menunggu Surat Tugas dari TU',
             'Dalam Tahap Bimbingan',
@@ -29,6 +28,11 @@ class StudentController extends Controller
         $student->user->delete();
         if($student->file!=NULL){
             $student->file->delete();
+        }
+        if($student->lecturers()->wherePivot('order',1)->first()){
+            $lecturer = Lecturer::find($student->lecturers()->wherePivot('order',1)->first()->id);
+            $lecturer->slot++;
+            $lecturer->save();
         }
         $student->lecturers()->detach();
         $student->delete();
@@ -89,8 +93,13 @@ class StudentController extends Controller
         $lecturers_all = Lecturer::all();
         $lecturers = array();
         foreach($lecturers_all as $lec){
-            if($lec->students()->count()<10){
+            if($lec->slot>0){
                 $lecturers[] = $lec->id;
+            }
+        }
+        if(auth()->user()->student->lecturers()->wherePivot('order',1)->first()){
+            if(auth()->user()->student->lecturers()->wherePivot('order',1)->first()->slot==0){
+                $lecturers[] = auth()->user()->student->lecturers()->wherePivot('order',1)->first()->id;
             }
         }
         $lecturer = Lecturer::whereIn('lecturers.id',$lecturers)
@@ -99,13 +108,18 @@ class StudentController extends Controller
             ->pluck('users.name','lecturers.id');
         $lecturer->prepend('Pilih Dosen', 0);
         $status = [
-            'Menunggu Persetujuan Kaprodi',
             'Menunggu Persetujuan Dosen',
             'Menunggu Surat Tugas dari TU',
             'Dalam Tahap Bimbingan',
             'Selesai'
         ];
-        return view('dashboards.student.add-supervisor',compact(['lecturer','status']));
+        $lecturers_2 = Lecturer::all('id');
+        $lecturer_2 = Lecturer::whereIn('lecturers.id',$lecturers_2)
+            ->join('users','users.id','=','lecturers.user_id')
+            ->orderBy('users.name')
+            ->pluck('users.name','lecturers.id');
+        $lecturer_2->prepend('Pilih Dosen', 0);
+        return view('dashboards.student.add-supervisor',compact(['lecturer','lecturer_2','status']));
     }
 
     public function postSupervisor1(Request $request){
@@ -124,6 +138,9 @@ class StudentController extends Controller
         }
         $student = Student::find(auth()->user()->student->id);
         $student->lecturers()->attach($request->lecturer_id,['progress'=>1,'order'=>1]);
+        $lecturer = Lecturer::find($request->lecturer_id);
+        $lecturer->slot--; 
+        $lecturer->save();
         return redirect('/add/supervisor')->with('success','Add Success');
     }
 
@@ -147,6 +164,29 @@ class StudentController extends Controller
     }
 
     public function cancelSupervisor(Student $student, $lecturer_id){
+        if($student->lecturers()->where('lecturers.id',$lecturer_id)->first()->pivot->order==1){
+            if($student->lecturers()->wherePivot('order',2)->first()){
+                if($student->lecturers()->wherePivot('order',2)->first()->pivot->progress>2){
+                    $student->lecturers()->updateExistingPivot($student->lecturers()->wherePivot('order',2)->first()->id, ['progress' => 2]);
+                }
+            }
+            $lecturer = Lecturer::find($lecturer_id);
+            $lecturer->slot++;
+            $lecturer->save();
+        }
+        if($student->lecturers()->where('lecturers.id',$lecturer_id)->first()->pivot->order==2){
+            if($student->lecturers()->wherePivot('order',1)->first()){
+                if($student->lecturers()->wherePivot('order',1)->first()->pivot->progress>2){
+                    $student->lecturers()->updateExistingPivot($student->lecturers()->wherePivot('order',1)->first()->id, ['progress' => 2]);
+                }
+            }
+        }
+        if($student->file->letter_2){
+            $student->file->update([
+                'letter_2'=>NULL,
+                'letter_2_date'=>NULL
+            ]);
+        }
         auth()->user()->student->lecturers()->detach($lecturer_id);
         return redirect('/add/supervisor')->with('deleted','success');
     }

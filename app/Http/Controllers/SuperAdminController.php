@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 use App\Student;
 use App\User;
 use App\lecturer;
+use App\File;
 
 class SuperAdminController extends Controller
 {
@@ -16,7 +18,7 @@ class SuperAdminController extends Controller
         $users = User::all();
         $students = Student::all();
         $lecturers = Lecturer::all();
-        $pending = DB::table('lecturer_student')->where('progress',1)->count();
+        $pending = File::where('letter_1',NULL)->count();
         return view('dashboards.super_admin.index',compact(['users','students','lecturers','pending']));
     }
     
@@ -24,10 +26,16 @@ class SuperAdminController extends Controller
         $students = Student::all();
         return view('dashboards.super_admin.students',compact(['students']));
     }
-
+    
     public function lecturers(){
         $lecturers = Lecturer::all();
         return view('dashboards.super_admin.lecturers',compact(['lecturers']));
+    }
+    
+    public function documents(){
+        $files = File::orderBy('letter_1','ASC')->get();
+        // $files = File::where('letter_1','!=',NULL)->get();
+        return view('dashboards.super_admin.documents',compact(['files']));
     }
 
     public function profile(){
@@ -120,7 +128,7 @@ class SuperAdminController extends Controller
         $user->password = bcrypt('DeltaDiract');
         $user->remember_token = Str::random(60);
         $user->save();
-        $request->request->add(['user_id'=>$user->id]);
+        $request->request->add(['user_id'=>$user->id,'slot'=>10]);
         $lecturer = Lecturer::create($request->all());
         return redirect('/super_admin/dashboard/lecturers')->with('created','Add New Student Success !!');
     }
@@ -143,17 +151,22 @@ class SuperAdminController extends Controller
         return redirect('/super_admin/dashboard/profile')->with('updated','success');
     }
 
+    public function postUpload1(Student $student, Request $request){
+        $file = FIle::find($student->file->id);
+        $request->request->add(['letter_1_date'=>Carbon::now()]);
+        $file->update($request->all());
+        return redirect('/request/upload/'.$student->id)->with('sent','uploaded');
+    }
+
     public function requestSupervisor(){
         $students = Student::all();
         $tooltip = [
             'red',
-            'orange',
             'blue',
             'cyan',
             'green',
         ];
         $status = [
-            'Menunggu Persetujuan Kaprodi',
             'Menunggu Persetujuan Dosen',
             'Menunggu Surat Tugas dari TU',
             'Dalam tahap bimbingan',
@@ -168,7 +181,43 @@ class SuperAdminController extends Controller
     }
 
     public function rejectRequest(Student $student, $id_lecturer){
+        if($student->lecturers()->where('lecturers.id',$id_lecturer)->first()->pivot->order==1){
+            if($student->lecturers()->wherePivot('order',2)->first()){
+                if($student->lecturers()->wherePivot('order',2)->first()->pivot->progress>2){
+                    $student->lecturers()->updateExistingPivot($student->lecturers()->wherePivot('order',2)->first()->id, ['progress' => 2]);
+                }
+            }
+            $lecturer = Lecturer::find($id_lecturer);
+            $lecturer->slot++;
+            $lecturer->save();
+        }
+        if($student->lecturers()->where('lecturers.id',$id_lecturer)->first()->pivot->order==2){
+            if($student->lecturers()->wherePivot('order',1)->first()){
+                if($student->lecturers()->wherePivot('order',1)->first()->pivot->progress>2){
+                    $student->lecturers()->updateExistingPivot($student->lecturers()->wherePivot('order',1)->first()->id, ['progress' => 2]);
+                }
+            }
+        }
+        if($student->file->letter_2){
+            $student->file->update([
+                'letter_2'=>NULL,
+                'letter_2_date'=>NULL
+            ]);
+        }
         $student->lecturers()->detach($id_lecturer);
         return redirect('/super_admin/dashboard/request')->with('rejected','fail');
+    }
+
+    public function destroyDocuments(File $file){
+        if($file->student->lecturers()->wherePivot('order',1)->first() || $file->student->lecturers()->wherePivot('order',2)->first()){
+            if($file->student->lecturers()->wherePivot('order',1)->first()){
+                $lecturer = Lecturer::find($file->student->lecturers()->wherePivot('order',1)->first()->id);
+                $lecturer->slot++;
+                $lecturer->save();
+            }
+            $file->student->lecturers()->detach();
+        }
+        $file->delete();
+        return redirect('/super_admin/dashboard/documents')->with('deleted','success');
     }
 }

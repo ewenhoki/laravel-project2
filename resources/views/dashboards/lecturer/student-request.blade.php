@@ -48,7 +48,7 @@
                                         <a href="{{ $student->file->paper }}" class="waves-effect waves-light btn light-blue darken-1" target="_blank">Paper</a>
                                     </td>
                                     <td>
-                                        @if($student->lecturers()->where('lecturers.id',auth()->user()->lecturer->id)->first()->pivot->progress==2)
+                                        @if($student->lecturers()->where('lecturers.id',auth()->user()->lecturer->id)->first()->pivot->progress==1)
                                         <a href="/request/accept_by_lecturer/{{ $student->id }}" class="waves-effect waves-light btn green">
                                             <i class="fas fa-check"></i>
                                         </a>

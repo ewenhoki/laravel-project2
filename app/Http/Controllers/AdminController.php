@@ -36,15 +36,22 @@ class AdminController extends Controller
     
     public function requestSupervisor(){
         $students = Student::all();
+        $students_id = [];
+        foreach($students as $student){
+            if($student->lecturers()->wherePivot('order',1)->first() && $student->lecturers()->wherePivot('order',2)->first()){
+                if($student->lecturers()->wherePivot('order',1)->first()->pivot->progress>=2 && $student->lecturers()->wherePivot('order',2)->first()->pivot->progress>=2){
+                    $students_id[] = $student->id; 
+                }
+            }
+        }
+        $students = Student::whereIn('id',$students_id)->get();
         $tooltip = [
             'red',
-            'orange',
             'blue',
             'cyan',
             'green',
         ];
         $status = [
-            'Menunggu Persetujuan Kaprodi',
             'Menunggu Persetujuan Dosen',
             'Menunggu Surat Tugas dari TU',
             'Dalam Tahap Bimbingan',
@@ -58,21 +65,14 @@ class AdminController extends Controller
         return view('dashboards.admin.upload',compact(['student']));
     }
 
-    public function postUpload1(Student $student, Request $request){
-        $file = FIle::find($student->file->id);
-        $request->request->add(['letter_1_date'=>Carbon::now()]);
-        $file->update($request->all());
-        $id_lecturer = $student->lecturers()->wherePivot('order',1)->first()->id;
-        $student->lecturers()->updateExistingPivot($id_lecturer, ['progress' => 4]);
-        return redirect('/request/upload/'.$student->id);
-    }
-
     public function postUpload2(Student $student, Request $request){
         $file = FIle::find($student->file->id);
         $request->request->add(['letter_2_date'=>Carbon::now()]);
         $file->update($request->all());
+        $id_lecturer = $student->lecturers()->wherePivot('order',1)->first()->id;
+        $student->lecturers()->updateExistingPivot($id_lecturer, ['progress' => 3]);
         $id_lecturer = $student->lecturers()->wherePivot('order',2)->first()->id;
-        $student->lecturers()->updateExistingPivot($id_lecturer, ['progress' => 4]);
-        return redirect('/request/upload/'.$student->id);
+        $student->lecturers()->updateExistingPivot($id_lecturer, ['progress' => 3]);
+        return redirect('/request/upload/'.$student->id)->with('sent','success');
     }
 }

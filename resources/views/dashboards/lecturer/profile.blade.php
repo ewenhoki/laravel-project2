@@ -46,9 +46,9 @@
                         <small>Nama Belakang</small>
                         <h6>{{ $lecturer->last_name }}</h6>
                         <small>Jumlah Mahasiswa yang Dibimbing</small>
-                        <h6>{{ $lecturer->students()->wherePivot('progress','>',1)->count() }}</h6>
+                        <h6>{{ $lecturer->students()->wherePivot('progress','>=',3)->count() }}</h6>
                         <small>Jumlah Mahasiswa dalam Proses Pengajuan</small>
-                        <h6>{{ $lecturer->students()->wherePivot('progress',1)->count() }}</h6>
+                        <h6>{{ $lecturer->students()->wherePivot('progress','<',3)->count() }}</h6>
                     </div>
                 </div>
             </div>

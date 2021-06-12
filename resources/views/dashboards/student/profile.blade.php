@@ -50,7 +50,7 @@
                         <small>Dosen Pembimbing 1</small>
                         @if($student->lecturers()->wherePivot('order',1)->first())
                             <h6>{{ $student->lecturers()->wherePivot('order',1)->first()->user->name }}</h6>
-                            @if($student->lecturers()->wherePivot('order',1)->first()->pivot->progress<4)
+                            @if($student->lecturers()->wherePivot('order',1)->first()->pivot->progress<3)
                                 <h6> (Dalam Proses Pengajuan)</h6>
                             @endif
                         @else
@@ -59,7 +59,7 @@
                         <small>Dosen Pembimbing 2</small>
                         @if($student->lecturers()->wherePivot('order',2)->first())
                             <h6>{{ $student->lecturers()->wherePivot('order',2)->first()->user->name }}</h6>
-                            @if($student->lecturers()->wherePivot('order',2)->first()->pivot->progress<4)
+                            @if($student->lecturers()->wherePivot('order',2)->first()->pivot->progress<3)
                                 <h6> (Dalam Proses Pengajuan)</h6>
                             @endif
                         @else
@@ -103,6 +103,20 @@
                                     </div>
                                     <hr>
                                     @endif
+                                    @if($student->file)
+                                    @if($student->file->letter_1_date)
+                                        <div class="sl-item">
+                                            <div class="sl-left"> <img src="{{ asset('admin/img/profile-default.png')}}" alt="user" class="circle" /> </div>
+                                            <div class="sl-right">
+                                                <div><a href="javascript:void(0)" class="">Admin</a> <span class="sl-date">{{ $student->file->letter_1_date }}</span>
+                                                    <p class="m-t-10"> Surat Persetujuan Dokumen Sudah Tersedia </p>
+                                                </div>
+                                                <a href="{{ $student->file->letter_1 }}" target="_blank" class="waves-effect waves-light btn blue"> Download</a>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    @endif
+                                    @endif
                                     @if($student->lecturers())
                                         @if($student->lecturers()->wherePivot('order',1)->first())
                                             <div class="sl-item">
@@ -138,24 +152,14 @@
                                         @endif
                                     @endif
                                     @if($student->file)
-                                    @if($student->file->letter_1_date)
-                                        <div class="sl-item">
-                                            <div class="sl-left"> <img src="{{ asset('admin/img/profile-default.png')}}" alt="user" class="circle" /> </div>
-                                            <div class="sl-right">
-                                                <div><a href="javascript:void(0)" class="">Admin</a> <span class="sl-date">{{ $student->file->letter_1_date }}</span>
-                                                    <p class="m-t-10"> Surat Tugas Pembimbing 1 Sudah Tersedia </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                    @endif
                                     @if($student->file->letter_2_date)
                                         <div class="sl-item">
                                             <div class="sl-left"> <img src="{{ asset('admin/img/profile-default.png')}}" alt="user" class="circle" /> </div>
                                             <div class="sl-right">
                                                 <div><a href="javascript:void(0)" class="">Admin</a> <span class="sl-date">{{ $student->file->letter_2_date }}</span>
-                                                    <p class="m-t-10"> Surat Tugas Pembimbing 2 Sudah Tersedia </p>
+                                                    <p class="m-t-10"> Surat Tugas Sudah Tersedia </p>
                                                 </div>
+                                                <a href="{{ $student->file->letter_2 }}" target="_blank" class="waves-effect waves-light btn blue"> Download</a>
                                             </div>
                                         </div>
                                         <hr>

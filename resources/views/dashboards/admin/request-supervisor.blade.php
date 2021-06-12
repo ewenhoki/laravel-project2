@@ -27,63 +27,37 @@
                                     <th>#</th>
                                     <th>NPM</th>
                                     <th>Nama Mahasiswa</th>
-                                    <th>Nama Dosen</th>
-                                    <th>Pembimbing ke-</th>
-                                    <th>Status</th>
                                     <th>Dokumen</th>
+                                    <th>Status</th>
                                     <th>Upload Surat Tugas</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($students as $key => $student)
-                                @if($student->lecturers()->wherePivot('order',1)->first())
+                                @foreach($students as $key=>$student)
                                 <tr>
                                     <td>{{ $key+1 }}</td>
                                     <td>{{ $student->npm }}</td>
                                     <td>{{ $student->user->name }}</td>
-                                    <td>{{ $student->lecturers()->wherePivot('order',1)->first()->user->name }}</td>
-                                    <td>{{ $student->lecturers()->wherePivot('order',1)->first()->pivot->order }}</td>
-                                    <td><i class="fa fa-circle {{ $tooltip[$student->lecturers()->wherePivot('order',1)->first()->pivot->progress-1] }}-text tooltipped" data-tooltip="{{ $status[$student->lecturers()->wherePivot('order',1)->first()->pivot->progress-1] }}"></i></td>
                                     <td>
+                                        <a href="{{ $student->file->letter_1 }}" class="waves-effect waves-light btn pink darken-3" target="_blank">Persetujuan</a>
                                         <a href="{{ $student->file->krs }}" class="waves-effect waves-light btn deep-purple darken-3" target="_blank">KRS</a>
                                         <a href="{{ $student->file->kss }}" class="waves-effect waves-light btn indigo indigo darken-1" target="_blank">KSS</a>
                                         <a href="{{ $student->file->proposal }}" class="waves-effect waves-light btn blue darken-2" target="_blank">Proposal</a>
                                         <a href="{{ $student->file->paper }}" class="waves-effect waves-light btn light-blue darken-1" target="_blank">Paper</a>
                                     </td>
                                     <td>
-                                        @if($student->lecturers()->wherePivot('order',1)->first()->pivot->progress>=3)
+                                        @if($student->file->letter_2==NULL)
+                                        <i class="fa fa-circle red-text tooltipped" data-tooltip="Menunggu Surat Tugas dari TU"></i>
+                                        @else
+                                        <i class="fa fa-circle blue-text tooltipped" data-tooltip="Surat Tugas Sudah Diupload"></i>
+                                        @endif
+                                    </td>
+                                    <td>
                                         <a href="/request/upload/{{ $student->id }}" class="waves-effect waves-light btn indigo">
                                             <i class="fas fa-upload"></i>
                                         </a>
-                                        @endif
                                     </td>
                                 </tr>
-                                @endif
-                                @endforeach
-                                @foreach ($students as $key => $student)
-                                @if($student->lecturers()->wherePivot('order',2)->first())
-                                <tr>
-                                    <td>{{ $key+1 }}</td>
-                                    <td>{{ $student->npm }}</td>
-                                    <td>{{ $student->user->name }}</td>
-                                    <td>{{ $student->lecturers()->wherePivot('order',2)->first()->user->name }}</td>
-                                    <td>{{ $student->lecturers()->wherePivot('order',2)->first()->pivot->order }}</td>
-                                    <td><i class="fa fa-circle {{ $tooltip[$student->lecturers()->wherePivot('order',2)->first()->pivot->progress-1] }}-text tooltipped" data-tooltip="{{ $status[$student->lecturers()->wherePivot('order',2)->first()->pivot->progress-1] }}"></i></td>
-                                    <td>
-                                        <a href="{{ $student->file->krs }}" class="waves-effect waves-light btn deep-purple darken-3" target="_blank">KRS</a>
-                                        <a href="{{ $student->file->kss }}" class="waves-effect waves-light btn indigo indigo darken-1" target="_blank">KSS</a>
-                                        <a href="{{ $student->file->proposal }}" class="waves-effect waves-light btn blue darken-2" target="_blank">Proposal</a>
-                                        <a href="{{ $student->file->paper }}" class="waves-effect waves-light btn light-blue darken-1" target="_blank">Paper</a>
-                                    </td>
-                                    <td>
-                                        @if($student->lecturers()->wherePivot('order',2)->first()->pivot->progress>=3)
-                                        <a href="/request/upload/{{ $student->id }}" class="waves-effect waves-light btn indigo">
-                                            <i class="fas fa-upload"></i>
-                                        </a>
-                                        @endif
-                                    </td>
-                                </tr>
-                                @endif
                                 @endforeach
                             </tbody>
                             <tfoot>
@@ -91,10 +65,8 @@
                                     <th>#</th>
                                     <th>NPM</th>
                                     <th>Nama Mahasiswa</th>
-                                    <th>Nama Dosen</th>
-                                    <th>Pembimbing ke-</th>
-                                    <th>Status</th>
                                     <th>Dokumen</th>
+                                    <th>Status</th>
                                     <th>Upload Surat Tugas</th>
                                 </tr>
                             </tfoot>

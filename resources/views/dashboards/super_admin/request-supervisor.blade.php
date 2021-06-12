@@ -51,11 +51,6 @@
                                         <a href="{{ $student->file->paper }}" class="waves-effect waves-light btn light-blue darken-1" target="_blank">Paper</a>
                                     </td>
                                     <td>
-                                        @if($student->lecturers()->wherePivot('order',1)->first()->pivot->progress==1)
-                                        <a href="/request/accept/{{ $student->id }}/{{ $student->lecturers()->wherePivot('order',1)->first()->id }}" class="waves-effect waves-light btn green">
-                                            <i class="fas fa-check"></i>
-                                        </a>
-                                        @endif
                                         <a href="javascript:void(0);" class="waves-effect waves-light btn red deletereq1" student-id="{{ $student->id }}" student-name="{{ $student->user->name }}" lecturer-id="{{ $student->lecturers()->wherePivot('order',1)->first()->id }}">
                                             <i class="fas fa-times"></i>
                                         </a>
@@ -79,11 +74,6 @@
                                         <a href="{{ $student->file->paper }}" class="waves-effect waves-light btn light-blue darken-1" target="_blank">Paper</a>
                                     </td>
                                     <td>
-                                        @if($student->lecturers()->wherePivot('order',2)->first()->pivot->progress==1)
-                                        <a href="/request/accept/{{ $student->id }}/{{ $student->lecturers()->wherePivot('order',2)->first()->id }}" class="waves-effect waves-light btn green">
-                                            <i class="fas fa-check"></i>
-                                        </a>
-                                        @endif
                                         <a href="javascript:void(0);" class="waves-effect waves-light btn red deletereq2" student-id="{{ $student->id }}" student-name="{{ $student->user->name }}" lecturer-id="{{ $student->lecturers()->wherePivot('order',2)->first()->id }}">
                                             <i class="fas fa-times"></i>
                                         </a>

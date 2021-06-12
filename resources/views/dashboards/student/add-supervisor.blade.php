@@ -18,116 +18,132 @@
         </div>
     </div>
     @if(auth()->user()->student->file!=NULL)
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col s12">
-                <div class="card">
-                    <div class="row">
-                        <div class="col s12 l4">
-                            <div class="card-content">
-                                <h5 class="card-title">Dosen Pembimbing 1</h5>
-                                @if(auth()->user()->student->lecturers()->wherePivot('order',1)->first()==NULL)
-                                    <p>Belum Memilih Dosen</p>
-                                    <h3 class="card-title">Progress</h3>
-                                    <p>Belum Mengajukan Dosen Pembimbing</p>
-                                @else
-                                    <p>{{ auth()->user()->student->lecturers()->wherePivot('order',1)->first()->first_name.' '.auth()->user()->student->lecturers()->wherePivot('order',1)->first()->last_name }}</p>
-                                    <h3 class="card-title">Progress</h3>
-                                    <p>{{ $status[auth()->user()->student->lecturers()->wherePivot('order',1)->first()->pivot->progress-1] }}</p>
-                                    @if(auth()->user()->student->lecturers()->wherePivot('order',1)->first()->pivot->progress>=4)
-                                        <a href="{{ auth()->user()->student->file->letter_1 }}" target="_blank" class="cyan accent-4 btn-large">Download Surat Tugas</a>
+        @if(auth()->user()->student->file->letter_1!=NULL)
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col s12">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col s12 l4">
+                                <div class="card-content">
+                                    <h5 class="card-title">Dosen Pembimbing 1</h5>
+                                    @if(auth()->user()->student->lecturers()->wherePivot('order',1)->first()==NULL)
+                                        <p>Belum Memilih Dosen</p>
+                                        <h3 class="card-title">Progress</h3>
+                                        <p>Belum Mengajukan Dosen Pembimbing</p>
                                     @else
-                                        <a href="javascript:void(0);" class="red accent-4 btn-large deletereq1" student-id="{{ auth()->user()->student->id }}" lecturer-id="{{ auth()->user()->student->lecturers()->wherePivot('order',1)->first()->id }}">Hapus Dosen Pembimbing</a>
+                                        <p>{{ auth()->user()->student->lecturers()->wherePivot('order',1)->first()->first_name.' '.auth()->user()->student->lecturers()->wherePivot('order',1)->first()->last_name }}</p>
+                                        <h3 class="card-title">Progress</h3>
+                                        <p>{{ $status[auth()->user()->student->lecturers()->wherePivot('order',1)->first()->pivot->progress-1] }}</p>
+                                        @if(auth()->user()->student->lecturers()->wherePivot('order',1)->first()->pivot->progress>=3)
+                                            <a href="{{ auth()->user()->student->file->letter_2 }}" target="_blank" class="cyan accent-4 btn-large">Download Surat Tugas</a>
+                                        @else
+                                            <a href="javascript:void(0);" class="red accent-4 btn-large deletereq1" student-id="{{ auth()->user()->student->id }}" lecturer-id="{{ auth()->user()->student->lecturers()->wherePivot('order',1)->first()->id }}">Hapus Dosen Pembimbing</a>
+                                        @endif
                                     @endif
-                                @endif
+                                </div>
+                            </div>
+                            <div class="col s12 l8 b-l">
+                                <div class="card-content">
+                                    <h5 class="card-title">Form Pemilihan Dosen Pembimbing 1</h5>
+                                    <div class="divider"></div><br>
+                                    {!! Form::open(['url' => '/postsupervisor/1','class'=>'formValidate','id'=>'formValidate']) !!}
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <i class="material-icons prefix">account_circle</i>
+                                            @if(auth()->user()->student->lecturers()->wherePivot('order',1)->first()==NULL)
+                                                {{ Form::select('lecturer_id', $lecturer) }}
+                                            @else
+                                                {{ Form::select('lecturer_id', $lecturer, auth()->user()->student->lecturers()->wherePivot('order',1)->first()->id) }}
+                                            @endif
+                                            <label for="lecturer_id">Pilih Dosen Pembimbing 1</label>
+                                            <div class="errorTxt1"></div>
+                                        </div>
+                                    </div>
+                                    <div class="divider"></div>
+                                    <div class="form-action right-align">
+                                        <br>
+                                        <button class="btn cyan waves-effect waves-light submit" type="submit" name="action">Kirim</button>
+                                        <a class="btn waves-effect waves-light grey darken-4" href="/student/dashboard/student_profile" name="action">Batal
+                                        </a>
+                                    </div>
+                                    {!! Form::close() !!}
+                                </div>
                             </div>
                         </div>
-                        <div class="col s12 l8 b-l">
-                            <div class="card-content">
-                                <h5 class="card-title">Form Pemilihan Dosen Pembimbing 1</h5>
-                                <div class="divider"></div><br>
-                                {!! Form::open(['url' => '/postsupervisor/1','class'=>'formValidate','id'=>'formValidate']) !!}
-                                <div class="row">
-                                    <div class="input-field col s12">
-                                        <i class="material-icons prefix">account_circle</i>
-                                        @if(auth()->user()->student->lecturers()->wherePivot('order',1)->first()==NULL)
-                                            {{ Form::select('lecturer_id', $lecturer) }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col s12 l4">
+                                <div class="card-content">
+                                    <h5 class="card-title">Dosen Pembimbing 2</h5>
+                                    @if(auth()->user()->student->lecturers()->wherePivot('order',2)->first()==NULL)
+                                        <p>Belum Memilih Dosen</p>
+                                        <h3 class="card-title">Progress</h3>
+                                        <p>Belum Mengajukan Dosen Pembimbing</p>
+                                    @else
+                                        <p>{{ auth()->user()->student->lecturers()->wherePivot('order',2)->first()->first_name.' '.auth()->user()->student->lecturers()->wherePivot('order',2)->first()->last_name }}</p>
+                                        <h3 class="card-title">Progress</h3>
+                                        <p>{{ $status[auth()->user()->student->lecturers()->wherePivot('order',2)->first()->pivot->progress-1] }}</p>
+                                        @if(auth()->user()->student->lecturers()->wherePivot('order',2)->first()->pivot->progress>=3)
+                                            <a href="{{ auth()->user()->student->file->letter_2 }}" target="_blank" class="cyan accent-4 btn-large">Download Surat Tugas</a>
                                         @else
-                                            {{ Form::select('lecturer_id', $lecturer, auth()->user()->student->lecturers()->wherePivot('order',1)->first()->id) }}
+                                            <a href="javascript:void(0);" class="red accent-4 btn-large deletereq2" student-id="{{ auth()->user()->student->id }}" lecturer-id="{{ auth()->user()->student->lecturers()->wherePivot('order',2)->first()->id }}">Hapus Dosen Pembimbing</a>
                                         @endif
-                                        <label for="lecturer_id">Pilih Dosen Pembimbing 1</label>
-                                        <div class="errorTxt1"></div>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col s12 l8 b-l">
+                                <div class="card-content">
+                                    <h5 class="card-title">Form Pemilihan Dosen Pembimbing 2</h5>
+                                    <div class="divider"></div><br>
+                                    {!! Form::open(['url' => '/postsupervisor/2','class'=>'formValidate','id'=>'formValidate2']) !!}
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <i class="material-icons prefix">account_circle</i>
+                                            @if(auth()->user()->student->lecturers()->wherePivot('order',2)->first()==NULL)
+                                                {{ Form::select('lecturer_id', $lecturer_2) }}
+                                            @else
+                                                {{ Form::select('lecturer_id', $lecturer_2, auth()->user()->student->lecturers()->wherePivot('order',2)->first()->id) }}
+                                            @endif
+                                            <label for="lecturer_id">Pilih Dosen Pembimbing 2</label>
+                                            <div class="errorTxt2"></div>
+                                        </div>
                                     </div>
+                                    <div class="divider"></div>
+                                    <div class="form-action right-align">
+                                        <br>
+                                        <button class="btn cyan waves-effect waves-light submit" type="submit" name="action">Kirim</button>
+                                        <a class="btn waves-effect waves-light grey darken-4" href="/student/dashboard/student_profile" name="action">Batal
+                                        </a>
+                                    </div>
+                                    {!! Form::close() !!}
                                 </div>
-                                <div class="divider"></div>
-                                <div class="form-action right-align">
-                                    <br>
-                                    <button class="btn cyan waves-effect waves-light submit" type="submit" name="action">Kirim</button>
-                                    <a class="btn waves-effect waves-light grey darken-4" href="/student/dashboard/student_profile" name="action">Batal
-                                    </a>
-                                </div>
-                                {!! Form::close() !!}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col s12">
-                <div class="card">
-                    <div class="row">
-                        <div class="col s12 l4">
-                            <div class="card-content">
-                                <h5 class="card-title">Dosen Pembimbing 2</h5>
-                                @if(auth()->user()->student->lecturers()->wherePivot('order',2)->first()==NULL)
-                                    <p>Belum Memilih Dosen</p>
-                                    <h3 class="card-title">Progress</h3>
-                                    <p>Belum Mengajukan Dosen Pembimbing</p>
-                                @else
-                                    <p>{{ auth()->user()->student->lecturers()->wherePivot('order',2)->first()->first_name.' '.auth()->user()->student->lecturers()->wherePivot('order',2)->first()->last_name }}</p>
-                                    <h3 class="card-title">Progress</h3>
-                                    <p>{{ $status[auth()->user()->student->lecturers()->wherePivot('order',2)->first()->pivot->progress-1] }}</p>
-                                    @if(auth()->user()->student->lecturers()->wherePivot('order',2)->first()->pivot->progress>=4)
-                                        <a href="{{ auth()->user()->student->file->letter_2 }}" target="_blank" class="cyan accent-4 btn-large">Download Surat Tugas</a>
-                                    @else
-                                        <a href="javascript:void(0);" class="red accent-4 btn-large deletereq2" student-id="{{ auth()->user()->student->id }}" lecturer-id="{{ auth()->user()->student->lecturers()->wherePivot('order',2)->first()->id }}">Hapus Dosen Pembimbing</a>
-                                    @endif
-                                @endif
-                            </div>
-                        </div>
-                        <div class="col s12 l8 b-l">
-                            <div class="card-content">
-                                <h5 class="card-title">Form Pemilihan Dosen Pembimbing 2</h5>
-                                <div class="divider"></div><br>
-                                {!! Form::open(['url' => '/postsupervisor/2','class'=>'formValidate','id'=>'formValidate2']) !!}
-                                <div class="row">
-                                    <div class="input-field col s12">
-                                        <i class="material-icons prefix">account_circle</i>
-                                        @if(auth()->user()->student->lecturers()->wherePivot('order',2)->first()==NULL)
-                                            {{ Form::select('lecturer_id', $lecturer) }}
-                                        @else
-                                            {{ Form::select('lecturer_id', $lecturer, auth()->user()->student->lecturers()->wherePivot('order',2)->first()->id) }}
-                                        @endif
-                                        <label for="lecturer_id">Pilih Dosen Pembimbing 2</label>
-                                        <div class="errorTxt2"></div>
-                                    </div>
-                                </div>
-                                <div class="divider"></div>
-                                <div class="form-action right-align">
-                                    <br>
-                                    <button class="btn cyan waves-effect waves-light submit" type="submit" name="action">Kirim</button>
-                                    <a class="btn waves-effect waves-light grey darken-4" href="/student/dashboard/student_profile" name="action">Batal
-                                    </a>
-                                </div>
-                                {!! Form::close() !!}
-                            </div>
+        @else
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col s12">
+                    <div class="card">
+                        <div class="card-content">
+                            <h3 class="card-title">Menunggu Persetujuan Dokumen</h3>
+                            <p>Dokumen belum disetujui oleh kepala program studi, silakan lakukan pengecekan status secara berkala.</p>
+                            <a href="/student/dashboard/proposal_submission" class="waves-effect waves-light btn indigo">Perbaharui Dokumen</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+        @endif
     @else
     <div class="container-fluid">
         <div class="row">

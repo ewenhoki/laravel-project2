@@ -50,15 +50,23 @@ Route::group(['middleware' => ['auth','verified','checkrole:Super Admin']], func
     Route::get('/super_admin/dashboard/request', 'SuperAdminController@requestSupervisor');
     Route::get('/request/accept/{student}/{id_lecturer}', 'SuperAdminController@acceptRequest');
     Route::get('/request/reject/{student}/{id_lecturer}', 'SuperAdminController@rejectRequest');
+    Route::get('/super_admin/dashboard/documents', 'SuperAdminController@documents');
+    Route::get('/documents/reject/{file}', 'SuperAdminController@destroyDocuments');
+});
+
+Route::group(['middleware' => ['auth','verified','checkrole:Super Admin,Admin']], function(){
+    Route::get('/request/upload/{student}', 'AdminController@upload');
+    Route::post('/postuploadletter1/{student}', 'SuperAdminController@postUpload1');
+    Route::post('/postuploadletter2/{student}', 'AdminController@postUpload2');
 });
 
 Route::group(['middleware' => ['auth','verified','checkrole:Admin']], function(){
     Route::get('/admin/dashboard/admin_profile', 'AdminController@profile');
     Route::post('/postadminliteprofile', 'AdminController@update');
     Route::get('/admin/dashboard/request', 'AdminController@requestSupervisor');
-    Route::get('/request/upload/{student}', 'AdminController@upload');
-    Route::post('/postuploadletter1/{student}', 'AdminController@postUpload1');
-    Route::post('/postuploadletter2/{student}', 'AdminController@postUpload2');
+    // Route::get('/request/upload/{student}', 'AdminController@upload');
+    // Route::post('/postuploadletter1/{student}', 'AdminController@postUpload1');
+    // Route::post('/postuploadletter2/{student}', 'AdminController@postUpload2');
 });
 
 Route::group(['middleware' => ['auth','verified','checkrole:Student']], function(){

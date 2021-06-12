@@ -15,6 +15,9 @@
                     <a href="/super_admin/dashboard/lecturers" class="collapsible-header"><i class="material-icons">account_circle</i><span class="hide-menu"> Dosen </span></a>
                 </li>
                 <li>
+                    <a href="/super_admin/dashboard/documents" class="collapsible-header"><i class="material-icons">verified_user</i><span class="hide-menu"> Persetujuan Dokumen </span></a>
+                </li>
+                <li>
                     <a href="/super_admin/dashboard/request" class="collapsible-header"><i class="material-icons">collections_bookmark</i><span class="hide-menu"> Pengajuan Pembimbing </span></a>
                 </li>
                 <li>
