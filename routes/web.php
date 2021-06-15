@@ -52,6 +52,7 @@ Route::group(['middleware' => ['auth','verified','checkrole:Super Admin']], func
     Route::get('/request/reject/{student}/{id_lecturer}', 'SuperAdminController@rejectRequest');
     Route::get('/super_admin/dashboard/documents', 'SuperAdminController@documents');
     Route::get('/documents/reject/{file}', 'SuperAdminController@destroyDocuments');
+    Route::post('/slot/update', 'SuperAdminController@slotUpdate');
 });
 
 Route::group(['middleware' => ['auth','verified','checkrole:Super Admin,Admin']], function(){

@@ -220,4 +220,11 @@ class SuperAdminController extends Controller
         $file->delete();
         return redirect('/super_admin/dashboard/documents')->with('deleted','success');
     }
+
+    public function slotUpdate(Request $request){
+        $lecturer = Lecturer::find($request->id);
+        $lecturer->slot = $request->slot;
+        $lecturer->save();
+        return redirect('/super_admin/dashboard/lecturers')->with('edited','success');
+    }
 }

@@ -52,8 +52,11 @@
                                     <td>{{ $lecturer->students()->wherePivot('order',2)->count() }}</td>
                                     <td>{{ $lecturer->slot }}</td>
                                     <td>
-                                        <a href="#" class="waves-effect waves-light btn red deletelecturer" lecturer-id="{{ $lecturer->id }}" lecturer-name="{{ $lecturer->first_name }} {{ $lecturer->last_name }}">
+                                        <a href="javascript:void(0);" class="waves-effect waves-light btn red deletelecturer" lecturer-id="{{ $lecturer->id }}" lecturer-name="{{ $lecturer->user->name }}">
                                             <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                        <a href="#modal1" class="waves-effect waves-light btn blue modal-trigger modal-edit" lecturer-id="{{ $lecturer->id }}" lecturer-name="{{ $lecturer->user->name }}" lecturer-slot="{{ $lecturer->slot }}">
+                                            <i class="fas fa-edit"></i>
                                         </a>
                                     </td>
                                 </tr>
@@ -73,6 +76,33 @@
                                 </tr>
                             </tfoot>
                         </table>
+                        <div id="modal1" class="modal">
+                            <div class="modal-content">
+                                <h4>Ubah Jumlah Slot Tersedia</h4>
+                                <p>Ubah slot pembimbing 1 yang tersedia untuk dosen terkait.</p>
+                                {!! Form::open(['url' => '/slot/update']) !!}
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <i class="material-icons prefix">account_circle</i>
+                                            {!! Form::text('name', '', ['placeholder'=>'Nama Dosen','id'=>'lecturer_name','readonly']) !!}
+                                            {{-- <input id="lecturer_name" type="text" value="" placeholder="Nama Dosen" readonly> --}}
+                                            <label for="lecturer_name">Nama Dosen</label>
+                                        </div>
+                                    </div>
+                                    {{-- <input id="lecturer_id" type="hidden" value=""/> --}}
+                                    {!! Form::hidden('id', '', ['id'=>'lecturer_id']) !!}
+                                    <p>Geser Slider untuk Merubah Jumlah Slot Tersedia</p>
+                                    <p class="range-field">
+                                        {!! Form::range('slot', '', ['id'=>'slot','min'=>'0','max'=>'10']) !!}
+                                        {{-- <input type="range" id="slot" name="slot" min="0" max="10" value=""/> --}}
+                                    </p>          
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="javascript:void(0);" class="modal-action modal-close waves-effect waves-red btn-flat ">Tutup</a>
+                                    <button class="modal-action modal-close waves-effect waves-red btn-flat" type="submit" name="action">Kirim</button>
+                                </div>
+                                {!! Form::close() !!}                
+                        </div>
                     </div>
                 </div>
             </div>
@@ -105,6 +135,14 @@
                 }
             });
         });
+        $(document).on("click", ".modal-edit", function () {
+            var slot = $(this).attr('lecturer-slot');
+            var id = $(this).attr('lecturer-id');
+            var name = $(this).attr('lecturer-name');
+            $(".modal-content #slot").val( slot );
+            $(".modal-content #lecturer_id").val( id );
+            $(".modal-content #lecturer_name").val( name ); 
+        });
         $('#lecturer').DataTable();
     </script>
     @if (session('success'))
@@ -115,6 +153,11 @@
     @if (session('created'))
         <script>
             toastr.success('Tambah User Dosen Berhasil !',{ positionClass: 'toast-top-full-width', containerId: 'toast-top-full-width' });
+        </script>
+    @endif
+    @if (session('edited'))
+        <script>
+            toastr.success('Ubah Jumlah Slot Berhasil !',{ positionClass: 'toast-top-full-width', containerId: 'toast-top-full-width' });
         </script>
     @endif
 @endsection
