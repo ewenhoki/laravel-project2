@@ -10,6 +10,7 @@ use App\Student;
 use App\User;
 use App\File;
 use App\lecturer;
+use App\Attendance;
 
 class StudentController extends Controller
 {
@@ -189,5 +190,54 @@ class StudentController extends Controller
         }
         auth()->user()->student->lecturers()->detach($lecturer_id);
         return redirect('/add/supervisor')->with('deleted','success');
+    }
+
+    public function attendance(){
+        if(auth()->user()->student->lecturers()->wherePivot('order',1)->first()){
+            $id_supervisor_1 = auth()->user()->student->lecturers()->wherePivot('order',1)->first()->id;
+            $attendance_1 = Attendance::where('lecturer_id',$id_supervisor_1)->where('student_id',auth()->user()->student->id)->get();
+        }
+        else{
+            $attendance_1 = NULL;
+        }
+        if(auth()->user()->student->lecturers()->wherePivot('order',2)->first()){
+            $id_supervisor_2 = auth()->user()->student->lecturers()->wherePivot('order',2)->first()->id;
+            $attendance_2 = Attendance::where('lecturer_id',$id_supervisor_2)->where('student_id',auth()->user()->student->id)->get();
+        }
+        else{
+            $attendance_2 = NULL;
+        }
+        return view('dashboards.student.attendance', compact(['attendance_1','attendance_2']));
+    }
+
+    public function newAttendance(Request $request){
+        $modtime = $request->date_time.':00';
+        $request->merge(['date_time' => $modtime]);
+        $request->request->add([
+            'student_id'=>auth()->user()->student->id,
+            'confirm_lecturer'=>0,
+            'confirm_student'=>1,
+        ]);
+        $attendance = Attendance::create($request->all());
+        return redirect('/student/dashboard/attendance')->with('created','success');
+    }
+
+    public function attend(Attendance $attendance){
+        $attendance->confirm_student = 1;
+        $attendance->save();
+        return redirect('/student/dashboard/attendance')->with('attend','success');
+    }
+
+    public function editAttendance(Request $request){
+        $attendance = Attendance::find($request->id);
+        $modtime = $request->date_time.':00';
+        $request->merge(['date_time' => $modtime]);
+        $attendance->update($request->all());
+        return redirect('/student/dashboard/attendance')->with('updated','success');
+    }
+
+    public function destroyAttendance(Attendance $attendance){
+        $attendance->delete();
+        return redirect('/student/dashboard/attendance')->with('deleted','success');
     }
 }

@@ -80,6 +80,11 @@ Route::group(['middleware' => ['auth','verified','checkrole:Student']], function
     Route::post('/postsupervisor/1', 'StudentController@postSupervisor1');
     Route::post('/postsupervisor/2', 'StudentController@postSupervisor2');
     Route::get('/request/cancel/{student}/{lecturer_id}', 'StudentController@cancelSupervisor');
+    Route::get('/student/dashboard/attendance', 'StudentController@attendance');
+    Route::post('/student/new_attendance', 'StudentController@newAttendance');
+    Route::get('/student/attend/{attendance}', 'StudentController@attend');
+    Route::post('/student/edit_attendance', 'StudentController@editAttendance');
+    Route::get('/student/delete_attendance/{attendance}', 'StudentController@destroyAttendance');
 });
 
 Route::group(['middleware' => ['auth','verified','checkrole:Lecturer']], function(){
@@ -88,4 +93,10 @@ Route::group(['middleware' => ['auth','verified','checkrole:Lecturer']], functio
     Route::get('/lecturer/dashboard/student_request', 'LecturerController@studentRequest');
     Route::get('/request/accept_by_lecturer/{student}', 'LecturerController@studentAccept');
     Route::get('/request/reject_by_lecturer/{student}', 'LecturerController@studentReject');
+    Route::get('/lecturer/dashboard/attendance', 'LecturerController@attendance');
+    Route::get('/lecturer/student_attendance/{student}', 'LecturerController@studentAttendance');
+    Route::post('/lecturer/new_attendance', 'LecturerController@newAttendance');
+    Route::get('/lecturer/attend/{attendance}', 'LecturerController@attend');
+    Route::post('/lecturer/edit_attendance', 'LecturerController@editAttendance');
+    Route::get('/lecturer/delete_attendance/{attendance}', 'LecturerController@destroyAttendance');
 });

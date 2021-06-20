@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use App\lecturer;
 use App\Student;
 use App\User;
+use App\Attendance;
 
 class LecturerController extends Controller
 {
@@ -96,5 +97,46 @@ class LecturerController extends Controller
         }
         auth()->user()->lecturer->students()->detach($student->id);
         return redirect('/lecturer/dashboard/student_request')->with('rejected','fail');
+    }
+
+    public function attendance(){
+        $students = auth()->user()->lecturer->students()->get();
+        return view('dashboards.lecturer.attendance',compact(['students']));
+    }
+
+    public function studentAttendance(Student $student){
+        $attendance = Attendance::where('lecturer_id',auth()->user()->lecturer->id)->where('student_id',$student->id)->get();
+        return view('dashboards.lecturer.attendance_detail',compact(['attendance','student']));
+    }
+
+    public function newAttendance(Request $request){
+        $modtime = $request->date_time.':00';
+        $request->merge(['date_time' => $modtime]);
+        $request->request->add([
+            'lecturer_id'=>auth()->user()->lecturer->id,
+            'confirm_lecturer'=>1,
+            'confirm_student'=>0,
+        ]);
+        $attendance = Attendance::create($request->all());
+        return redirect('/lecturer/student_attendance/'.$request->student_id)->with('created','success');
+    }
+
+    public function attend(Attendance $attendance){
+        $attendance->confirm_lecturer = 1;
+        $attendance->save();
+        return redirect('/lecturer/student_attendance/'.$attendance->student->id)->with('attend','success');
+    }
+
+    public function editAttendance(Request $request){
+        $attendance = Attendance::find($request->id);
+        $modtime = $request->date_time.':00';
+        $request->merge(['date_time' => $modtime]);
+        $attendance->update($request->all());
+        return redirect('/lecturer/student_attendance/'.$attendance->student->id)->with('updated','success');
+    }
+
+    public function destroyAttendance(Attendance $attendance){
+        $attendance->delete();
+        return redirect('/lecturer/student_attendance/'.$attendance->student->id)->with('deleted','success');
     }
 }

@@ -177,9 +177,10 @@
     <!-- This page plugin js -->
     <!-- ============================================================== -->
     {{-- <script src="{{asset('admin/assets/libs/chartist/dist/chartist.min.js')}}"></script>
-    <script src="{{asset('admin/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js')}}"></script> --}}
+    <script src="{{asset('admin/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.js')}}"></script>
+    <script src="{{asset('admin/assets/libs/chartist/dist/chartist.min.js.map')}}"></script> --}}
     <script src="{{asset('admin/assets/extra-libs/sparkline/sparkline.js')}}"></script>
-    <script src="{{asset('admin/dist/js/pages/dashboards/dashboard1.js')}}"></script>
+    {{-- <script src="{{asset('admin/dist/js/pages/dashboards/dashboard1.js')}}"></script> --}}
     @yield('footer')
 </body>
 

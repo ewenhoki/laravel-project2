@@ -29,6 +29,7 @@
                                     <th>Nama Mahasiswa</th>
                                     <th>Sebagai Pembimbing ke-</th>
                                     <th>Status</th>
+                                    <th>Judul</th>
                                     <th>Dokumen</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -41,6 +42,7 @@
                                     <td>{{ $student->user->name }}</td>
                                     <td>{{ $student->lecturers()->where('lecturers.id',auth()->user()->lecturer->id)->first()->pivot->order }}</td>
                                     <td><i class="fa fa-circle {{ $tooltip[$student->lecturers()->where('lecturers.id',auth()->user()->lecturer->id)->first()->pivot->progress-1] }}-text tooltipped" data-tooltip="{{ $status[$student->lecturers()->where('lecturers.id',auth()->user()->lecturer->id)->first()->pivot->progress-1] }}"></i></td>
+                                    <td>{{ $student->file->title }}</td>
                                     <td>
                                         <a href="{{ $student->file->krs }}" class="waves-effect waves-light btn deep-purple darken-3" target="_blank">KRS</a>
                                         <a href="{{ $student->file->kss }}" class="waves-effect waves-light btn indigo indigo darken-1" target="_blank">KSS</a>
@@ -67,6 +69,7 @@
                                     <th>Nama Mahasiswa</th>
                                     <th>Sebagai Pembimbing ke-</th>
                                     <th>Status</th>
+                                    <th>Judul</th>
                                     <th>Dokumen</th>
                                     <th>Aksi</th>
                                 </tr>

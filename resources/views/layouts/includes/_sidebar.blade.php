@@ -39,6 +39,9 @@
                 <li>
                     <a href="/lecturer/dashboard/student_request" class="collapsible-header"><i class="material-icons">collections_bookmark</i><span class="hide-menu"> Pengajuan oleh Mahasiswa </span></a>
                 </li>
+                <li>
+                    <a href="/lecturer/dashboard/attendance" class="collapsible-header"><i class="material-icons">event_available</i><span class="hide-menu"> Absensi Bimbingan </span></a>
+                </li>
                 @endif
                 @if(auth()->user()->role == 'Student')
                 <li>
@@ -49,6 +52,9 @@
                 </li>
                 <li>
                     <a href="/add/supervisor" class="collapsible-header"><i class="material-icons">account_circle</i><span class="hide-menu"> Dosen Pembimbing </span></a>
+                </li>
+                <li>
+                    <a href="/student/dashboard/attendance" class="collapsible-header"><i class="material-icons">event_available</i><span class="hide-menu"> Absensi Bimbingan </span></a>
                 </li>
                 @endif
                 <li>
