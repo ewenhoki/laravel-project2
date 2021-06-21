@@ -85,6 +85,7 @@ Route::group(['middleware' => ['auth','verified','checkrole:Student']], function
     Route::get('/student/attend/{attendance}', 'StudentController@attend');
     Route::post('/student/edit_attendance', 'StudentController@editAttendance');
     Route::get('/student/delete_attendance/{attendance}', 'StudentController@destroyAttendance');
+    Route::get('/student/attendance/export', 'StudentController@exportPdf');
 });
 
 Route::group(['middleware' => ['auth','verified','checkrole:Lecturer']], function(){

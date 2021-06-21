@@ -47,6 +47,9 @@
                                             <a href="#modal1" class="waves-effect waves-light btn indigo modal-trigger modal-edit1" lecturer-id="{{ auth()->user()->student->lecturers()->wherePivot('order',1)->first()->id }}" lecturer-name="{{ auth()->user()->student->lecturers()->wherePivot('order',1)->first()->user->name }}">
                                                 Tambah Absensi Baru
                                             </a>
+                                            <a href="/student/attendance/export" class="waves-effect waves-light btn cyan">
+                                                Export PDF
+                                            </a>
                                         </div>
                                     </div>
                                     <hr>

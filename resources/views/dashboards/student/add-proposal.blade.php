@@ -257,4 +257,14 @@
             });
         });
     </script>
+     @if (session('uploaded'))
+     <script>
+         toastr.success('Upload Data Berhasil !',{ positionClass: 'toast-top-full-width', containerId: 'toast-top-full-width' });
+     </script>
+     @endif
+     @if (session('updated'))
+     <script>
+         toastr.success('Perbaharui Data Berhasil !',{ positionClass: 'toast-top-full-width', containerId: 'toast-top-full-width' });
+     </script>
+     @endif
 @endsection

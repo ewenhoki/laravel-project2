@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Student;
 use App\User;
+use App\Lecturer;
 
 class UserController extends Controller
 {
@@ -13,13 +14,20 @@ class UserController extends Controller
         // $user = User::find($id);
         if($user->role=='Lecturer'){
             $user->lecturer->students()->detach();
+            $user->lecturer->attendances()->delete();
             $user->lecturer->delete();
         }
         else if($user->role=='Student'){
-            $user->student->lecturers()->detach();
             if($user->student->file!=NULL){
                 $user->student->file->delete();
             }
+            if($user->student->lecturers()->wherePivot('order',1)->first()){
+                $lecturer = Lecturer::find($user->student->lecturers()->wherePivot('order',1)->first()->id);
+                $lecturer->slot++;
+                $lecturer->save();
+            }
+            $user->student->lecturers()->detach();
+            $user->student->attendances()->delete();
             $user->student->delete();
         }
         $user->delete();

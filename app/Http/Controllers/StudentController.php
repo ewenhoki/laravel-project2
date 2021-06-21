@@ -11,6 +11,7 @@ use App\User;
 use App\File;
 use App\lecturer;
 use App\Attendance;
+use PDF;
 
 class StudentController extends Controller
 {
@@ -36,6 +37,7 @@ class StudentController extends Controller
             $lecturer->save();
         }
         $student->lecturers()->detach();
+        $student->attendances()->delete();
         $student->delete();
         return redirect('/super_admin/dashboard/students')->with('success','Delete Success');
     }
@@ -82,12 +84,12 @@ class StudentController extends Controller
         $file->paper = $request->paper;
         $file->upload_date = Carbon::now()->toDateTimeString();
         $file->save();
-        return redirect('/student/dashboard/proposal_submission');
+        return redirect('/student/dashboard/proposal_submission')->with('uploaded','success');
     }
 
     public function updateProposal(File $file,Request $request){
         $file->update($request->all());
-        return redirect('/student/dashboard/proposal_submission');
+        return redirect('/student/dashboard/proposal_submission')->with('updated','success');
     }
 
     public function addSupervisor(){
@@ -239,5 +241,14 @@ class StudentController extends Controller
     public function destroyAttendance(Attendance $attendance){
         $attendance->delete();
         return redirect('/student/dashboard/attendance')->with('deleted','success');
+    }
+
+    public function exportPdf(){
+        $id_supervisor_1 = auth()->user()->student->lecturers()->wherePivot('order',1)->first()->id;
+        $lecturer = Lecturer::find($id_supervisor_1);
+        $date = Carbon::now();
+        $attendance_1 = Attendance::where('lecturer_id',$id_supervisor_1)->where('student_id',auth()->user()->student->id)->get();
+        $pdf = PDF::loadView('export.attendance', ['attendance'=>$attendance_1,'lecturer'=>$lecturer,'date'=>$date]);
+        return $pdf->download('Absensi Bimbingan.pdf');
     }
 }
