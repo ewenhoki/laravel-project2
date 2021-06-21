@@ -33,7 +33,7 @@ class SuperAdminController extends Controller
     }
     
     public function documents(){
-        $files = File::orderBy('letter_1','ASC')->get();
+        $files = File::orderBy('letter_1','DESC')->get();
         // $files = File::where('letter_1','!=',NULL)->get();
         return view('dashboards.super_admin.documents',compact(['files']));
     }
