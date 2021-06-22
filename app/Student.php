@@ -23,4 +23,8 @@ class Student extends Model
     public function attendances(){
         return $this->hasMany(Attendance::class);
     }
+
+    public function seminar(){
+        return $this->hasOne(Seminar::class);
+    }
 }

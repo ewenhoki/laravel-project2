@@ -11,6 +11,7 @@ use App\Student;
 use App\User;
 use App\lecturer;
 use App\File;
+use App\Seminar;
 
 class SuperAdminController extends Controller
 {
@@ -226,5 +227,33 @@ class SuperAdminController extends Controller
         $lecturer->slot = $request->slot;
         $lecturer->save();
         return redirect('/super_admin/dashboard/lecturers')->with('edited','success');
+    }
+
+    public function seminar(){
+        $seminars = Seminar::orderBy('confirm','ASC')->get();
+        return view('dashboards.super_admin.seminar',compact(['seminars']));
+    }
+
+    public function seminarInfo(Seminar $seminar){
+        return view('dashboards.super_admin.seminar-info',compact(['seminar']));
+    }
+
+    public function acceptSeminar(Seminar $seminar){
+        $seminar->confirm = 1;
+        $seminar->save();
+        return redirect('/seminar/info/'.$seminar->id)->with('accepted','success');
+    }
+
+    public function rejectSeminar(Seminar $seminar){
+        $seminar->seminarfiles()->delete();
+        $seminar->delete();
+        return redirect('/super_admin/dashboard/seminar')->with('deleted','success');
+    }
+
+    public function editSeminar(Request $request){
+        $seminar = Seminar::find($request->id);
+        $seminar->date_time = $request->date_time.':00';
+        $seminar->save();
+        return redirect('/seminar/info/'.$request->id)->with('updated','success');
     }
 }

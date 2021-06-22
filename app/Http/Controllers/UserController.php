@@ -26,6 +26,12 @@ class UserController extends Controller
                 $lecturer->slot++;
                 $lecturer->save();
             }
+            if($user->student->seminar){
+                if($user->student->seminar->seminarfiles()){
+                    $user->student->seminar->seminarfiles()->delete();
+                }
+                $user->student->seminar->delete();
+            }
             $user->student->lecturers()->detach();
             $user->student->attendances()->delete();
             $user->student->delete();

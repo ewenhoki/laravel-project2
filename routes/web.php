@@ -53,6 +53,11 @@ Route::group(['middleware' => ['auth','verified','checkrole:Super Admin']], func
     Route::get('/super_admin/dashboard/documents', 'SuperAdminController@documents');
     Route::get('/documents/reject/{file}', 'SuperAdminController@destroyDocuments');
     Route::post('/slot/update', 'SuperAdminController@slotUpdate');
+    Route::get('/super_admin/dashboard/seminar', 'SuperAdminController@seminar');
+    Route::get('/seminar/info/{seminar}', 'SuperAdminController@seminarInfo');
+    Route::get('/seminar/accept/{seminar}', 'SuperAdminController@acceptSeminar');
+    Route::get('/seminar/reject/{seminar}', 'SuperAdminController@rejectSeminar');
+    Route::post('/seminar/edit_time', 'SuperAdminController@editSeminar');
 });
 
 Route::group(['middleware' => ['auth','verified','checkrole:Super Admin,Admin']], function(){
@@ -85,7 +90,12 @@ Route::group(['middleware' => ['auth','verified','checkrole:Student']], function
     Route::get('/student/attend/{attendance}', 'StudentController@attend');
     Route::post('/student/edit_attendance', 'StudentController@editAttendance');
     Route::get('/student/delete_attendance/{attendance}', 'StudentController@destroyAttendance');
-    Route::get('/student/attendance/export', 'StudentController@exportPdf');
+    Route::get('/student/attendance/export1', 'StudentController@exportPdf1');
+    Route::get('/student/attendance/export2', 'StudentController@exportPdf2');
+    Route::get('/student/dashboard/seminar', 'StudentController@seminar');
+    Route::post('/student/addSeminar', 'StudentController@addSeminar');
+    Route::post('/seminar/document/upload', 'StudentController@addDocument');
+    Route::get('/seminar/document/delete/{seminarfile}', 'StudentController@destroyDocument');
 });
 
 Route::group(['middleware' => ['auth','verified','checkrole:Lecturer']], function(){
@@ -100,4 +110,6 @@ Route::group(['middleware' => ['auth','verified','checkrole:Lecturer']], functio
     Route::get('/lecturer/attend/{attendance}', 'LecturerController@attend');
     Route::post('/lecturer/edit_attendance', 'LecturerController@editAttendance');
     Route::get('/lecturer/delete_attendance/{attendance}', 'LecturerController@destroyAttendance');
+    Route::get('/lecturer/dashboard/seminar', 'LecturerController@seminar');
+    Route::get('/seminar/detail/{seminar}', 'LecturerController@seminarInfo');
 });

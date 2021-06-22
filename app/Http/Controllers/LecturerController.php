@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use App\lecturer;
 use App\Student;
 use App\User;
+use App\Seminar;
 use App\Attendance;
 
 class LecturerController extends Controller
@@ -139,5 +140,14 @@ class LecturerController extends Controller
     public function destroyAttendance(Attendance $attendance){
         $attendance->delete();
         return redirect('/lecturer/student_attendance/'.$attendance->student->id)->with('deleted','success');
+    }
+
+    public function seminar(){
+        $students = auth()->user()->lecturer->students()->wherePivot('progress','>=',3)->get();
+        return view('dashboards.lecturer.seminar',compact(['students']));
+    }
+
+    public function seminarInfo(Seminar $seminar){
+        return view('dashboards.lecturer.seminar-info',compact(['seminar']));
     }
 }

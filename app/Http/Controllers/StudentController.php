@@ -11,6 +11,8 @@ use App\User;
 use App\File;
 use App\lecturer;
 use App\Attendance;
+use App\Seminar;
+use App\Seminarfile;
 use PDF;
 
 class StudentController extends Controller
@@ -35,6 +37,12 @@ class StudentController extends Controller
             $lecturer = Lecturer::find($student->lecturers()->wherePivot('order',1)->first()->id);
             $lecturer->slot++;
             $lecturer->save();
+        }
+        if($student->seminar){
+            if($student->seminar->seminarfiles()){
+                $student->seminar->seminarfiles()->delete();
+            }
+            $student->seminar->delete();
         }
         $student->lecturers()->detach();
         $student->attendances()->delete();
@@ -243,12 +251,55 @@ class StudentController extends Controller
         return redirect('/student/dashboard/attendance')->with('deleted','success');
     }
 
-    public function exportPdf(){
+    public function exportPdf1(){
         $id_supervisor_1 = auth()->user()->student->lecturers()->wherePivot('order',1)->first()->id;
         $lecturer = Lecturer::find($id_supervisor_1);
         $date = Carbon::now();
         $attendance_1 = Attendance::where('lecturer_id',$id_supervisor_1)->where('student_id',auth()->user()->student->id)->get();
         $pdf = PDF::loadView('export.attendance', ['attendance'=>$attendance_1,'lecturer'=>$lecturer,'date'=>$date]);
         return $pdf->download('Absensi Bimbingan.pdf');
+    }
+
+    public function exportPdf2(){
+        $id_supervisor_2 = auth()->user()->student->lecturers()->wherePivot('order',2)->first()->id;
+        $lecturer = Lecturer::find($id_supervisor_2);
+        $date = Carbon::now();
+        $attendance_1 = Attendance::where('lecturer_id',$id_supervisor_2)->where('student_id',auth()->user()->student->id)->get();
+        $pdf = PDF::loadView('export.attendance', ['attendance'=>$attendance_1,'lecturer'=>$lecturer,'date'=>$date]);
+        return $pdf->download('Absensi Bimbingan.pdf');
+    }
+
+    public function seminar(){
+        if(auth()->user()->student->seminar){
+        $seminarfile = Seminarfile::where('seminar_id',auth()->user()->student->seminar->id)->get();
+        }
+        else{
+            $seminarfile = NULL;
+        }
+        return view('dashboards.student.seminar',compact(['seminarfile']));
+    }
+
+    public function addSeminar(Request $request){
+        $modtime = $request->date_time.':00';
+        $request->merge(['date_time' => $modtime]);
+        $request->request->add([
+            'student_id'=>auth()->user()->student->id,
+            'confirm'=>0,
+        ]);
+        $seminar = Seminar::create($request->all());
+        return redirect('/student/dashboard/seminar')->with('request','success');
+    }
+
+    public function addDocument(Request $request){
+        $request->request->add([
+            'seminar_id'=>auth()->user()->student->seminar->id,
+        ]);
+        $seminarfile = Seminarfile::create($request->all());
+        return redirect('/student/dashboard/seminar')->with('uploaded','success');
+    }
+
+    public function destroyDocument(Seminarfile $seminarfile){
+        $seminarfile->delete();
+        return redirect('/student/dashboard/seminar')->with('deleted','success');
     }
 }

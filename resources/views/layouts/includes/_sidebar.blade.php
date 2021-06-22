@@ -21,6 +21,9 @@
                     <a href="/super_admin/dashboard/request" class="collapsible-header"><i class="material-icons">collections_bookmark</i><span class="hide-menu"> Pengajuan Pembimbing </span></a>
                 </li>
                 <li>
+                    <a href="/super_admin/dashboard/seminar" class="collapsible-header"><i class="material-icons">event</i><span class="hide-menu"> Seminar </span></a>
+                </li>
+                <li>
                     <a href="/super_admin/dashboard/profile" class="collapsible-header"><i class="material-icons">person_pin</i><span class="hide-menu"> Profil </span></a>
                 </li>
                 @endif
@@ -42,6 +45,9 @@
                 <li>
                     <a href="/lecturer/dashboard/attendance" class="collapsible-header"><i class="material-icons">event_available</i><span class="hide-menu"> Absensi Bimbingan </span></a>
                 </li>
+                <li>
+                    <a href="/lecturer/dashboard/seminar" class="collapsible-header"><i class="material-icons">event</i><span class="hide-menu"> Seminar </span></a>
+                </li>
                 @endif
                 @if(auth()->user()->role == 'Student')
                 <li>
@@ -55,6 +61,9 @@
                 </li>
                 <li>
                     <a href="/student/dashboard/attendance" class="collapsible-header"><i class="material-icons">event_available</i><span class="hide-menu"> Absensi Bimbingan </span></a>
+                </li>
+                <li>
+                    <a href="/student/dashboard/seminar" class="collapsible-header"><i class="material-icons">event</i><span class="hide-menu"> Seminar </span></a>
                 </li>
                 @endif
                 <li>

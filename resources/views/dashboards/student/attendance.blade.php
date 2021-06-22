@@ -47,7 +47,7 @@
                                             <a href="#modal1" class="waves-effect waves-light btn indigo modal-trigger modal-edit1" lecturer-id="{{ auth()->user()->student->lecturers()->wherePivot('order',1)->first()->id }}" lecturer-name="{{ auth()->user()->student->lecturers()->wherePivot('order',1)->first()->user->name }}">
                                                 Tambah Absensi Baru
                                             </a>
-                                            <a href="/student/attendance/export" class="waves-effect waves-light btn cyan">
+                                            <a href="/student/attendance/export1" class="waves-effect waves-light btn cyan">
                                                 Export PDF
                                             </a>
                                         </div>
@@ -120,6 +120,9 @@
                                             <div class="col s6 right-align">
                                                 <a href="#modal1" class="waves-effect waves-light btn indigo modal-trigger modal-edit1" lecturer-id="{{ auth()->user()->student->lecturers()->wherePivot('order',2)->first()->id }}" lecturer-name="{{ auth()->user()->student->lecturers()->wherePivot('order',2)->first()->user->name }}">
                                                     Tambah Absensi Baru
+                                                </a>
+                                                <a href="/student/attendance/export2" class="waves-effect waves-light btn cyan">
+                                                    Export PDF
                                                 </a>
                                             </div>
                                         </div>
@@ -198,7 +201,7 @@
                                 <div class="row">
                                     <div class="input-field col s12">
                                         <i class="material-icons prefix">description</i>
-                                        {!! Form::text('description', '', ['id'=>'description']) !!}
+                                        {!! Form::text('description', '', ['id'=>'description','data-length'=>255]) !!}
                                         <label for="description">Deskripsi</label>
                                     </div>
                                 </div>
@@ -226,28 +229,28 @@
                                     <div class="input-field col s12">
                                         <i class="material-icons prefix">account_circle</i>
                                         {!! Form::text('name', '', ['placeholder'=>'Nama Dosen','id'=>'lecturer_name_edit','readonly']) !!}
-                                        <label for="lecturer_name">Nama Dosen</label>
+                                        <label for="lecturer_name_edit">Nama Dosen</label>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s12">
                                         <i class="material-icons prefix">title</i>
                                         {!! Form::text('title', '', ['id'=>'title_edit','placeholder'=>'']) !!}
-                                        <label for="title">Judul</label>
+                                        <label for="title_edit">Judul</label>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s12">
                                         <i class="material-icons prefix">description</i>
                                         {!! Form::text('description', '', ['id'=>'description_edit','placeholder'=>'']) !!}
-                                        <label for="description">Deskripsi</label>
+                                        <label for="description_edit">Deskripsi</label>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s12">
                                         <i class="material-icons prefix">access_time</i>
-                                        {!! Form::text('date_time', '', ['id'=>'time_edit','placeholder'=>'']) !!}
-                                        <label for="time">Waktu</label>
+                                        {!! Form::text('date_time', '', ['id'=>'time_edit','placeholder'=>'','autocomplete'=>'off']) !!}
+                                        <label for="time_edit">Waktu</label>
                                     </div>
                                 </div>
                                 {!! Form::hidden('id', '', ['id'=>'attendance_id']) !!}

@@ -20,6 +20,16 @@
     <div class="container-fluid">
         <div class="row">
             <!-- .col -->
+            @if($students->count()==0)
+            <div class="col m12">
+                <div class="card">
+                    <div class="card-content">
+                        <h3 class="card-title">Belum Ada Mahasiswa Bimbingan</h3>
+                        <p>Silakan ke menu 'Pengajuan oleh Mahasiswa' untuk melakukan persetujuan pengajuan pembimbing oleh mahasiswa.</p>
+                    </div>
+                </div>
+            </div>
+            @endif
             @foreach($students as $key => $student)
             <div class="col m6">
                 <div class="card">
