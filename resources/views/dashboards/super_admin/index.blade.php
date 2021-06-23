@@ -82,7 +82,7 @@
             </div>
             <div class="col s12">
                 <div class="card">
-                    <div class="card-content">
+                    <div class="card-content hide-on-small-only">
                         <div class="row">
                             <h3 class="card-title col s6">Tabel Pengguna</h3>
                             <div class="col s6">
@@ -98,7 +98,7 @@
                                     <th>Email</th>
                                     <th>Dibuat Di</th>
                                     <th>Status</th>
-                                    <th>Last Seen</th>
+                                    <th>Terakhir Online</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -127,7 +127,7 @@
                                             <span class="label label-inverse">Offline</span>
                                         @endif
                                     </td>
-                                    <td>{{ \Carbon\Carbon::parse($user->last_seen)->diffForHumans() }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($user->last_seen)->locale('id')->diffForHumans() }}</td>
                                     <td>
                                         @if ($user->role=='Super Admin')
                                             <a href="javascript:void(0);" class="disabled waves-effect waves-light btn red deleteu" user-id="{{ $user->id }}"><i class="fas fa-trash-alt"></i></a>
@@ -141,7 +141,7 @@
                                 </tr>
                                 @endforeach
                             </tbody>
-                            <tfoot>
+                            <tfoot class="hide-on-small-only">
                                 <tr>
                                     <th>#</th>
                                     <th>Role</th>
@@ -149,7 +149,80 @@
                                     <th>Email</th>
                                     <th>Dibuat Di</th>
                                     <th>Status</th>
-                                    <th>Last Seen</th>
+                                    <th>Terakhir Online</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="card-content hide-on-med-and-up">
+                        <div class="row">
+                            <h3 class="card-title col s6">Tabel Pengguna</h3>
+                            <div class="col s6">
+                                <a href="/users/add" class="right waves-effect waves-light btn indigo">Tambah User Admin</a>
+                            </div>
+                        </div>
+                        <table id="zero_config1" class="responsive-table highlight display" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Role</th>
+                                    <th>Nama</th>
+                                    <th>Email</th>
+                                    <th>Dibuat Di</th>
+                                    <th>Status</th>
+                                    <th>Terakhir Online</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($users as $key => $user)
+                                <tr>
+                                    <td>{{ $key+1 }}</td>
+                                    <td>
+                                        @if($user->role=='Super Admin')
+                                            <span class="label label-info">{{ $user->role }}</span>
+                                        @elseif($user->role=='Student')
+                                            <span class="label label-warning">Mahasiswa</span>
+                                        @elseif($user->role=='Lecturer')
+                                            <span class="label label-primary">Dosen</span>
+                                        @else
+                                            <span class="label cyan">{{ $user->role }}</span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $user->created_at }}</td>
+                                    <td>
+                                        @if(Cache::has('is_online' . $user->id))
+                                            <span class="label label-success">Online</span>
+                                        @else
+                                            <span class="label label-inverse">Offline</span>
+                                        @endif
+                                    </td>
+                                    <td>{{ \Carbon\Carbon::parse($user->last_seen)->locale('id')->diffForHumans() }}</td>
+                                    <td>
+                                        @if ($user->role=='Super Admin')
+                                            <a href="javascript:void(0);" class="disabled waves-effect waves-light btn red deleteu" user-id="{{ $user->id }}"><i class="fas fa-trash-alt"></i></a>
+                                        @else
+                                            <a href="javascript:void(0);" class="waves-effect waves-light btn red deleteu" user-id="{{ $user->id }}" user-name="{{ $user->name }}"><i class="fas fa-trash-alt"></i></a>
+                                            @if(is_null($user->email_verified_at))
+                                                <a href="/users/verifbyadmin/{{$user->id}}" class="waves-effect waves-light btn blue"><i class="fas fa-check"></i></a>
+                                            @endif
+                                        @endif
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                            <tfoot class="hide-on-small-only">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Role</th>
+                                    <th>Nama</th>
+                                    <th>Email</th>
+                                    <th>Dibuat Di</th>
+                                    <th>Status</th>
+                                    <th>Terakhir Online</th>
                                     <th>Aksi</th>
                                 </tr>
                             </tfoot>
@@ -188,6 +261,7 @@
             });
         });
         $('#zero_config').DataTable();
+        $('#zero_config1').DataTable({searching: false});
     </script>
     @if (session('success'))
     <script>

@@ -56,7 +56,7 @@
                                     @endif
                                 @endif
                                 @if($attendance_1->count()!=0)
-                                <table id="student" class="responsive-table highlight display" style="width:100%">
+                                <table id="student" class="highlight display" style="width:100%">
                                     <tbody>
                                         @foreach ($attendance_1 as $key => $attend_1)
                                         <tr>
@@ -130,7 +130,7 @@
                                         @endif
                                     @endif
                                     @if($attendance_2->count()!=0)
-                                    <table id="student" class="responsive-table highlight display" style="width:100%">
+                                    <table id="student" class="highlight display" style="width:100%">
                                         <tbody>
                                             @foreach ($attendance_2 as $key => $attend_2)
                                             <tr>

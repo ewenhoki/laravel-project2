@@ -96,6 +96,7 @@ Route::group(['middleware' => ['auth','verified','checkrole:Student']], function
     Route::post('/student/addSeminar', 'StudentController@addSeminar');
     Route::post('/seminar/document/upload', 'StudentController@addDocument');
     Route::get('/seminar/document/delete/{seminarfile}', 'StudentController@destroyDocument');
+    Route::get('/student/letter_1/export', 'StudentController@exportLetter1');
 });
 
 Route::group(['middleware' => ['auth','verified','checkrole:Lecturer']], function(){

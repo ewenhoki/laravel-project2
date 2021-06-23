@@ -19,7 +19,7 @@
         <div class="row">
             <div class="col s12">
                 <div class="card">
-                    <div class="card-content">
+                    <div class="card-content hide-on-small-only">
                         <div class="row">
                             <h3 class="card-title col s6">Tabel Mahasiswa</h3>
                             <div class="col s6">
@@ -71,6 +71,58 @@
                             </tfoot>
                         </table>
                     </div>
+                    <div class="card-content hide-on-med-and-up">
+                        <div class="row">
+                            <h3 class="card-title col s6">Tabel Mahasiswa</h3>
+                            <div class="col s6">
+                                <a href="/studentuser/add" class="right waves-effect waves-light btn indigo">Tambah Mahasiswa</a>
+                            </div>
+                        </div>         
+                        <table id="student1" class="responsive-table highlight display" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>NPM</th>
+                                    <th>Nama Depan</th>
+                                    <th>Nama Belakang</th>
+                                    <th>Nomor Telepon</th>
+                                    <th>IPK</th>
+                                    <th>Angkatan</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($students as $key => $student)
+                                <tr>
+                                    <td>{{ $key+1 }}</td>
+                                    <td>{{ $student->npm }}</td>
+                                    <td>{{ $student->first_name }}</td>
+                                    <td>{{ $student->last_name }}</td>
+                                    <td>{{ $student->user->phone }}</td>
+                                    <td>{{ $student->gpa }}</td>
+                                    <td>{{ $student->angkatan }}</td>
+                                    <td>
+                                        <a href="javascript:void(0);" class="waves-effect waves-light btn red deletestudent" student-id="{{ $student->id }}" student-name="{{ $student->first_name }} {{ $student->last_name }}">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                            <tfoot class="hide-on-small-only">
+                                <tr>
+                                    <th>#</th>
+                                    <th>NPM</th>
+                                    <th>Nama Depan</th>
+                                    <th>Nama Belakang</th>
+                                    <th>Nomor Telepon</th>
+                                    <th>IPK</th>
+                                    <th>Angkatan</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -104,6 +156,7 @@
             });
         });
         $('#student').DataTable();
+        $('#student1').DataTable({searching: false});
     </script>
     @if (session('success'))
         <script>

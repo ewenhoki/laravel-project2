@@ -19,7 +19,7 @@
         <div class="row">
             <div class="col s12">
                 <div class="card">
-                    <div class="card-content">
+                    <div class="card-content hide-on-small-only">
                         <h3 class="card-title">Tabel Daftar Pengajuan Persetujuan Dokumen</h3>
                         <table id="student" class="responsive-table highlight display" style="width:100%">
                             <thead>
@@ -77,6 +77,64 @@
                             </tfoot>
                         </table>
                     </div>
+                    <div class="card-content hide-on-med-and-up">
+                        <h3 class="card-title">Tabel Daftar Pengajuan Persetujuan Dokumen</h3>
+                        <table id="student1" class="responsive-table highlight display" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>NPM</th>
+                                    <th>Nama Mahasiswa</th>
+                                    <th>Judul</th>
+                                    <th>Dokumen</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($files as $key => $file)
+                                <tr>
+                                    <td>{{ $key+1 }}</td>
+                                    <td>{{ $file->student->npm }}</td>
+                                    <td>{{ $file->student->user->name }}</td>
+                                    <td>{{ $file->title }}</td>
+                                    <td>
+                                        <a href="{{ $file->krs }}" class="waves-effect waves-light btn deep-purple darken-3" target="_blank">KRS</a>
+                                        <a href="{{ $file->kss }}" class="waves-effect waves-light btn indigo indigo darken-1" target="_blank">KSS</a>
+                                        <a href="{{ $file->proposal }}" class="waves-effect waves-light btn blue darken-2" target="_blank">Proposal</a>
+                                        <a href="{{ $file->paper }}" class="waves-effect waves-light btn light-blue darken-1" target="_blank">Paper</a>
+                                    </td>
+                                    <td>
+                                        @if($file->letter_1==NULL)
+                                        <i class="fa fa-circle red-text tooltipped" data-tooltip="Menunggu Surat Persetujuan Dokumen"></i>
+                                        @else
+                                        <i class="fa fa-circle blue-text tooltipped" data-tooltip="Dokumen Disetujui"></i>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href="/request/upload/{{ $file->student->id }}" class="waves-effect waves-light btn indigo">
+                                            <i class="fas fa-upload"></i>
+                                        </a>
+                                        <a href="javascript:void(0);" class="waves-effect waves-light btn red deletereq1" file-id="{{ $file->id }}" student-name="{{ $file->student->user->name }}">
+                                            <i class="fas fa-times"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                            <tfoot class="hide-on-small-only">
+                                <tr>
+                                    <th>#</th>
+                                    <th>NPM</th>
+                                    <th>Nama Mahasiswa</th>
+                                    <th>Judul</th>
+                                    <th>Dokumen</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -109,6 +167,7 @@
             });
         });
         $('#student').DataTable();
+        $('#student1').DataTable({searching: false});
     </script>
     @if (session('deleted'))
         <script>

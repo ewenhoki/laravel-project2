@@ -118,28 +118,33 @@
         }
 .marginkiri{
 	margin-left: 40px;
+    line-height: 60%;
 }
 .marginkanan{
     margin-right: 40px;
+    line-height: 60%;
 }
 .marginheader{
     margin-top: 40px;
     margin-left: 40px;
 }
+.marginheaderkiri{
+    margin-left: 40px;
+    line-height: 90%;
+}
 .margintabel{
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 30px;
+    margin-right: 30px;
 }
     </style>
 </head>
 <body>
     <h5 class="marginheader" align="left">UNIVERSITAS PADJADJARAN</h5>
-    <h6 class="marginkiri" align="left">FAKULTAS MATEMATIKA DAN ILMU PENGETAHUAN ALAM</h6>
-    <h6 class="marginkiri" align="left">DEPARTEMEN MATEMATIKA</h6>
-    <br>
+    <h6 class="marginheaderkiri" align="left">FAKULTAS MATEMATIKA DAN ILMU PENGETAHUAN ALAM</h6>
+    <h6 class="marginheaderkiri" align="left">DEPARTEMEN MATEMATIKA</h6>
     <h5 class="text-center">ABSENSI BIMBINGAN TUGAS AKHIR</h5>
     <hr style="border-bottom: 2px">
-    <p class="marginkiri">Nama&nbsp; : {{ auth()->user()->name }}</p>
+    <p class="marginkiri" style="margin-top:20px;">Nama&nbsp; : {{ auth()->user()->name }}</p>
     <p class="marginkiri">NPM&nbsp;&nbsp;  : {{ auth()->user()->student->npm }}</p>
     <p class="marginkiri">Dosen Pembimbing : {{ $lecturer->user->name }}</p>
     <table class="margintabel" style="width:100%">
@@ -149,13 +154,21 @@
             <th style="width:40%" class="text-center">Deskripsi</th>
             <th style="width:15%" class="text-center">Waktu</th>
         </tr>
+        @php
+            $count=0;
+        @endphp
         @foreach ($attendance as $key => $attend)
+        @if($attend->confirm_lecturer==1 && $attend->confirm_student==1)
+        @php
+            $count++;
+        @endphp
         <tr>
-            <td style="width:5%" class="text-center">{{ $key+1 }}</td>
+            <td style="width:5%" class="text-center">{{ $count }}</td>
             <td style="width:40%">{{$attend->title }}</td>
             <td style="width:40%">{{$attend->description}}</td>
             <td style="width:15%" class="text-center">{{$attend->date_time}}</td>
         </tr>
+        @endif
         @endforeach
     </table>
     <br>

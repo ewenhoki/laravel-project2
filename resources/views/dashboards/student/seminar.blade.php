@@ -30,7 +30,7 @@
                 </div>
             </div>
             @else
-            <div class="col s6">
+            <div class="col s12 m6">
                 <div class="card">
                     <div class="card-content">
                         <h3 class="card-title">Pengajuan Seminar</h3>
@@ -69,19 +69,13 @@
                                 <td>Status</td>
                                 <td>
                                     @if(auth()->user()->student->seminar->confirm==0)
-                                    <span class="label label-warning">Menunggu Persetujuan Kepala Program Studi</span>
+                                    <span class="label label-warning">Menunggu Persetujuan Kaprodi</span>
                                     @else
                                     <span class="label label-info">Pengajuan Disetujui</span>
                                     @endif
                                 </td>
                             </tr>
                         </table>
-                        {{-- <p>Tanggal : {{ auth()->user()->student->seminar->date_time }}</p>
-                            @if(auth()->user()->student->seminar->confirm==0)
-                            <span class="label label-warning">Menunggu Persetujuan Kepala Program Studi</span>
-                            @else
-                            <span class="label label-info">Pengajuan Disetujui</span>
-                            @endif --}}
                         @else
                         <p>Silakan lengkapi form dibawah ini. Perhatikan bahwa waktu yang diajukan dapat diubah oleh kepala program studi tergantung pada jadwal yang tersedia.</p>
                         <p>Setelah megisi form, silakan upload dokumen yang diperlukan.</p>
@@ -111,7 +105,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col s6">
+            <div class="col s12 m6">
                 <div class="card">
                     <div class="card-content">
                         <h3 class="card-title">Dokumen Seminar</h3>

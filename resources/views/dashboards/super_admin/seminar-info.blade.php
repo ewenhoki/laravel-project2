@@ -20,7 +20,7 @@
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col s6">
+            <div class="col s12 m6">
                 <div class="card">
                     <div class="card-content">
                         <h3 class="card-title">Pengajuan Seminar</h3>
@@ -58,7 +58,7 @@
                                 <td>Status</td>
                                 <td>
                                     @if($seminar->confirm==0)
-                                    <span class="label label-warning">Menunggu Persetujuan Kepala Program Studi</span>
+                                    <span class="label label-warning">Menunggu Persetujuan Kaprodi</span>
                                     @else
                                     <span class="label label-info">Pengajuan Disetujui</span>
                                     @endif
@@ -84,7 +84,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col s6">
+            <div class="col s12 m6">
                 <div class="card">
                     <div class="card-content">
                         <h3 class="card-title">Dokumen Seminar</h3>

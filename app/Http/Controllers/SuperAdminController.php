@@ -16,7 +16,7 @@ use App\Seminar;
 class SuperAdminController extends Controller
 {
     public function index(){
-        $users = User::all();
+        $users = User::orderBy('role','ASC')->get();
         $students = Student::all();
         $lecturers = Lecturer::all();
         $pending = File::where('letter_1',NULL)->count();
@@ -24,7 +24,7 @@ class SuperAdminController extends Controller
     }
     
     public function students(){
-        $students = Student::all();
+        $students = Student::orderBy('npm','ASC')->get();
         return view('dashboards.super_admin.students',compact(['students']));
     }
     
@@ -34,7 +34,7 @@ class SuperAdminController extends Controller
     }
     
     public function documents(){
-        $files = File::orderBy('letter_1','DESC')->get();
+        $files = File::orderBy('letter_1','ASC')->get();
         // $files = File::where('letter_1','!=',NULL)->get();
         return view('dashboards.super_admin.documents',compact(['files']));
     }
@@ -160,7 +160,7 @@ class SuperAdminController extends Controller
     }
 
     public function requestSupervisor(){
-        $students = Student::all();
+        $students = Student::orderBy('npm','ASC')->get();
         $tooltip = [
             'red',
             'blue',
@@ -173,7 +173,9 @@ class SuperAdminController extends Controller
             'Dalam tahap bimbingan',
             'Selesai'
         ];
-        return view('dashboards.super_admin.request-supervisor',compact(['students','status','tooltip']));
+        $count1 = 0;
+        $count2 = 0;
+        return view('dashboards.super_admin.request-supervisor',compact(['students','status','tooltip','count1','count2']));
     }
 
     public function acceptRequest(Student $student, $id_lecturer){
