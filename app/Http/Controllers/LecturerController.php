@@ -43,6 +43,7 @@ class LecturerController extends Controller
             if($request->password!=NULL){
                 $user->password = bcrypt($request->password);
             }
+            $user->avatar = $request->avatar;
             $user->save();
         }
         else{
@@ -52,7 +53,7 @@ class LecturerController extends Controller
     }
 
     public function studentRequest(){
-        $students = auth()->user()->lecturer->students()->get();
+        $students = auth()->user()->lecturer->students()->orderBy('lecturer_student.progress','ASC')->get();
         $tooltip = [
             'red',
             'blue',
@@ -102,12 +103,12 @@ class LecturerController extends Controller
     }
 
     public function attendance(){
-        $students = auth()->user()->lecturer->students()->get();
+        $students = auth()->user()->lecturer->students()->wherePivot('progress',3)->get();
         return view('dashboards.lecturer.attendance',compact(['students']));
     }
 
     public function studentAttendance(Student $student){
-        $attendance = Attendance::where('lecturer_id',auth()->user()->lecturer->id)->where('student_id',$student->id)->get();
+        $attendance = Attendance::where('lecturer_id',auth()->user()->lecturer->id)->where('student_id',$student->id)->orderBy('date_time','ASC')->get();
         return view('dashboards.lecturer.attendance_detail',compact(['attendance','student']));
     }
 

@@ -54,14 +54,14 @@
     <br>
     <br>
     <p class="marginkiri">Dengan ini Ketua Program Studi S1 Matematika FMIPA Unpad menyatakan bahwa:</p>
-    <p class="marginkiri" style="margin-top:30px;">Nama&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : <b> {{ auth()->user()->name }}</b></p>
-    <p class="marginkiri" style="margin-top:30px;">NPM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  : <b> {{ auth()->user()->student->npm }}</b></p>
-    <p class="marginkiri" style="margin-top:30px;">Judul Skripsi : <b> {{ auth()->user()->student->file->title }}</b></p>
+    <p class="marginkiri" style="margin-top:30px;">Nama&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : <b> {{ $student->user->name }}</b></p>
+    <p class="marginkiri" style="margin-top:30px;">NPM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  : <b> {{ $student->npm }}</b></p>
+    <p class="marginkiri" style="margin-top:30px;">Judul Skripsi : <b> {{ $student->file->title }}</b></p>
     <br>
     <p class="marginkiri">Telah mendapatkan persetujuan pengajuan tugas akhir dengan prosedur dan ketentuan yang berlaku.</p>
     <br>
-    @if(auth()->user()->student->lecturers()->wherePivot('order',1)->first() && auth()->user()->student->lecturers()->wherePivot('order',2)->first())
-    @if(auth()->user()->student->lecturers()->wherePivot('order',1)->first()->pivot->progress>=2 && auth()->user()->student->lecturers()->wherePivot('order',1)->first()->pivot->progress>=2)
+    @if($student->lecturers()->wherePivot('order',1)->first() && $student->lecturers()->wherePivot('order',2)->first())
+    @if($student->lecturers()->wherePivot('order',1)->first()->pivot->progress>=2 && $student->lecturers()->wherePivot('order',1)->first()->pivot->progress>=2)
     <p class="text-center">Mengetahui :</p>
     <table align="center" width="100%">
         <tr>
@@ -74,8 +74,8 @@
     <br>
     <table align="center" width="100%">
         <tr>
-            <th class="text-center">({{ auth()->user()->student->lecturers()->wherePivot('order',1)->first()->user->name }})</th>
-            <th class="text-center">({{ auth()->user()->student->lecturers()->wherePivot('order',2)->first()->user->name }})</th>
+            <th class="text-center">({{ $student->lecturers()->wherePivot('order',1)->first()->user->name }})</th>
+            <th class="text-center">({{ $student->lecturers()->wherePivot('order',2)->first()->user->name }})</th>
         </tr>
     </table>
     <br>

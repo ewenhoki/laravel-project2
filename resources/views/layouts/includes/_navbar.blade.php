@@ -36,12 +36,12 @@
                       <span class="bars bar3"></span>
                   </a>
               </li>
-              <li class="search-box">
+              {{-- <li class="search-box">
                   <a href="javascript: void(0);"><i class="material-icons">search</i></a>
                   <form class="app-search">
                       <input type="text" class="form-control" placeholder="Search &amp; enter"> <a class="srh-btn"><i class="ti-close"></i></a>
                   </form>
-              </li>
+              </li> --}}
           </ul>
           <!-- ============================================================== -->
           <!-- Left topbar icon scss in header.scss -->
@@ -53,15 +53,41 @@
               <!-- ============================================================== -->
               <!-- Profile icon scss in header.scss -->
               <!-- ============================================================== -->
-              <li><a class="dropdown-trigger" href="javascript: void(0);" data-target="user_dropdown"><img src="{{ asset('admin/img/profile-default.png')}}" alt="user" class="circle profile-pic"></a>
+              <li><a class="dropdown-trigger" href="javascript: void(0);" data-target="user_dropdown">
+                @if(auth()->user()->avatar!=NULL)
+                  @if(file_exists(public_path(auth()->user()->avatar)))
+                  <img src="{{ auth()->user()->avatar }}" alt="user" class="circle profile-pic" width="27" height="27">
+                  @else
+                  <img src="{{ asset('admin/img/profile-default.png')}}" alt="user" class="circle profile-pic">
+                  @endif
+                @else
+                <img src="{{ asset('admin/img/profile-default.png')}}" alt="user" class="circle profile-pic">
+                @endif
+              </a>
                   <ul id="user_dropdown" class="mailbox dropdown-content dropdown-user">
                       <li>
                           <div class="dw-user-box">
+                              @if(auth()->user()->avatar!=NULL)
+                                @if(file_exists(public_path(auth()->user()->avatar)))
+                                <div class="u-img"><img src="{{ auth()->user()->avatar }}" width="80" height="80" alt="user"></div>
+                                @else
+                                <div class="u-img"><img src="{{ asset('admin/img/profile-default.png')}}" alt="user"></div>
+                                @endif
+                              @else
                               <div class="u-img"><img src="{{ asset('admin/img/profile-default.png')}}" alt="user"></div>
+                              @endif
                               <div class="u-text">
                                   <h4>{{auth()->user()->name}}</h4>
                                   <p>{{auth()->user()->email}}</p>
-                                  <a class="waves-effect waves-light btn-small red white-text">Lihat Profil</a>
+                                  @if(auth()->user()->role=='Super Admin')
+                                    <span class="label label-info">Super Admin</span>
+                                  @elseif(auth()->user()->role =='Student')
+                                    <span class="label label-warning">Mahasiswa</span>
+                                  @elseif(auth()->user()->role =='Lecturer')
+                                    <span class="label label-primary">Dosen</span>
+                                  @else
+                                    <span class="label cyan">Admin</span>
+                                  @endif
                               </div>
                           </div>
                       </li>
@@ -78,8 +104,6 @@
                       @if(auth()->user()->role == 'Student')
                         <li><a href="/student/dashboard/student_profile"><i class="material-icons">account_circle</i> Profil Saya</a></li>
                       @endif
-                      <li role="separator" class="divider"></li>
-                      <li><a href="javascript:void(0);"><i class="material-icons">settings</i> Pengaturan Akun</a></li>
                       <li role="separator" class="divider"></li>
                       <li><a href="/logout"><i class="material-icons">power_settings_new</i> Logout</a></li>
                   </ul>

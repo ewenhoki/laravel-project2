@@ -39,7 +39,7 @@
                         <table style="width: 100%">
                             <tr>
                                 <td>Nama</td>
-                                <td>{{ auth()->user()->student->seminar->student->user->name }}</td>
+                                <td>{{ auth()->user()->name }}</td>
                             </tr>
                             <tr>
                                 <td>NPM</td>

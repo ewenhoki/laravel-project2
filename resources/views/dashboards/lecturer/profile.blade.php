@@ -22,12 +22,20 @@
     <!-- ============================================================== -->
     <div class="container-fluid">
         <div class="row">
-            <div class="col s4">
+            <div class="col s12 m4">
                 <div class="card">
                     <img class="responsive-img" src="{{ asset('admin/assets/images/big/socialbg.jpg')}}" height="456" alt="Card image">
                     <div class="card-img-overlay white-text social-profile d-flex justify-content-center">
                         <div class="align-self-center">
+                            @if(auth()->user()->avatar!=NULL)
+                                @if(file_exists(public_path(auth()->user()->avatar)))
+                                <img src="{{ auth()->user()->avatar }}" class="circle" width="100" height="100">
+                                @else
+                                <img src="{{ asset('admin/img/profile-default.png')}}" class="circle" width="100">
+                                @endif
+                            @else
                             <img src="{{ asset('admin/img/profile-default.png')}}" class="circle" width="100">
+                            @endif
                             <h4 class="card-title white-text">{{ auth()->user()->name }}</h4>
                             <h6 class="card-subtitle">{{ auth()->user()->role }}</h6>
                         </div>
@@ -52,7 +60,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col s8">
+            <div class="col s12 m8">
                 <div class="card">
                     <div class="row">
                         <div class="col s12">
@@ -80,6 +88,17 @@
                                             {!! Form::text('phone', auth()->user()->phone, ['placeholder'=>'Nomor Telepon']) !!}
                                             <label for="phone">Nomor Telepon</label>
                                         </div>
+                                    </div>
+                                    <div class="row">
+                                        <label class="col s12">Foto Profil</label>
+                                        <div class="file-field input-field col s12">
+                                            <div>
+                                                <a class="btn blue darken-1" id="fm-1" data-input="avatar" data-preview="holder">Upload & Crop</a>
+                                            </div>
+                                            <div class="file-path-wrapper">
+                                                {!! Form::text('avatar',auth()->user()->avatar, ['placeholder'=>'Foto Profil','id'=>'avatar','class'=>'form-control','readonly']) !!}
+                                            </div>
+                                        </div>   
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12">
@@ -120,6 +139,7 @@
 
 @section('footer')
     <script src="{{asset('admin/dist/js/pages/forms/jquery.validate.min.js')}}"></script>
+    <script src="/vendor/laravel-filemanager/js/lfm.js"></script>
     <script>
         $(function() {
             $("#formValidate").validate({
@@ -162,6 +182,7 @@
                 },
             });
         });
+        $('#fm-1').filemanager('file');
     </script>
     @if (session('updated'))
      <script>

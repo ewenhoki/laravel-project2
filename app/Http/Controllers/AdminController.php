@@ -26,6 +26,7 @@ class AdminController extends Controller
             if($request->password!=NULL){
                 $user->password = bcrypt($request->password);
             }
+            $user->avatar = $request->avatar;
             $user->save();
         }
         else{
@@ -44,7 +45,7 @@ class AdminController extends Controller
                 }
             }
         }
-        $students = Student::whereIn('id',$students_id)->get();
+        $students = Student::whereIn('id',$students_id)->orderBy(File::select('letter_2')->whereColumn('files.student_id','students.id'))->get();
         $tooltip = [
             'red',
             'blue',

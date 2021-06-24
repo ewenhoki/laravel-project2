@@ -26,6 +26,12 @@ License URI:
     body.bg_right {
         background-size: 70%;
     }
+
+    /*google maps*/
+    .ggl-map{
+      width: auto;
+    }
+
     .hidden-xs{
         display: none;
     }

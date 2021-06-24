@@ -69,6 +69,7 @@ class StudentController extends Controller
             if($request->password!=NULL){
                 $user->password = bcrypt($request->password);
             }
+            $user->avatar = $request->avatar;
             $user->save();
         }
         else{
@@ -304,23 +305,9 @@ class StudentController extends Controller
     }
 
     public function exportLetter1(){
-        if(auth()->user()->student->lecturers()->wherePivot('order',1)->first()){
-            $id_supervisor_1 = auth()->user()->student->lecturers()->wherePivot('order',1)->first()->id;
-            $lecturer_1 = Lecturer::find($id_supervisor_1);
-        }
-        else{
-            $lecturer_1 = NULL;
-        }
-        if(auth()->user()->student->lecturers()->wherePivot('order',2)->first()){
-            $id_supervisor_2 = auth()->user()->student->lecturers()->wherePivot('order',2)->first()->id;
-            $lecturer_2 = Lecturer::find($id_supervisor_2);
-        }
-        else{
-            $lecturer_2 = NULL;
-        }
         $kaprodi = User::find(1);
         $date = Carbon::createFromFormat('Y-m-d H:i:s', auth()->user()->student->file->letter_1_date); 
-        $pdf = PDF::loadView('export.approval',compact(['lecturer_1','lecturer_2','date','kaprodi']));
+        $pdf = PDF::loadView('export.approval',compact(['date','kaprodi']));
         return $pdf->download('Surat Persetujuan.pdf');
     }
 }

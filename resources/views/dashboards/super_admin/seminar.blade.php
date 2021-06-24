@@ -53,6 +53,7 @@
                                    </td>
                                 </tr>
                                 @endforeach
+                            </tbody>
                             <tfoot>
                                 <tr>
                                     <th>#</th>
@@ -99,6 +100,7 @@
                                    </td>
                                 </tr>
                                 @endforeach
+                            </tbody>
                             <tfoot class="hide-on-small-only">
                                 <tr>
                                     <th>#</th>

@@ -55,7 +55,7 @@
                                 <hr>
                             @endif
                             @if($attendance->count()!=0)
-                            <table id="student" class="responsive-table highlight display" style="width:100%">
+                            <table id="student" class="highlight display" style="width:100%">
                                 <tbody>
                                     @foreach ($attendance as $key => $attend)
                                     <tr>

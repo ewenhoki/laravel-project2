@@ -26,6 +26,9 @@
                 <li>
                     <a href="/super_admin/dashboard/profile" class="collapsible-header"><i class="material-icons">person_pin</i><span class="hide-menu"> Profil </span></a>
                 </li>
+                <li>
+                    <a href="/super_admin/dashboard/support" class="collapsible-header"><i class="material-icons">live_help</i><span class="hide-menu"> Bantuan </span></a>
+                </li>
                 @endif
                 @if(auth()->user()->role == 'Admin')
                 <li>

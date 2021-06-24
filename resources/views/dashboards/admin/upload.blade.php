@@ -12,6 +12,7 @@
             <div class="custom-breadcrumb ml-auto">
                 @if(auth()->user()->role=='Admin')
                 <a href="/admin/dashboard/admin_profile" class="breadcrumb">Dashboard</a>
+                <a href="/admin/dashboard/request" class="breadcrumb">Daftar Pengajuan Dosen Pembimbing</a>
                 <a href="/request/upload/{{ $student->id }}" class="breadcrumb">Profil & Upload Surat Tugas</a>
                 @elseif(auth()->user()->role=='Super Admin')
                 <a href="/super_admin/dashboard/data_overview" class="breadcrumb">Dashboard</a>
@@ -28,7 +29,15 @@
                     <img class="responsive-img" src="{{ asset('admin/assets/images/big/socialbg.jpg')}}" height="456" alt="Card image">
                     <div class="card-img-overlay white-text social-profile d-flex justify-content-center">
                         <div class="align-self-center">
+                            @if($student->user->avatar!=NULL)
+                                @if(file_exists(public_path($student->user->avatar)))
+                                <img src="{{ $student->user->avatar }}" class="circle" width="100" height="100">
+                                @else
+                                <img src="{{ asset('admin/img/profile-default.png')}}" class="circle" width="100">
+                                @endif
+                            @else
                             <img src="{{ asset('admin/img/profile-default.png')}}" class="circle" width="100">
+                            @endif
                             <h4 class="card-title white-text">{{ $student->user->name }}</h4>
                             <h6 class="card-subtitle">{{ $student->user->role }}</h6>
                         </div>
@@ -65,6 +74,10 @@
                             @endif
                         @else
                             <h6>-</h6>
+                        @endif
+                        @if($student->file->title!=NULL)
+                        <small>Judul Tugas Akhir</small>
+                        <h6>{{ $student->file->title }}</h6>
                         @endif
                     </div>
                 </div>
@@ -103,7 +116,12 @@
                                 @if(auth()->user()->role=='Super Admin')
                                     @if($student->file)
                                     <hr>
-                                        {!! Form::open(['url' => '/postuploadletter1/'.$student->id,'class'=>'formValidate','id'=>'formValidate']) !!}       
+                                    @if($student->file->letter_1 == NULL)
+                                    <a href="/postuploadletter1/{{ $student->id }}" class="green accent-4 btn-large">Setujui Pengajuan Tugas Akhir</a>
+                                    @else
+                                    <a href="/super_admin/letter_1/export/{{ $student->id }}" class="blue accent-4 btn-large">Download Surat Persetujuan</a>
+                                    @endif
+                                        {{-- {!! Form::open(['url' => '/postuploadletter1/'.$student->id,'class'=>'formValidate','id'=>'formValidate']) !!}       
                                             <div class="file-field input-field">
                                                 <div>
                                                     <a class="btn blue darken-1" id="fm-1" data-input="letter_1" data-preview="holder">Upload Surat Persetujuan</a>
@@ -121,12 +139,12 @@
                                                     @endif
                                                 </div>
                                             </div>
-                                        {!! Form::close() !!}
+                                        {!! Form::close() !!} --}}
                                     @endif
                                 @else
                                     @if($student->file->letter_1!=NULL)
                                         <hr>
-                                        <a href="{{ $student->file->letter_1 }}" class="blue accent-4 btn-large" target="_blank">Download Surat Persetujuan</a>
+                                        <a href="/admin/letter_1/export/{{ $student->id }}" class="blue accent-4 btn-large" target="_blank">Download Surat Persetujuan</a>
                                     @endif
                                 @endif
                             </div>
@@ -207,7 +225,7 @@
     <script src="/vendor/laravel-filemanager/js/lfm.js"></script>
     <script src="{{asset('admin/dist/js/pages/forms/jquery.validate.min.js')}}"></script>
     <script>
-        $('#fm-1').filemanager('file');
+        // $('#fm-1').filemanager('file');
         $('#fm-2').filemanager('file');
         $(function() {
             $("#formValidate").validate({

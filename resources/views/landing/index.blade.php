@@ -17,6 +17,7 @@
         <link rel="stylesheet" type="text/css" href="{{asset('asset_login/css/preset.css')}}"/>
         <link rel="stylesheet" type="text/css" href="{{asset('asset_login/css/theme.css')}}"/>
         <link rel="stylesheet" type="text/css" href="{{asset('asset_login/css/responsive.css')}}"/>
+        <link href="{{asset('admin/assets/libs/sweetalert2/dist/sweetalert2.min.css')}}" rel="stylesheet" type="text/css">
         <!-- Favicon Icon -->
         <link rel="icon" type="image/png" sizes="16x16" href="{{asset('admin/img/logo-unpad.png')}}">
     </head>
@@ -103,7 +104,14 @@
               <div class="container">
                   <div class="row">
                       <div class="col-lg-12 text-center">
-                          <h2 class="sec_title">Visi & Misi<br>Progam S-1 Matematika</h2>
+                          <h2 class="sec_title">Program Studi S-1 Matematika</h2>
+                          <h2 class="sec_title">Deskripsi</h2>
+                          <p class="sec_desc">
+                            Program Studi Matematika Fakultas Matematika dan Ilmu Pengetahuan Alam (FMIPA) Unpad bertujuan untuk menghasilkan lulusan yang dapat menerapkan pengetahuan dan keterampilan matematika dalam menghadapi dunia kerja. Matematika sangat berperan dalam membantu penyelesaian berbagai aspek kehidupan dan pengembangan ilmu dan teknologi. Dengan kemampuan abstraksi dan nalar yang tinggi, khususnya melalui pemodelan matematika, lulusan program studi Matematika FMIPA Unpad akan dapat berperan secara aktif dalam penyelesaian berbagai masalah yang ada dalam masyarakat tersebut.
+                            <br>
+                            Terdapat dua Kelompok Bidang Peminatan (KBM) di program studi Matematika FMIPA Unpad, yaitu KBM Matematika Murni dan KBM Matematika Terapan. KBM Matematika Murni terdiri dari dua Kelompok Bidang Keahlian (KBK), yaitu KBK Aljabar dan KBK Analisis dan Geometri), sementara KBM Matematika Terapan terdiri dari empat KBK, yaitu  KBK Pemodelan Stokastik, KBK Matematika Biologi dan Lingkungan, KBK Riset Operasi dan Optimasi, serta KBK Matematika Ekonomi dan Keuangan.
+                            Gelar yang diperoleh untuk para lulusan adalah Sarjana Matematika (S.Mat).
+                          </p>
                           <h4 class="sec_title">Visi</h4>
                           <p class="sec_desc">
                             Pada tahun 2020, menjadi Program Studi Matematika yang unggul<br>
@@ -196,7 +204,7 @@
                         <div class="col-md-12">
                             <div class="bannerTitle text-left">
                                 <h2>Hubungi Kami</h2>
-                                <p>Kami di sini untuk membantu Anda ketika Anda membutuhkan<br>dukungan teknis, maka kami siap membantu anda.</p>
+                                <p>Kami di sini untuk membantu Anda ketika Anda membutuhkan<br>dukungan teknis, kami siap membantu anda.</p>
                             </div>
                         </div>
                     </div>
@@ -212,29 +220,26 @@
                             <div class="formArea">
                                 <div class="row">
                                     <div class="col-lg-7 col-md-7">
-                                        <form action="#" method="post" class="contactFrom row" id="contactForm">
+                                        {!! Form::open(['url' => '/support','class'=>'contactFrom row','id'=>'supportForm']) !!} 
                                             <div class="col-md-6">
-                                                <input class="required" type="text"  name="f_name" id="f_name" placeholder="Nama Depan*">
+                                                {!! Form::text('first_name', old('first_name'), ['placeholder'=>'Nama Depan*']) !!}
                                             </div>
                                             <div class="col-md-6">
-                                                <input class="required" type="text"  name="l_name" id="l_name" placeholder="Nama Belakang*">
+                                                {!! Form::text('last_name', old('last_name'), ['placeholder'=>'Nama Belakang']) !!}
                                             </div>
                                             <div class="col-md-12">
-                                                <input class="required" type="email" name="email" id="email" placeholder="Email*">
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input class="required" type="text" name="phone" id="phone" placeholder="Nomor Telepon*">
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input class="required" type="text" name="address" id="address" placeholder="Alamat*">
+                                                {!! Form::email('email', old('email'), ['placeholder'=>'Email*']) !!}
                                             </div>
                                             <div class="col-md-12">
-                                                <textarea class="required" name="con_message*" id="con_message" placeholder="Teks di sini...."></textarea>
+                                                {!! Form::text('phone', old('phone'), ['placeholder'=>'Nomor Telepon*']) !!}
+                                            </div>
+                                            <div class="col-md-12">
+                                                {!! Form::textarea('message', old('message'), ['placeholder'=>'Pesan*']) !!}
                                             </div>
                                             <div class="col-md-12">
                                                 <button name="submit" type="submit" id="con_submit" class="common_btn">Kirim Pesan</button>
                                             </div>
-                                        </form>
+                                        {!! Form::close() !!}
                                     </div>
                                 </div>
                             </div>
@@ -267,8 +272,8 @@
                         </aside>
                     </div>
 
-                    <div class="col-lg-4 col-md-6">
-
+                    <div class="col-lg-4 col-md-6 text-center">
+                      <iframe class="ggl-map" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15842.809611977867!2d107.7746881!3d-6.9261321!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xc6192a1f92aa9e41!2sUniversitas%20Padjadjaran!5e0!3m2!1sid!2sid!4v1624260041604!5m2!1sid!2sid" width="400" height="270" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                     </div>
                 </div>
             </div>
@@ -287,6 +292,7 @@
         <!-- Copyright section -->
 
         <!-- Include All JS -->
+        <script src="{{asset('admin/assets/libs/sweetalert2/dist/sweetalert2.min.js')}}"></script>
         <script src="{{ asset('asset_login/js/jquery.js')}}"></script>
         <script src="{{ asset('asset_login/js/bootstrap.min.js')}}"></script>
         <script src="{{ asset('asset_login/js/modernizr.custom.js')}}"></script>
@@ -298,6 +304,16 @@
         <script src="{{ asset('asset_login/js/slick.js')}}"></script>
         <script src="{{ asset('asset_login/js/owl.carousel.js')}}"></script>
         <script src="{{ asset('asset_login/js/theme.js')}}"></script>
+        @if($errors->has('first_name') || $errors->has('email') || $errors->has('phone') || $errors->has('message'))
+        <script>
+             swal("Gagal Mengirim Pesan !", "Pastikan anda mengisi nama depan, email, nomor telepon, dan pesan dengan benar.", "error");
+        </script>
+        @endif
+        @if(session('sent'))
+        <script>
+            swal("Berhasil Mengirim Pesan !", "Admin akan segera membantu Anda.", "success");
+        </script>
+    @endif
     </body>
 
 </html>

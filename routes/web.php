@@ -20,6 +20,7 @@ if (App::environment('production')) {
 //     return redirect('/login');
 // });
 Route::get('/', 'SiteController@landing');
+Route::post('/support', 'SiteController@support');
 
 Auth::routes(['verify' => true]);
 
@@ -58,11 +59,15 @@ Route::group(['middleware' => ['auth','verified','checkrole:Super Admin']], func
     Route::get('/seminar/accept/{seminar}', 'SuperAdminController@acceptSeminar');
     Route::get('/seminar/reject/{seminar}', 'SuperAdminController@rejectSeminar');
     Route::post('/seminar/edit_time', 'SuperAdminController@editSeminar');
+    Route::get('/postuploadletter1/{student}', 'SuperAdminController@postUpload1');
+    Route::get('/super_admin/letter_1/export/{student}', 'SuperAdminController@exportLetter1');
+    Route::get('/super_admin/dashboard/support', 'SuperAdminController@support');
+    Route::get('/support/delete/{support}', 'SuperAdminController@destroySupport');
 });
 
 Route::group(['middleware' => ['auth','verified','checkrole:Super Admin,Admin']], function(){
     Route::get('/request/upload/{student}', 'AdminController@upload');
-    Route::post('/postuploadletter1/{student}', 'SuperAdminController@postUpload1');
+    // Route::post('/postuploadletter1/{student}', 'SuperAdminController@postUpload1');
     Route::post('/postuploadletter2/{student}', 'AdminController@postUpload2');
 });
 
@@ -70,6 +75,7 @@ Route::group(['middleware' => ['auth','verified','checkrole:Admin']], function()
     Route::get('/admin/dashboard/admin_profile', 'AdminController@profile');
     Route::post('/postadminliteprofile', 'AdminController@update');
     Route::get('/admin/dashboard/request', 'AdminController@requestSupervisor');
+    Route::get('/admin/letter_1/export/{student}', 'SuperAdminController@exportLetter1');
     // Route::get('/request/upload/{student}', 'AdminController@upload');
     // Route::post('/postuploadletter1/{student}', 'AdminController@postUpload1');
     // Route::post('/postuploadletter2/{student}', 'AdminController@postUpload2');
@@ -113,4 +119,5 @@ Route::group(['middleware' => ['auth','verified','checkrole:Lecturer']], functio
     Route::get('/lecturer/delete_attendance/{attendance}', 'LecturerController@destroyAttendance');
     Route::get('/lecturer/dashboard/seminar', 'LecturerController@seminar');
     Route::get('/seminar/detail/{seminar}', 'LecturerController@seminarInfo');
+    Route::get('/lecturer/letter_1/export/{student}', 'SuperAdminController@exportLetter1');
 });

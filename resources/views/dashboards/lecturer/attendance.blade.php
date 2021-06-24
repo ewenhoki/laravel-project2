@@ -36,7 +36,18 @@
                     <div class="card-content">
                         <div class="row d-flex align-items-center">
                             <div class="col m4 l3 center-align">
-                                <a href="app-contact-detail.html"><img src="{{ asset('admin/img/profile-default.png')}}" alt="user" class="circle responsive-img"></a>
+                                <a href="/lecturer/student_attendance/{{ $student->id }}">
+                                    @if($student->user->avatar!=NULL)
+                                        @if(file_exists(public_path($student->user->avatar)))
+                                        <img src="{{ $student->user->avatar }}" class="circle responsive-img hide-on-small-only" width="148" height="148">
+                                        <img src="{{ $student->user->avatar }}" class="circle responsive-img hide-on-med-and-up" width="295" height="295">
+                                        @else
+                                        <img src="{{ asset('admin/img/profile-default.png')}}" alt="user" class="circle responsive-img">
+                                        @endif
+                                    @else
+                                    <img src="{{ asset('admin/img/profile-default.png')}}" alt="user" class="circle responsive-img">
+                                    @endif
+                                </a>
                             </div>
                             <div class="col m8 l9">
                                 @if($student->attendances->where('lecturer_id',auth()->user()->lecturer->id)->where('confirm_lecturer',0)->count()!=0)

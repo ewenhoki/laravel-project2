@@ -10,15 +10,15 @@
         <div class="d-flex align-items-center">
             <h5 class="font-medium m-b-0">Seminar Info</h5>
             <div class="custom-breadcrumb ml-auto">
-                <a href="/super_admin/dashboard/data_overview" class="breadcrumb">Dashboard</a>
-                <a href="/super_admin/dashboard/seminar" class="breadcrumb">Seminar</a>
-                <a href="/seminar/info/{{ $seminar->id }}" class="breadcrumb">Seminar Info</a>
+                <a href="/lecturer/dashboard/lecturer_profile" class="breadcrumb">Dashboard</a>
+                <a href="/lecturer/dashboard/seminar" class="breadcrumb">Daftar Seminar</a>
+                <a href="/seminar/detail/{{ $seminar->id }}" class="breadcrumb">Seminar Info</a>
             </div>
         </div>
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col s6">
+            <div class="col s12 m6">
                 <div class="card">
                     <div class="card-content">
                         <h3 class="card-title">Pengajuan Seminar</h3>
@@ -56,7 +56,7 @@
                                 <td>Status</td>
                                 <td>
                                     @if($seminar->confirm==0)
-                                    <span class="label label-warning">Menunggu Persetujuan Kepala Program Studi</span>
+                                    <span class="label label-warning">Menunggu Persetujuan Kaprodi</span>
                                     @else
                                     <span class="label label-info">Pengajuan Disetujui</span>
                                     @endif
@@ -66,7 +66,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col s6">
+            <div class="col s12 m6">
                 <div class="card">
                     <div class="card-content">
                         <h3 class="card-title">Dokumen Seminar</h3>

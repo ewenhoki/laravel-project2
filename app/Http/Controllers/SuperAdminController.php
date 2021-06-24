@@ -12,6 +12,8 @@ use App\User;
 use App\lecturer;
 use App\File;
 use App\Seminar;
+use App\Support;
+use PDF;
 
 class SuperAdminController extends Controller
 {
@@ -140,6 +142,7 @@ class SuperAdminController extends Controller
         $request->merge(['name'=>$modname]);
         $user->phone = $request->phone;
         $user->name = $request->name;
+        $user->avatar = $request->avatar;
         if (Hash::check($request->password_old, $user->password)) {
             if($request->password!=NULL){
                 $user->password = bcrypt($request->password);
@@ -152,10 +155,13 @@ class SuperAdminController extends Controller
         return redirect('/super_admin/dashboard/profile')->with('updated','success');
     }
 
-    public function postUpload1(Student $student, Request $request){
+    public function postUpload1(Student $student){
         $file = FIle::find($student->file->id);
-        $request->request->add(['letter_1_date'=>Carbon::now()]);
-        $file->update($request->all());
+        $file->letter_1 = '1';
+        $file->letter_1_date = Carbon::now();
+        $file->save();
+        // $request->request->add(['letter_1_date'=>Carbon::now()]);
+        // $file->update($request->all());
         return redirect('/request/upload/'.$student->id)->with('sent','uploaded');
     }
 
@@ -207,6 +213,15 @@ class SuperAdminController extends Controller
                 'letter_2_date'=>NULL
             ]);
         }
+        if($student->seminar){
+            if($student->seminar->seminarfiles()->first()){
+                $student->seminar->seminarfiles()->delete();
+            }
+            $student->seminar->delete();
+        }
+        if($student->attendances()){
+            $student->attendances()->delete();
+        }
         $student->lecturers()->detach($id_lecturer);
         return redirect('/super_admin/dashboard/request')->with('rejected','fail');
     }
@@ -257,5 +272,22 @@ class SuperAdminController extends Controller
         $seminar->date_time = $request->date_time.':00';
         $seminar->save();
         return redirect('/seminar/info/'.$request->id)->with('updated','success');
+    }
+
+    public function exportLetter1(Student $student){
+        $kaprodi = User::find(1);
+        $date = Carbon::createFromFormat('Y-m-d H:i:s', $student->file->letter_1_date); 
+        $pdf = PDF::loadView('export.approval_sa',compact(['date','kaprodi','student']));
+        return $pdf->download('Surat Persetujuan.pdf');
+    }
+
+    public function support(){
+        $supports = Support::all();
+        return view('dashboards.super_admin.support',compact(['supports']));
+    }
+
+    public function destroySupport(Support $support){
+        $support->delete();
+        return redirect('/super_admin/dashboard/support')->with('deleted','success');
     }
 }

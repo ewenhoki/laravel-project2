@@ -19,7 +19,7 @@
         <div class="row">
             <div class="col s12">
                 <div class="card">
-                    <div class="card-content">
+                    <div class="card-content hide-on-small-only">
                         <h3 class="card-title">Tabel Daftar Seminar</h3>
                         <table id="student" class="responsive-table highlight display" style="width:100%">
                             <thead>
@@ -75,6 +75,62 @@
                             </tfoot>
                         </table>
                     </div>
+                    <div class="card-content hide-on-med-and-up">
+                        <h3 class="card-title">Tabel Daftar Seminar</h3>
+                        <table id="student1" class="responsive-table highlight display" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>NPM</th>
+                                    <th>Nama Mahasiswa</th>
+                                    <th>Tanggal</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $counter=0;
+                                @endphp
+                                @foreach($students as $student)
+                                @if($student->seminar)
+                                    @if($student->seminar->confirm==1)
+                                    @php
+                                        $counter++;
+                                    @endphp
+                                    <tr>
+                                    <td>{{ $counter }}</td>
+                                    <td>{{ $student->npm }}</td>
+                                    <td>{{ $student->user->name }}</td>
+                                    <td>{{ $student->seminar->date_time }}</td>
+                                    <td>
+                                        @if($student->seminar->confirm==0)
+                                        <span class="label label-warning">Menunggu Persetujuan Kaprodi</span>
+                                        @else
+                                        <span class="label label-info">Pengajuan Disetujui</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href="/seminar/detail/{{ $student->seminar->id }}" class="waves-effect waves-light btn indigo">
+                                            <i class="fas fa-info-circle"></i>
+                                        </a>
+                                    </td>
+                                    </tr>
+                                    @endif
+                                @endif
+                                @endforeach
+                            <tfoot class="hide-on-small-only">
+                                <tr>
+                                    <th>#</th>
+                                    <th>NPM</th>
+                                    <th>Nama Mahasiswa</th>
+                                    <th>Tanggal</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -87,5 +143,6 @@
     {{-- <script src="{{asset('admin/dist/js/pages/datatable/datatable-basic.init.js')}}"></script> --}}
     <script>
         $('#student').DataTable();
+        $('#student1').DataTable({searching:false});
     </script>
 @endsection

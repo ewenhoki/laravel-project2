@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use App\Student;
 use App\User;
+use App\Support;
 
 class SiteController extends Controller
 {
@@ -65,5 +66,22 @@ class SiteController extends Controller
         else if(auth()->user()->role=='Lecturer'){
             return redirect('/lecturer/dashboard/lecturer_profile');
         }
+    }
+
+    public function support(Request $request){
+        $this->validate($request,[
+            'first_name' => 'required|min:3',
+            'phone' => 'required|numeric|digits_between:10,12',
+            'email' => 'required|email',
+            'message' => 'required',
+        ]);
+        $modfirst_name = ucwords(strtolower(trim($request->first_name)));
+        $modlast_name = ucwords(strtolower(trim($request->last_name)));
+        $name = $modfirst_name.' '.$modlast_name;
+        $modemail = strtolower(trim($request->email));
+        $request->request->add(['name' => $name]);
+        $request->merge(['email' => $modemail]);
+        $support = Support::create($request->all());
+        return redirect('/')->with('sent','success');
     }
 }

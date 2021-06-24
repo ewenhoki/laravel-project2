@@ -19,7 +19,7 @@
         <div class="row">
             <div class="col s12">
                 <div class="card">
-                    <div class="card-content">
+                    <div class="card-content hide-on-small-only">
                         <h3 class="card-title">Tabel Daftar Pengajuan Dosen Pembimbing</h3>
                         <table id="student" class="responsive-table highlight display" style="width:100%">
                             <thead>
@@ -39,7 +39,7 @@
                                     <td>{{ $student->npm }}</td>
                                     <td>{{ $student->user->name }}</td>
                                     <td>
-                                        <a href="{{ $student->file->letter_1 }}" class="waves-effect waves-light btn pink darken-3" target="_blank">Persetujuan</a>
+                                        <a href="/admin/letter_1/export/{{ $student->id }}" class="waves-effect waves-light btn pink darken-3" target="_blank">Persetujuan</a>
                                         <a href="{{ $student->file->krs }}" class="waves-effect waves-light btn deep-purple darken-3" target="_blank">KRS</a>
                                         <a href="{{ $student->file->kss }}" class="waves-effect waves-light btn indigo indigo darken-1" target="_blank">KSS</a>
                                         <a href="{{ $student->file->proposal }}" class="waves-effect waves-light btn blue darken-2" target="_blank">Proposal</a>
@@ -62,6 +62,59 @@
                             </tbody>
                             <tfoot>
                                 <tr>
+                                    <th>#</th>
+                                    <th>NPM</th>
+                                    <th>Nama Mahasiswa</th>
+                                    <th>Dokumen</th>
+                                    <th>Status</th>
+                                    <th>Upload Surat Tugas</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="card-content hide-on-med-and-up">
+                        <h3 class="card-title">Tabel Daftar Pengajuan Dosen Pembimbing</h3>
+                        <table id="student1" class="responsive-table highlight display" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>NPM</th>
+                                    <th>Nama Mahasiswa</th>
+                                    <th>Dokumen</th>
+                                    <th>Status</th>
+                                    <th>Upload Surat Tugas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($students as $key=>$student)
+                                <tr>
+                                    <td>{{ $key+1 }}</td>
+                                    <td>{{ $student->npm }}</td>
+                                    <td>{{ $student->user->name }}</td>
+                                    <td>
+                                        <a href="/admin/letter_1/export/{{ $student->id }}" class="waves-effect waves-light btn pink darken-3" target="_blank">Persetujuan</a>
+                                        <a href="{{ $student->file->krs }}" class="waves-effect waves-light btn deep-purple darken-3" target="_blank">KRS</a>
+                                        <a href="{{ $student->file->kss }}" class="waves-effect waves-light btn indigo indigo darken-1" target="_blank">KSS</a>
+                                        <a href="{{ $student->file->proposal }}" class="waves-effect waves-light btn blue darken-2" target="_blank">Proposal</a>
+                                        <a href="{{ $student->file->paper }}" class="waves-effect waves-light btn light-blue darken-1" target="_blank">Paper</a>
+                                    </td>
+                                    <td>
+                                        @if($student->file->letter_2==NULL)
+                                        <i class="fa fa-circle red-text tooltipped" data-tooltip="Menunggu Surat Tugas dari TU"></i>
+                                        @else
+                                        <i class="fa fa-circle blue-text tooltipped" data-tooltip="Surat Tugas Sudah Diupload"></i>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href="/request/upload/{{ $student->id }}" class="waves-effect waves-light btn indigo">
+                                            <i class="fas fa-upload"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                            <tfoot>
+                                <tr class="hide-on-small-only">
                                     <th>#</th>
                                     <th>NPM</th>
                                     <th>Nama Mahasiswa</th>
@@ -126,6 +179,7 @@
             });
         });
         $('#student').DataTable();
+        $('#student1').DataTable({searching: false});
     </script>
     @if (session('accepted'))
         <script>
