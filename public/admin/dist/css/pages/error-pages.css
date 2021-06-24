@@ -20,7 +20,7 @@ File: scss
 /*******************
 Error Page
 ******************/
-.error-box {
+ .error-box {
   height: 100%;
   position: fixed;
   background: url(../../../assets/images/big/error-bg1.png) no-repeat center center #fff;
