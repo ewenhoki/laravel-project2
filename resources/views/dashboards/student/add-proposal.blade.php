@@ -23,7 +23,7 @@
                 <div class="card">
                     <div class="card-content">
                         <h5 class="card-title activator">Form Pengajuan Tugas Akhir</h5>
-                        <h6 class="card-subtitle">Silakan upload dokumen pengajuan tugas akhir di bawah ini.</h6>
+                        <h6 class="card-subtitle">Silakan upload dokumen pengajuan tugas akhir di bawah ini. Semua file harus dalam format pdf, docx, atau doc.</h6>
                     </div>
                     @if ($student->file==NULL)
                     {!! Form::open(['url' => '/proposal/create','class'=>'h-form b-form striped-lables formValidate','id'=>'formValidate']) !!}
@@ -214,6 +214,7 @@
     <script src="/vendor/laravel-filemanager/js/lfm.js"></script>
     <script src="{{asset('admin/assets/extra-libs/prism/prism.js')}}"></script>
     <script src="{{asset('admin/dist/js/pages/forms/jquery.validate.min.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
     <script>
         $('#fm-1').filemanager('file');
         $('#fm-2').filemanager('file');
@@ -228,15 +229,19 @@
                     },
                     krs: {
                         required: true,
+                        extension: "pdf",
                     },
                     kss: {
                         required: true,
+                        extension: "pdf|docx|doc",
                     },
                     proposal: {
                         required: true,
+                        extension: "pdf|docx|doc",
                     },
                     paper: {
                         required: true,
+                        extension: "pdf|docx|doc",
                     },
                 },
                 errorElement: 'div',

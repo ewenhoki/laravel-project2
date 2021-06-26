@@ -45,7 +45,8 @@ class AdminController extends Controller
                 }
             }
         }
-        $students = Student::whereIn('id',$students_id)->orderBy(File::select('letter_2')->whereColumn('files.student_id','students.id'))->get();
+        // $students = Student::whereIn('id',$students_id)->orderBy(File::select('letter_2')->whereColumn('files.student_id','students.id'))->get();
+        $students = Student::whereIn('id',$students_id)->get();
         $tooltip = [
             'red',
             'blue',

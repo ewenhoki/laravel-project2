@@ -196,9 +196,11 @@ class SuperAdminController extends Controller
                     $student->lecturers()->updateExistingPivot($student->lecturers()->wherePivot('order',2)->first()->id, ['progress' => 2]);
                 }
             }
-            $lecturer = Lecturer::find($id_lecturer);
-            $lecturer->slot++;
-            $lecturer->save();
+            if($student->lecturers()->where('lecturers.id',$id_lecturer)->first()->pivot->progress >= 2 && $student->lecturers()->where('lecturers.id',$id_lecturer)->first()->pivot->progress < 4){
+                $lecturer = Lecturer::find($id_lecturer);
+                $lecturer->slot++;
+                $lecturer->save();
+            }
         }
         if($student->lecturers()->where('lecturers.id',$id_lecturer)->first()->pivot->order==2){
             if($student->lecturers()->wherePivot('order',1)->first()){
@@ -229,11 +231,22 @@ class SuperAdminController extends Controller
     public function destroyDocuments(File $file){
         if($file->student->lecturers()->wherePivot('order',1)->first() || $file->student->lecturers()->wherePivot('order',2)->first()){
             if($file->student->lecturers()->wherePivot('order',1)->first()){
-                $lecturer = Lecturer::find($file->student->lecturers()->wherePivot('order',1)->first()->id);
-                $lecturer->slot++;
-                $lecturer->save();
+                if($file->student->lecturers()->wherePivot('order',1)->first()->pivot->progress >= 2 && $file->student->lecturers()->wherePivot('order',1)->first()->pivot->progress < 4){
+                    $lecturer = Lecturer::find($file->student->lecturers()->wherePivot('order',1)->first()->id);
+                    $lecturer->slot++;
+                    $lecturer->save();
+                }
             }
             $file->student->lecturers()->detach();
+        }
+        if($file->student->seminar){
+            if($file->student->seminar->seminarfiles()->first()){
+                $file->student->seminar->seminarfiles()->delete();
+            }
+            $file->student->seminar->delete();
+        }
+        if($file->student->attendances()){
+            $file->student->attendances()->delete();
         }
         $file->delete();
         return redirect('/super_admin/dashboard/documents')->with('deleted','success');

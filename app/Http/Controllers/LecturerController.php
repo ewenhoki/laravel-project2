@@ -70,15 +70,30 @@ class LecturerController extends Controller
     }
 
     public function studentAccept(Student $student){
-        $student->lecturers()->updateExistingPivot(auth()->user()->lecturer->id, ['progress' => 2]);
+        if($student->lecturers()->where('lecturer_id',auth()->user()->lecturer->id)->first()->pivot->order == 1){
+            // $lecturer = Lecturer::find(auth()->user()->lecturer->id);
+            // $lecturer->slot--;
+            // $lecturer->save();
+            auth()->user()->lecturer->slot--;
+            auth()->user()->lecturer->save();
+            $student->lecturers()->updateExistingPivot(auth()->user()->lecturer->id, ['progress' => 2]);
+            if(auth()->user()->lecturer->slot == 0){
+                auth()->user()->lecturer->students()->wherePivot('progress','<',2)->wherePivot('order',1)->detach();
+            }
+        }
+        else{
+            $student->lecturers()->updateExistingPivot(auth()->user()->lecturer->id, ['progress' => 2]);
+        }
         return redirect('/lecturer/dashboard/student_request')->with('accepted','Success');
     }
 
     public function studentReject(Student $student){
         if(auth()->user()->lecturer->students()->where('students.id',$student->id)->first()->pivot->order==1){
-            $lecturer = Lecturer::find(auth()->user()->lecturer->id);
-            $lecturer->slot++;
-            $lecturer->save();
+            if(auth()->user()->lecturer->students()->where('students.id',$student->id)->first()->pivot->progress >= 2 && auth()->user()->lecturer->students()->where('students.id',$student->id)->first()->pivot->progress < 4){
+                $lecturer = Lecturer::find(auth()->user()->lecturer->id);
+                $lecturer->slot++;
+                $lecturer->save();
+            }
             if($student->lecturers()->wherePivot('order',2)->first()){
                 if($student->lecturers()->wherePivot('order',2)->first()->pivot->progress>2){
                     $student->lecturers()->updateExistingPivot($student->lecturers()->wherePivot('order',2)->first()->id, ['progress' => 2]);
@@ -97,6 +112,15 @@ class LecturerController extends Controller
                 'letter_2'=>NULL,
                 'letter_2_date'=>NULL
             ]);
+        }
+        if($student->seminar){
+            if($student->seminar->seminarfiles()->first()){
+                $student->seminar->seminarfiles()->delete();
+            }
+            $student->seminar->delete();
+        }
+        if($student->attendances()->where('lecturer_id',auth()->user()->lecturer->id)){
+            $student->attendances()->where('lecturer_id',auth()->user()->lecturer->id)->delete();
         }
         auth()->user()->lecturer->students()->detach($student->id);
         return redirect('/lecturer/dashboard/student_request')->with('rejected','fail');

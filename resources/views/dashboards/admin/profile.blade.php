@@ -92,15 +92,27 @@
                                             <label for="password_confirm">Konfirmasi Kata Sandi Baru</label>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="input-field col s12">
-                                            {!! Form::password('password_old',['placeholder'=>'Kata Sandi Saat Ini']) !!}
-                                            <label for="password_old">Kata Sandi</label>
+                                    <div id="modal1" class="modal">
+                                        <div class="modal-content">
+                                            <h4>Masukan Kata Sandi</h4>
+                                            <p>Masukan kata sandi untuk melakukan perubahan profil.</p>
+                                            <div class="row">
+                                                <div class="input-field col s12">
+                                                    {!! Form::password('password_old') !!}
+                                                    <label for="password_old">Kata Sandi</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="javascript:void(0);" class="modal-action modal-close waves-effect waves-red btn-flat ">Tutup</a>
+                                            <button class="modal-action modal-close waves-effect waves-red btn-flat" type="submit" name="action">Kirim</button>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12">
-                                            <button class="btn teal waves-effect waves-light" type="submit" name="action">Perbaharui Profil</button>
+                                            <a href="#modal1" class="btn teal waves-effect waves-light modal-trigger modal-edit">
+                                                Perbaharui Profil
+                                            </a>
                                         </div>
                                     </div>
                                 {!! Form::close() !!}

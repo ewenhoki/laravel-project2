@@ -116,6 +116,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Tanggal Upload</th>
+                                        <th>Nama File</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -124,6 +125,22 @@
                                     <tr>
                                         <td>{{ $key+1 }}</td>
                                         <td>{{ $file->created_at }}</td>
+                                        <td>
+                                            @php
+                                                $file->file;
+                                                $count = strlen($file->file)-1;
+                                                $buffer = '';
+                                                for($i=$count; $i>0; $i--){
+                                                    if($file->file[$i]=="/"){
+                                                        break;
+                                                    }
+                                                    else{
+                                                        $buffer = $file->file[$i].$buffer;
+                                                    }
+                                                }
+                                            @endphp
+                                            {{ $buffer }}
+                                        </td>
                                         <td>
                                             <a href="{{ $file->file }}" class="waves-effect waves-light btn deep-purple darken-3" target="_blank">Download</a>
                                             <a href="javascript:void(0);" class="waves-effect waves-light btn red deletereq1" file-id="{{ $file->id }}">

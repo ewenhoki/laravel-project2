@@ -34,9 +34,11 @@ class StudentController extends Controller
             $student->file->delete();
         }
         if($student->lecturers()->wherePivot('order',1)->first()){
-            $lecturer = Lecturer::find($student->lecturers()->wherePivot('order',1)->first()->id);
-            $lecturer->slot++;
-            $lecturer->save();
+            if($student->lecturers()->wherePivot('order',1)->first()->pivot->progress >= 2 && $student->lecturers()->wherePivot('order',1)->first()->pivot->progress < 4){
+                $lecturer = Lecturer::find($student->lecturers()->wherePivot('order',1)->first()->id);
+                $lecturer->slot++;
+                $lecturer->save();
+            }
         }
         if($student->seminar){
             if($student->seminar->seminarfiles()){
@@ -150,9 +152,9 @@ class StudentController extends Controller
         }
         $student = Student::find(auth()->user()->student->id);
         $student->lecturers()->attach($request->lecturer_id,['progress'=>1,'order'=>1]);
-        $lecturer = Lecturer::find($request->lecturer_id);
-        $lecturer->slot--; 
-        $lecturer->save();
+        // $lecturer = Lecturer::find($request->lecturer_id);
+        // $lecturer->slot--; 
+        // $lecturer->save();
         return redirect('/add/supervisor')->with('success','Add Success');
     }
 
@@ -182,9 +184,11 @@ class StudentController extends Controller
                     $student->lecturers()->updateExistingPivot($student->lecturers()->wherePivot('order',2)->first()->id, ['progress' => 2]);
                 }
             }
-            $lecturer = Lecturer::find($lecturer_id);
-            $lecturer->slot++;
-            $lecturer->save();
+            if($student->lecturers()->where('lecturers.id',$lecturer_id)->first()->pivot->progress >= 2 && $student->lecturers()->where('lecturers.id',$lecturer_id)->first()->pivot->progress < 2){
+                $lecturer = Lecturer::find($lecturer_id);
+                $lecturer->slot++;
+                $lecturer->save();
+            }
         }
         if($student->lecturers()->where('lecturers.id',$lecturer_id)->first()->pivot->order==2){
             if($student->lecturers()->wherePivot('order',1)->first()){
@@ -272,7 +276,7 @@ class StudentController extends Controller
 
     public function seminar(){
         if(auth()->user()->student->seminar){
-        $seminarfile = Seminarfile::where('seminar_id',auth()->user()->student->seminar->id)->get();
+            $seminarfile = Seminarfile::where('seminar_id',auth()->user()->student->seminar->id)->get();
         }
         else{
             $seminarfile = NULL;

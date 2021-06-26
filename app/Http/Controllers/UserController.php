@@ -22,9 +22,11 @@ class UserController extends Controller
                 $user->student->file->delete();
             }
             if($user->student->lecturers()->wherePivot('order',1)->first()){
-                $lecturer = Lecturer::find($user->student->lecturers()->wherePivot('order',1)->first()->id);
-                $lecturer->slot++;
-                $lecturer->save();
+                if($user->student->lecturers()->wherePivot('order',1)->first()->pivot->progress >= 2 && $user->student->lecturers()->wherePivot('order',1)->first()->pivot->progress < 4){
+                    $lecturer = Lecturer::find($user->student->lecturers()->wherePivot('order',1)->first()->id);
+                    $lecturer->slot++;
+                    $lecturer->save();
+                }
             }
             if($user->student->seminar){
                 if($user->student->seminar->seminarfiles()){
