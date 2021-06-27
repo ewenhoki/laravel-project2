@@ -3,28 +3,29 @@
 @section('header')
     <link href="{{asset('datetime/jquery.datetimepicker.css')}}" rel="stylesheet">
     <link href="{{asset('admin/assets/extra-libs/prism/prism.css')}}" rel="stylesheet">
-    <title>Seminar</title>
+    <title>Kolokium</title>
 @endsection
 
 @section('content')
 <div class="page-wrapper">
     <div class="page-titles">
         <div class="d-flex align-items-center">
-            <h5 class="font-medium m-b-0">Seminar</h5>
+            <h5 class="font-medium m-b-0">Kolokium</h5>
             <div class="custom-breadcrumb ml-auto">
                 <a href="/student/dashboard/student_profile" class="breadcrumb">Dashboard</a>
-                <a href="/student/dashboard/seminar" class="breadcrumb">Seminar</a>
+                <a href="/student/dashboard/colloquium" class="breadcrumb">Kolokium</a>
             </div>
         </div>
     </div>
     <div class="container-fluid">
         <div class="row">
-            @if(auth()->user()->student->attendances()->count()==0 || auth()->user()->student->lecturers()->wherePivot('order',1)->first() == NULL || auth()->user()->student->lecturers()->wherePivot('order',2)->first() == NULL)
+            @if(auth()->user()->student->lecturers()->wherePivot('order',1)->first() && auth()->user()->student->lecturers()->wherePivot('order',2)->first())
+            @if(auth()->user()->student->lecturers()->wherePivot('order',1)->first()->attendances()->count() < 1 && auth()->user()->student->lecturers()->wherePivot('order',2)->first()->attendances()->count() < 1)
             <div class="col s12">
                 <div class="card">
                     <div class="card-content">
-                        <h3 class="card-title">Anda Belum Melakukan Bimbingan</h3>
-                        <p>Pengajuan seminar dibuka diantara bimbingan 1 sampai 10</p>
+                        <h3 class="card-title">Anda Belum Menyelesaikan Bimbingan</h3>
+                        <p>Pengajuan kolokium dibuka setelah melakukan minimal 10 bimbingan untuk pembimbing 1 dan pembimbing 2.</p>
                         <a href="/student/dashboard/attendance" class="waves-effect waves-light btn indigo">Buat Bimbingan</a>
                     </div>
                 </div>
@@ -33,9 +34,9 @@
             <div class="col s12 m6">
                 <div class="card">
                     <div class="card-content">
-                        <h3 class="card-title">Pengajuan Seminar</h3>
-                        @if(auth()->user()->student->seminar)
-                        <p>Anda Telah Mengajukan Seminar. Silakan upload dokumen pada form disamping.</p>
+                        <h3 class="card-title">Pengajuan Kolokium</h3>
+                        @if(auth()->user()->student->colloquium)
+                        <p>Anda Telah Mengajukan Kolokium. Silakan upload dokumen pada form disamping.</p>
                         <table style="width: 100%">
                             <tr>
                                 <td>Nama</td>
@@ -55,20 +56,20 @@
                             </tr>
                             <tr>
                                 <td>Waktu</td>
-                                <td>{{ auth()->user()->student->seminar->date_time }}</td>
+                                <td>{{ auth()->user()->student->colloquium->date_time }}</td>
                             </tr>
                             <tr>
                                 <td style="width: 30%">Catatan</td>
-                                @if(auth()->user()->student->seminar->note==NULL)
+                                @if(auth()->user()->student->colloquium->note==NULL)
                                 <td style="width: 70%">-</td>
                                 @else
-                                <td style="width: 70%">{{ auth()->user()->student->seminar->note }}</td>
+                                <td style="width: 70%">{{ auth()->user()->student->colloquium->note }}</td>
                                 @endif
                             </tr>
                             <tr>
                                 <td>Status</td>
                                 <td>
-                                    @if(auth()->user()->student->seminar->confirm==0)
+                                    @if(auth()->user()->student->colloquium->confirm==0)
                                     <span class="label label-warning">Menunggu Persetujuan Kaprodi</span>
                                     @else
                                     <span class="label label-info">Pengajuan Disetujui</span>
@@ -80,7 +81,7 @@
                         <p>Silakan lengkapi form dibawah ini. Perhatikan bahwa waktu yang diajukan dapat diubah oleh kepala program studi tergantung pada jadwal yang tersedia.</p>
                         <p>Setelah megisi form, silakan upload dokumen yang diperlukan.</p>
                         <div class="divider"></div><br>
-                        {!! Form::open(['url' => '/student/addSeminar','class'=>'formValidate1','id'=>'formValidate1']) !!}
+                        {!! Form::open(['url' => '/student/addColloquium','class'=>'formValidate1','id'=>'formValidate1']) !!}
                         <div class="row">
                             <div class="input-field col s12">
                                 <i class="material-icons prefix">access_time</i>
@@ -104,13 +105,46 @@
                         @endif
                     </div>
                 </div>
+                @if(auth()->user()->student->colloquium)
+                @if(auth()->user()->student->colloquium->colloquiumlecturers()->first())
+                <div class="card">
+                    <div class="card-content">
+                        <h3 class="card-title">Dosen Penguji</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nama Dosen</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach(auth()->user()->student->colloquium->colloquiumlecturers()->get() as $key => $colloquiumlecturer)
+                                <tr>
+                                    <td>{{ $key+1 }}</td>
+                                    <td>{{ $colloquiumlecturer->lecturer->user->name }}</td>
+                                    <td>
+                                        @if($colloquiumlecturer->confirm==0)
+                                        <span class="label label-warning">Menunggu Konfirmasi</span>
+                                        @else
+                                        <span class="label label-info">Dikonfirmasi</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                @endif
+                @endif
             </div>
             <div class="col s12 m6">
                 <div class="card">
                     <div class="card-content">
-                        <h3 class="card-title">Dokumen Seminar</h3>
-                        @if(auth()->user()->student->seminar)
-                            @if(auth()->user()->student->seminar->seminarfiles()->count()!=0)
+                        <h3 class="card-title">Dokumen Kolokium</h3>
+                        @if(auth()->user()->student->colloquium)
+                            @if(auth()->user()->student->colloquium->colloquiumfiles()->count()!=0)
                             <table>
                                 <thead>
                                     <tr>
@@ -121,7 +155,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($seminarfile as $key => $file)
+                                    @foreach($colloquiumfile as $key => $file)
                                     <tr>
                                         <td>{{ $key+1 }}</td>
                                         <td>{{ $file->created_at }}</td>
@@ -154,7 +188,7 @@
                             @else
                             <p>Anda belum melakukan upload dokumen.</p>
                             @endif
-                            {!! Form::open(['url' => '/seminar/document/upload','class'=>'formValidate','id'=>'formValidate']) !!}       
+                            {!! Form::open(['url' => '/colloquium/document/upload','class'=>'formValidate','id'=>'formValidate']) !!}       
                                 <div class="file-field input-field">
                                     <div>
                                         <a class="btn blue darken-1" id="fm-1" data-input="file" data-preview="holder">Tambah Dokumen</a>
@@ -168,8 +202,19 @@
                                 </div>              
                             {!! Form::close() !!}
                         @else
-                        <p>Anda belum melakukan pengajuan seminar, silakan lakukan pengajuan seminar kemudian upload dokumen yang diperlukan</p>
+                        <p>Anda belum melakukan pengajuan kolokium, silakan lakukan pengajuan kolokium kemudian upload dokumen yang diperlukan</p>
                         @endif
+                    </div>
+                </div>
+            </div>
+            @endif
+            @else
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-content">
+                        <h3 class="card-title">Anda Belum Menyelesaikan Bimbingan</h3>
+                        <p>Pengajuan kolokium dibuka setelah melakukan minimal 10 bimbingan untuk pembimbing 1 dan pembimbing 2.</p>
+                        <a href="/student/dashboard/attendance" class="waves-effect waves-light btn indigo">Buat Bimbingan</a>
                     </div>
                 </div>
             </div>
@@ -245,14 +290,14 @@
             })
             .then(function(WillDelete){
                 if(WillDelete.value){
-                    window.location = "/seminar/document/delete/"+file_id;
+                    window.location = "/colloquium/document/delete/"+file_id;
                 }
             });
         });
     </script>
     @if (session('request'))
     <script>
-        toastr.success('Pengajuan Seminar Berhasil !',{ positionClass: 'toast-top-full-width', containerId: 'toast-top-full-width' });
+        toastr.success('Pengajuan Kolokium Berhasil !',{ positionClass: 'toast-top-full-width', containerId: 'toast-top-full-width' });
     </script>
     @endif
     @if (session('uploaded'))

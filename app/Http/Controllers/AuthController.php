@@ -8,6 +8,20 @@ use Auth;
 class AuthController extends Controller
 {
     public function login(){
+        if (Auth::check()) {
+            if(auth()->user()->role=='Super Admin'){
+                return redirect('/super_admin/dashboard/data_overview');
+            }
+            else if(auth()->user()->role=='Student'){
+                return redirect('/student/dashboard/student_profile');
+            }
+            else if(auth()->user()->role=='Admin'){
+                return redirect('/admin/dashboard/admin_profile');
+            }
+            else if(auth()->user()->role=='Lecturer'){
+                return redirect('/lecturer/dashboard/lecturer_profile');
+            }
+        }
         return view('auth.login');
     }
     public function postlogin(Request $request){

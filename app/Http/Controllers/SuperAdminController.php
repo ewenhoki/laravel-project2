@@ -13,6 +13,8 @@ use App\lecturer;
 use App\File;
 use App\Seminar;
 use App\Support;
+use App\Colloquium;
+use App\Colloquiumlecturer;
 use PDF;
 
 class SuperAdminController extends Controller
@@ -221,6 +223,15 @@ class SuperAdminController extends Controller
             }
             $student->seminar->delete();
         }
+        if($student->colloquium){
+            if($student->colloquium->colloquiumfiles()->first()){
+                $student->colloquium->colloquiumfiles()->delete();
+            }
+            if($student->colloquium->colloquiumlecturers()->first()){
+                $student->colloquium->colloquiumlecturers()->delete();
+            }
+            $student->colloquium->delete();
+        }
         if($student->attendances()){
             $student->attendances()->delete();
         }
@@ -244,6 +255,15 @@ class SuperAdminController extends Controller
                 $file->student->seminar->seminarfiles()->delete();
             }
             $file->student->seminar->delete();
+        }
+        if($file->student->colloquium){
+            if($file->student->colloquium->colloquiumfiles()->first()){
+                $file->student->colloquium->colloquiumfiles()->delete();
+            }
+            if($file->student->colloquium->colloquiumlecturers()->first()){
+                $file->student->colloquium->colloquiumlecturers()->delete();
+            }
+            $file->student->colloquium->delete();
         }
         if($file->student->attendances()){
             $file->student->attendances()->delete();
@@ -302,5 +322,60 @@ class SuperAdminController extends Controller
     public function destroySupport(Support $support){
         $support->delete();
         return redirect('/super_admin/dashboard/support')->with('deleted','success');
+    }
+
+    public function colloquium(){
+        $colloquiums = Colloquium::orderBy('confirm','ASC')->get();
+        return view('dashboards.super_admin.colloquium',compact(['colloquiums']));
+    }
+
+    public function colloquiumInfo(Colloquium $colloquium){
+        $lecturers = Lecturer::join('users','users.id','=','lecturers.user_id')
+            ->orderBy('users.name')
+            ->pluck('users.name','lecturers.id');
+        $lecturers->prepend('Pilih Dosen', 0);
+        return view('dashboards.super_admin.colloquium-info',compact(['colloquium','lecturers']));
+    }
+
+    public function requestLecturer(Colloquium $colloquium, Request $request){
+        if($colloquium->colloquiumlecturers()->first()!=NULL){
+            if($colloquium->colloquiumlecturers()->where('lecturer_id',$request->lecturer_id)->first() != NULL){
+                return back()->with('exists','Already Exists');
+            }
+        }
+        if($request->lecturer_id==0){
+            return back()->with('fail','Add Fail');
+        }
+        $request->request->add([
+            'colloquium_id'=>$colloquium->id,
+            'confirm'=>0,
+        ]);
+        $colloquiumlecturer = Colloquiumlecturer::create($request->all());
+        return redirect('/colloquium/info/'.$colloquium->id)->with('added','success');
+    }
+
+    public function acceptColloquium(Colloquium $colloquium){
+        $colloquium->confirm = 1;
+        $colloquium->save();
+        return redirect('/colloquium/info/'.$colloquium->id)->with('accepted','success');
+    }
+
+    public function rejectColloquium(Colloquium $colloquium){
+        $colloquium->colloquiumfiles()->delete();
+        $colloquium->colloquiumlecturers()->delete();
+        $colloquium->delete();
+        return redirect('/super_admin/dashboard/colloquium')->with('deleted','success');
+    }
+
+    public function editColloquium(Request $request){
+        $colloquium = Colloquium::find($request->id);
+        $colloquium->date_time = $request->date_time.':00';
+        $colloquium->save();
+        return redirect('/colloquium/info/'.$request->id)->with('updated','success');
+    }
+
+    public function deleteColloquiumLecturer(Colloquium $colloquium, $lecturer_id){
+        $colloquium->colloquiumlecturers()->where('lecturer_id',$lecturer_id)->delete();
+        return redirect('/colloquium/info/'.$colloquium->id)->with('lecturerdelete','success');
     }
 }

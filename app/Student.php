@@ -27,4 +27,8 @@ class Student extends Model
     public function seminar(){
         return $this->hasOne(Seminar::class);
     }
+
+    public function colloquium(){
+        return $this->hasOne(Colloquium::class);
+    }
 }

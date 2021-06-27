@@ -13,6 +13,8 @@ use App\lecturer;
 use App\Attendance;
 use App\Seminar;
 use App\Seminarfile;
+use App\Colloquium;
+use App\Colloquiumfile;
 use PDF;
 
 class StudentController extends Controller
@@ -45,6 +47,15 @@ class StudentController extends Controller
                 $student->seminar->seminarfiles()->delete();
             }
             $student->seminar->delete();
+        }
+        if($student->colloquium){
+            if($student->colloquium->colloquiumfiles()->first()){
+                $student->colloquium->colloquiumfiles()->delete();
+            }
+            if($student->colloquium->colloquiumlecturers()->first()){
+                $student->colloquium->colloquiumlecturers()->delete();
+            }
+            $student->colloquium->delete();
         }
         $student->lecturers()->detach();
         $student->attendances()->delete();
@@ -313,5 +324,39 @@ class StudentController extends Controller
         $date = Carbon::createFromFormat('Y-m-d H:i:s', auth()->user()->student->file->letter_1_date); 
         $pdf = PDF::loadView('export.approval',compact(['date','kaprodi']));
         return $pdf->download('Surat Persetujuan.pdf');
+    }
+
+    public function colloquium(){
+        if(auth()->user()->student->colloquium){
+            $colloquiumfile = Colloquiumfile::where('colloquium_id',auth()->user()->student->colloquium->id)->get();
+        }
+        else{
+            $colloquiumfile = NULL;
+        }
+        return view('dashboards.student.colloquium',compact(['colloquiumfile']));
+    }
+
+    public function addColloquium(Request $request){
+        $modtime = $request->date_time.':00';
+        $request->merge(['date_time' => $modtime]);
+        $request->request->add([
+            'student_id'=>auth()->user()->student->id,
+            'confirm'=>0,
+        ]);
+        $colloquium = Colloquium::create($request->all());
+        return redirect('/student/dashboard/colloquium')->with('request','success');
+    }
+
+    public function addDocumentColloquium(Request $request){
+        $request->request->add([
+            'colloquium_id'=>auth()->user()->student->colloquium->id,
+        ]);
+        $colloquiumfile = Colloquiumfile::create($request->all());
+        return redirect('/student/dashboard/colloquium')->with('uploaded','success');
+    }
+
+    public function destroyDocumentColloquium(Colloquiumfile $colloquiumfile){
+        $colloquiumfile->delete();
+        return redirect('/student/dashboard/colloquium')->with('deleted','success');
     }
 }

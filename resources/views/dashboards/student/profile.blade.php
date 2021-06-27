@@ -265,6 +265,7 @@
 
 @section('footer')
     <script src="{{asset('admin/dist/js/pages/forms/jquery.validate.min.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
     <script src="/vendor/laravel-filemanager/js/lfm.js"></script>
     <script>
         $(function() {
@@ -284,6 +285,9 @@
                         required: true,
                         min: 1,
                         max: 4,
+                    },
+                    avatar: {
+                        extension: "png|jpg",
                     },
                     password: {
                         minlength: 8,

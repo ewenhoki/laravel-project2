@@ -9,6 +9,8 @@ use App\Student;
 use App\User;
 use App\Seminar;
 use App\Attendance;
+use App\Colloquium;
+use App\Colloquiumlecturer;
 
 class LecturerController extends Controller
 {
@@ -18,6 +20,25 @@ class LecturerController extends Controller
     }
 
     public function destroy(Lecturer $lecturer){
+        $students = $lecturer->students()->get();
+        foreach($students as $student){
+            $student->file->update(['letter_2'=>NULL]);
+            if($student->seminar){
+                if($student->seminar->seminarfiles()->first()){
+                    $student->seminar->seminarfiles()->delete();
+                }
+                $student->seminar->delete();
+            }
+            if($student->colloquium){
+                if($student->colloquium->colloquiumfiles()->first()){
+                    $student->colloquium->colloquiumfiles()->delete();
+                }
+                if($student->colloquium->colloquiumlecturers()->first()){
+                    $student->colloquium->colloquiumlecturers()->delete();
+                }
+                $student->colloquium->delete();
+            }
+        }
         $lecturer->user->delete();
         $lecturer->students()->detach();
         $lecturer->attendances()->delete();
@@ -119,6 +140,15 @@ class LecturerController extends Controller
             }
             $student->seminar->delete();
         }
+        if($student->colloquium){
+            if($student->colloquium->colloquiumfiles()->first()){
+                $student->colloquium->colloquiumfiles()->delete();
+            }
+            if($student->colloquium->colloquiumlecturers()->first()){
+                $student->colloquium->colloquiumlecturers()->delete();
+            }
+            $student->colloquium->delete();
+        }
         if($student->attendances()->where('lecturer_id',auth()->user()->lecturer->id)){
             $student->attendances()->where('lecturer_id',auth()->user()->lecturer->id)->delete();
         }
@@ -174,5 +204,26 @@ class LecturerController extends Controller
 
     public function seminarInfo(Seminar $seminar){
         return view('dashboards.lecturer.seminar-info',compact(['seminar']));
+    }
+
+    public function colloquium(){
+        $colloquiumlecturers = auth()->user()->lecturer->colloquiumlecturers()->get();
+        return view('dashboards.lecturer.colloquium',compact(['colloquiumlecturers']));
+    }
+
+    public function colloquiumInfo(Colloquium $colloquium){
+        return view('dashboards.lecturer.colloquium-info',compact(['colloquium']));
+    }
+
+    public function acceptColloquium(Colloquium $colloquium){
+        $colloquiumlecturer = Colloquiumlecturer::where('colloquium_id',$colloquium->id)->where('lecturer_id',auth()->user()->lecturer->id)->first();
+        $colloquiumlecturer->confirm = 1;
+        $colloquiumlecturer->save();
+        return redirect('/colloquium/detail/'.$colloquium->id)->with('accepted','success');
+    }
+
+    public function rejectColloquium(Colloquium $colloquium){
+        auth()->user()->lecturer->colloquiumlecturers()->where('colloquium_id',$colloquium->id)->first()->delete();
+        return redirect('/lecturer/dashboard/colloquium')->with('deleted','success');
     }
 }

@@ -19,4 +19,8 @@ class lecturer extends Model
     public function attendances(){
         return $this->hasMany(Attendance::class);
     }
+
+    public function colloquiumlecturers(){
+        return $this->hasMany(Colloquiumlecturer::class);
+    }
 }

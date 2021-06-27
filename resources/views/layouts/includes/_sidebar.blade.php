@@ -24,10 +24,13 @@
                     <a href="/super_admin/dashboard/seminar" class="collapsible-header"><i class="material-icons">event</i><span class="hide-menu"> Seminar </span></a>
                 </li>
                 <li>
-                    <a href="/super_admin/dashboard/profile" class="collapsible-header"><i class="material-icons">person_pin</i><span class="hide-menu"> Profil </span></a>
+                    <a href="/super_admin/dashboard/colloquium" class="collapsible-header"><i class="material-icons">assistant_photo</i><span class="hide-menu"> Kolokium </span></a>
                 </li>
                 <li>
                     <a href="/super_admin/dashboard/support" class="collapsible-header"><i class="material-icons">live_help</i><span class="hide-menu"> Bantuan </span></a>
+                </li>
+                <li>
+                    <a href="/super_admin/dashboard/profile" class="collapsible-header"><i class="material-icons">person_pin</i><span class="hide-menu"> Profil </span></a>
                 </li>
                 @endif
                 @if(auth()->user()->role == 'Admin')
@@ -51,6 +54,9 @@
                 <li>
                     <a href="/lecturer/dashboard/seminar" class="collapsible-header"><i class="material-icons">event</i><span class="hide-menu"> Seminar </span></a>
                 </li>
+                <li>
+                    <a href="/lecturer/dashboard/colloquium" class="collapsible-header"><i class="material-icons">assistant_photo</i><span class="hide-menu"> Kolokium </span></a>
+                </li>
                 @endif
                 @if(auth()->user()->role == 'Student')
                 <li>
@@ -68,13 +74,16 @@
                 <li>
                     <a href="/student/dashboard/seminar" class="collapsible-header"><i class="material-icons">event</i><span class="hide-menu"> Seminar </span></a>
                 </li>
+                <li>
+                    <a href="/student/dashboard/colloquium" class="collapsible-header"><i class="material-icons">assistant_photo</i><span class="hide-menu"> Kolokium </span></a>
+                </li>
                 @endif
                 <li>
                     <a href="/logout" class="collapsible-header"><i class="material-icons">directions</i><span class="hide-menu"> Log Out </span></a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="#" class="collapsible-header"><i class="material-icons">people_outline</i><span class="hide-menu"> FAQs </span></a>
-                </li>
+                </li> --}}
           </ul>
       </li>
   </ul>

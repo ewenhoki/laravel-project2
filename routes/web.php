@@ -63,6 +63,13 @@ Route::group(['middleware' => ['auth','verified','checkrole:Super Admin']], func
     Route::get('/super_admin/letter_1/export/{student}', 'SuperAdminController@exportLetter1');
     Route::get('/super_admin/dashboard/support', 'SuperAdminController@support');
     Route::get('/support/delete/{support}', 'SuperAdminController@destroySupport');
+    Route::get('/super_admin/dashboard/colloquium', 'SuperAdminController@colloquium');
+    Route::get('/colloquium/info/{colloquium}', 'SuperAdminController@colloquiumInfo');
+    Route::post('/colloquium/request/lecturer/{colloquium}', 'SuperAdminController@requestLecturer');
+    Route::get('/colloquium/accept/{colloquium}', 'SuperAdminController@acceptColloquium');
+    Route::get('/colloquium/reject/{colloquium}', 'SuperAdminController@rejectColloquium');
+    Route::post('/colloquium/edit_time', 'SuperAdminController@editColloquium');
+    Route::get('/colloquium/lecturer/delete/{colloquium}/{lecturer_id}', 'SuperAdminController@deleteColloquiumLecturer');
 });
 
 Route::group(['middleware' => ['auth','verified','checkrole:Super Admin,Admin']], function(){
@@ -103,6 +110,10 @@ Route::group(['middleware' => ['auth','verified','checkrole:Student']], function
     Route::post('/seminar/document/upload', 'StudentController@addDocument');
     Route::get('/seminar/document/delete/{seminarfile}', 'StudentController@destroyDocument');
     Route::get('/student/letter_1/export', 'StudentController@exportLetter1');
+    Route::get('/student/dashboard/colloquium', 'StudentController@colloquium');
+    Route::post('/student/addColloquium', 'StudentController@addColloquium');
+    Route::post('/colloquium/document/upload', 'StudentController@addDocumentColloquium');
+    Route::get('/colloquium/document/delete/{colloquiumfile}', 'StudentController@destroyDocumentColloquium');
 });
 
 Route::group(['middleware' => ['auth','verified','checkrole:Lecturer']], function(){
@@ -120,4 +131,8 @@ Route::group(['middleware' => ['auth','verified','checkrole:Lecturer']], functio
     Route::get('/lecturer/dashboard/seminar', 'LecturerController@seminar');
     Route::get('/seminar/detail/{seminar}', 'LecturerController@seminarInfo');
     Route::get('/lecturer/letter_1/export/{student}', 'SuperAdminController@exportLetter1');
+    Route::get('/lecturer/dashboard/colloquium', 'LecturerController@colloquium');
+    Route::get('/colloquium/detail/{colloquium}', 'LecturerController@colloquiumInfo');
+    Route::get('/colloquium/accept_by_lecturer/{colloquium}', 'LecturerController@acceptColloquium');
+    Route::get('/colloquium/reject_by_lecturer/{colloquium}', 'LecturerController@rejectColloquium');
 });
