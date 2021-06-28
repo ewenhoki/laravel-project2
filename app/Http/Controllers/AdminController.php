@@ -40,7 +40,7 @@ class AdminController extends Controller
         $students_id = [];
         foreach($students as $student){
             if($student->lecturers()->wherePivot('order',1)->first() && $student->lecturers()->wherePivot('order',2)->first()){
-                if($student->lecturers()->wherePivot('order',1)->first()->pivot->progress>=2 && $student->lecturers()->wherePivot('order',2)->first()->pivot->progress>=2){
+                if($student->lecturers()->wherePivot('order',1)->first()->pivot->progress>=2 && $student->lecturers()->wherePivot('order',2)->first()->pivot->progress>=2 && $student->lecturers()->wherePivot('order',1)->first()->pivot->progress<4 && $student->lecturers()->wherePivot('order',2)->first()->pivot->progress<4){
                     $students_id[] = $student->id; 
                 }
             }

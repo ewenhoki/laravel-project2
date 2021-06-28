@@ -135,4 +135,5 @@ Route::group(['middleware' => ['auth','verified','checkrole:Lecturer']], functio
     Route::get('/colloquium/detail/{colloquium}', 'LecturerController@colloquiumInfo');
     Route::get('/colloquium/accept_by_lecturer/{colloquium}', 'LecturerController@acceptColloquium');
     Route::get('/colloquium/reject_by_lecturer/{colloquium}', 'LecturerController@rejectColloquium');
+    Route::post('/lecturer/finish', 'LecturerController@finish');
 });

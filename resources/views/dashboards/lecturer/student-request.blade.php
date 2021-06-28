@@ -59,6 +59,11 @@
                                             <i class="fas fa-check"></i>
                                         </a>
                                         @endif
+                                        @if($student->lecturers()->where('lecturers.id',auth()->user()->lecturer->id)->first()->pivot->progress==3)
+                                        <a href="#modal1" class="waves-effect waves-light btn blue modal-trigger modal-edit" student-id="{{ $student->id }}" student-name="{{ $student->user->name }}">
+                                            <i class="fas fa-flag-checkered"></i>
+                                        </a>
+                                        @endif
                                         <a href="javascript:void(0);" class="waves-effect waves-light btn red deletereq1" student-id="{{ $student->id }}" student-name="{{ $student->user->name }}">
                                             <i class="fas fa-times"></i>
                                         </a>
@@ -120,6 +125,11 @@
                                             <i class="fas fa-check"></i>
                                         </a>
                                         @endif
+                                        @if($student->lecturers()->where('lecturers.id',auth()->user()->lecturer->id)->first()->pivot->progress==3)
+                                        <a href="#modal1" class="waves-effect waves-light btn blue modal-trigger modal-edit" student-id="{{ $student->id }}" student-name="{{ $student->user->name }}">
+                                            <i class="fas fa-flag-checkered"></i>
+                                        </a>
+                                        @endif
                                         <a href="javascript:void(0);" class="waves-effect waves-light btn red deletereq1" student-id="{{ $student->id }}" student-name="{{ $student->user->name }}">
                                             <i class="fas fa-times"></i>
                                         </a>
@@ -141,6 +151,34 @@
                             </tfoot>
                         </table>
                     </div>
+                    <div id="modal1" class="modal">
+                        <div class="modal-content">
+                            <h4>Selesai Bimbingan</h4>
+                            <p>Jika mahasiswa sudah dinyatakan menyelesaikan bimbingan, Anda tidak dapat melakukan perubahan terhadap absensi bimbingan yang sudah ada.</p>
+                            {!! Form::open(['url' => '/lecturer/finish']) !!}
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">account_circle</i>
+                                        {!! Form::text('name', '', ['placeholder'=>'Nama Mahasiswa','id'=>'student_name','readonly']) !!}
+                                        <label for="student_name">Nama Mahasiswa</label>
+                                    </div>
+                                </div>
+                                <h5 class="center">Salin kata dibawah ini untuk melakukan konfirmasi.</h5>
+                                <h5 class="center">Dengan ini saya menyatakan bahwa mahasiswa terkait telah menyelesaikan masa bimbingannya.</h5>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        {!! Form::text('confirm', '', ['id'=>'confirm']) !!}
+                                        <label for="confirm">Ketik di sini.</label>
+                                    </div>
+                                </div>
+                                {!! Form::hidden('id', '', ['id'=>'student_id']) !!}
+                            </div>
+                            <div class="modal-footer">
+                                <a href="javascript:void(0);" class="modal-action modal-close waves-effect waves-red btn-flat ">Tutup</a>
+                                <button class="modal-action modal-close waves-effect waves-red btn-flat" type="submit" name="action">Kirim</button>
+                            </div>
+                            {!! Form::close() !!}                
+                    </div>
                 </div>
             </div>
         </div>
@@ -152,6 +190,12 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
     {{-- <script src="{{asset('admin/dist/js/pages/datatable/datatable-basic.init.js')}}"></script> --}}
     <script>
+        $(document).on("click", ".modal-edit", function () {
+            var id = $(this).attr('student-id');
+            var name = $(this).attr('student-name');
+            $(".modal-content #student_id").val( id );
+            $(".modal-content #student_name").val( name ); 
+        });
         $('.deletereq1').click(function(){
             var student_id = $(this).attr('student-id');
             var student_name = $(this).attr('student-name');
@@ -184,5 +228,22 @@
     <script>
         toastr.success('Berhasil menolak pengajuan dosen pembimbing !',{ positionClass: 'toast-top-full-width', containerId: 'toast-top-full-width' });
     </script>
-@endif
+    @endif
+    @if (session('rejected'))
+    <script>
+        toastr.success('Berhasil menyelesaikan status bimbingan mahasiswa !',{ positionClass: 'toast-top-full-width', containerId: 'toast-top-full-width' });
+    </script>
+    @endif
+    @if (session('wrong'))
+    <script>
+        swal({   
+            title: "Peringatan",   
+            text: "Kalimat konfirmasi yang anda masukkan salah !",   
+            type: "warning",   
+            confirmButtonColor: "#DD6B55",   
+            confirmButtonText: "Close",     
+            closeOnConfirm: true,   
+        });
+    </script>
+    @endif
 @endsection

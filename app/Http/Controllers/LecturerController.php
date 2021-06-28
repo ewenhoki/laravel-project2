@@ -226,4 +226,19 @@ class LecturerController extends Controller
         auth()->user()->lecturer->colloquiumlecturers()->where('colloquium_id',$colloquium->id)->first()->delete();
         return redirect('/lecturer/dashboard/colloquium')->with('deleted','success');
     }
+
+    public function finish(Request $request){
+        if(strtolower(trim($request->confirm)) == 'dengan ini saya menyatakan bahwa mahasiswa terkait telah menyelesaikan masa bimbingannya.'){
+            $student = Student::find($request->id);
+            $student->lecturers()->updateExistingPivot(auth()->user()->lecturer->id, ['progress' => 4]);
+            if(auth()->user()->lecturer->students()->where('student_id',$student->id)->first()->pivot->order == 1){
+                auth()->user()->lecturer->slot++;
+                auth()->user()->lecturer->save();
+            }
+            return redirect('/lecturer/dashboard/student_request')->with('finished','success');
+        }
+        else{
+            return back()->with('wrong','fail');
+        }
+    }
 }
