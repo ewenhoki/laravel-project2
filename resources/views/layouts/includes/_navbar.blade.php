@@ -69,12 +69,12 @@
                           <div class="dw-user-box">
                               @if(auth()->user()->avatar!=NULL)
                                 @if(file_exists(public_path(auth()->user()->avatar)))
-                                <div class="u-img"><img src="{{ auth()->user()->avatar }}" width="80" height="80" alt="user"></div>
+                                <div class="u-img" style="padding-left:10px;"><img src="{{ auth()->user()->avatar }}" width="80" height="80" alt="user"></div>
                                 @else
-                                <div class="u-img"><img src="{{ asset('admin/img/profile-default.png')}}" alt="user"></div>
+                                <div class="u-img" style="padding-left:10px;"><img src="{{ asset('admin/img/profile-default.png')}}" alt="user"></div>
                                 @endif
                               @else
-                              <div class="u-img"><img src="{{ asset('admin/img/profile-default.png')}}" alt="user"></div>
+                              <div class="u-img" style="padding-left:10px;"><img src="{{ asset('admin/img/profile-default.png')}}" alt="user"></div>
                               @endif
                               <div class="u-text">
                                   <h4>{{auth()->user()->name}}</h4>

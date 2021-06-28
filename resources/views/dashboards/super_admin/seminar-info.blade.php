@@ -76,7 +76,7 @@
                                         <i class="fas fa-times"></i>
                                     </a>
                                     <a href="#modal" class="waves-effect waves-light btn indigo btn-small modal-trigger modal-edit2" seminar-id="{{ $seminar->id }}" time="{{ substr($seminar->date_time,0,-3) }}">
-                                        Ubah Waktu
+                                        <i class="fas fa-clock"></i>
                                     </a>
                                 </td>
                             </tr>
