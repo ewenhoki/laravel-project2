@@ -20,7 +20,7 @@
     <div class="container-fluid">
         <div class="row">
             @if(auth()->user()->student->lecturers()->wherePivot('order',1)->first() && auth()->user()->student->lecturers()->wherePivot('order',2)->first())
-            @if(auth()->user()->student->lecturers()->wherePivot('order',1)->first()->attendances()->count() < 10 && auth()->user()->student->lecturers()->wherePivot('order',2)->first()->attendances()->count() < 10)
+            @if(auth()->user()->student->lecturers()->wherePivot('order',1)->first()->attendances()->where('student_id',auth()->user()->student->id)->count() < 10 || auth()->user()->student->lecturers()->wherePivot('order',2)->first()->attendances()->where('student_id',auth()->user()->student->id)->count() < 10)
             <div class="col s12">
                 <div class="card">
                     <div class="card-content">
