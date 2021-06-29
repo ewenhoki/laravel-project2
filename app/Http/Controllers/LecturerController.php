@@ -162,7 +162,7 @@ class LecturerController extends Controller
     }
 
     public function studentAttendance(Student $student){
-        $attendance = Attendance::where('lecturer_id',auth()->user()->lecturer->id)->where('student_id',$student->id)->orderBy('date_time','DESC')->get();
+        $attendance = Attendance::where('lecturer_id',auth()->user()->lecturer->id)->where('student_id',$student->id)->orderBy('date_time','ASC')->get();
         return view('dashboards.lecturer.attendance_detail',compact(['attendance','student']));
     }
 

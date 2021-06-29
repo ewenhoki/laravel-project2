@@ -331,7 +331,7 @@ class SuperAdminController extends Controller
 
     public function colloquiumInfo(Colloquium $colloquium){
         $lecturers = Lecturer::join('users','users.id','=','lecturers.user_id')
-            ->orderBy('users.name','DESC')
+            ->orderBy('users.name')
             ->pluck('users.name','lecturers.id');
         $lecturers->prepend('Pilih Dosen', 0);
         return view('dashboards.super_admin.colloquium-info',compact(['colloquium','lecturers']));
