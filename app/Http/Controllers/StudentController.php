@@ -221,14 +221,14 @@ class StudentController extends Controller
     public function attendance(){
         if(auth()->user()->student->lecturers()->wherePivot('order',1)->first()){
             $id_supervisor_1 = auth()->user()->student->lecturers()->wherePivot('order',1)->first()->id;
-            $attendance_1 = Attendance::where('lecturer_id',$id_supervisor_1)->where('student_id',auth()->user()->student->id)->orderBy('date_time','ASC')->get();
+            $attendance_1 = Attendance::where('lecturer_id',$id_supervisor_1)->where('student_id',auth()->user()->student->id)->orderBy('date_time','DESC')->get();
         }
         else{
             $attendance_1 = NULL;
         }
         if(auth()->user()->student->lecturers()->wherePivot('order',2)->first()){
             $id_supervisor_2 = auth()->user()->student->lecturers()->wherePivot('order',2)->first()->id;
-            $attendance_2 = Attendance::where('lecturer_id',$id_supervisor_2)->where('student_id',auth()->user()->student->id)->orderBy('date_time','ASC')->get();
+            $attendance_2 = Attendance::where('lecturer_id',$id_supervisor_2)->where('student_id',auth()->user()->student->id)->orderBy('date_time','DESC')->get();
         }
         else{
             $attendance_2 = NULL;
@@ -271,7 +271,7 @@ class StudentController extends Controller
         $id_supervisor_1 = auth()->user()->student->lecturers()->wherePivot('order',1)->first()->id;
         $lecturer = Lecturer::find($id_supervisor_1);
         $date = Carbon::now();
-        $attendance_1 = Attendance::where('lecturer_id',$id_supervisor_1)->where('student_id',auth()->user()->student->id)->orderBy('date_time','ASC')->get();
+        $attendance_1 = Attendance::where('lecturer_id',$id_supervisor_1)->where('student_id',auth()->user()->student->id)->orderBy('date_time','DESC')->get();
         $pdf = PDF::loadView('export.attendance', ['attendance'=>$attendance_1,'lecturer'=>$lecturer,'date'=>$date]);
         return $pdf->download('Absensi Bimbingan.pdf');
     }
@@ -280,7 +280,7 @@ class StudentController extends Controller
         $id_supervisor_2 = auth()->user()->student->lecturers()->wherePivot('order',2)->first()->id;
         $lecturer = Lecturer::find($id_supervisor_2);
         $date = Carbon::now();
-        $attendance_1 = Attendance::where('lecturer_id',$id_supervisor_2)->where('student_id',auth()->user()->student->id)->orderBy('date_time','ASC')->get();
+        $attendance_1 = Attendance::where('lecturer_id',$id_supervisor_2)->where('student_id',auth()->user()->student->id)->orderBy('date_time','DESC')->get();
         $pdf = PDF::loadView('export.attendance', ['attendance'=>$attendance_1,'lecturer'=>$lecturer,'date'=>$date]);
         return $pdf->download('Absensi Bimbingan.pdf');
     }

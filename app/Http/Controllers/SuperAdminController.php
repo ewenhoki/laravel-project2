@@ -20,7 +20,7 @@ use PDF;
 class SuperAdminController extends Controller
 {
     public function index(){
-        $users = User::orderBy('role','ASC')->get();
+        $users = User::orderBy('role','DESC')->get();
         $students = Student::all();
         $lecturers = Lecturer::all();
         $pending = File::where('letter_1',NULL)->count();
@@ -28,7 +28,7 @@ class SuperAdminController extends Controller
     }
     
     public function students(){
-        $students = Student::orderBy('npm','ASC')->get();
+        $students = Student::orderBy('npm','DESC')->get();
         return view('dashboards.super_admin.students',compact(['students']));
     }
     
@@ -38,7 +38,7 @@ class SuperAdminController extends Controller
     }
     
     public function documents(){
-        $files = File::orderBy('letter_1','ASC')->get();
+        $files = File::orderBy('letter_1','DESC')->get();
         // $files = File::where('letter_1','!=',NULL)->get();
         return view('dashboards.super_admin.documents',compact(['files']));
     }
@@ -168,7 +168,7 @@ class SuperAdminController extends Controller
     }
 
     public function requestSupervisor(){
-        $students = Student::orderBy('npm','ASC')->get();
+        $students = Student::orderBy('npm','DESC')->get();
         $tooltip = [
             'red',
             'blue',
@@ -280,7 +280,7 @@ class SuperAdminController extends Controller
     }
 
     public function seminar(){
-        $seminars = Seminar::orderBy('confirm','ASC')->get();
+        $seminars = Seminar::orderBy('confirm','DESC')->get();
         return view('dashboards.super_admin.seminar',compact(['seminars']));
     }
 
@@ -325,13 +325,13 @@ class SuperAdminController extends Controller
     }
 
     public function colloquium(){
-        $colloquiums = Colloquium::orderBy('confirm','ASC')->get();
+        $colloquiums = Colloquium::orderBy('confirm','DESC')->get();
         return view('dashboards.super_admin.colloquium',compact(['colloquiums']));
     }
 
     public function colloquiumInfo(Colloquium $colloquium){
         $lecturers = Lecturer::join('users','users.id','=','lecturers.user_id')
-            ->orderBy('users.name')
+            ->orderBy('users.name','DESC')
             ->pluck('users.name','lecturers.id');
         $lecturers->prepend('Pilih Dosen', 0);
         return view('dashboards.super_admin.colloquium-info',compact(['colloquium','lecturers']));

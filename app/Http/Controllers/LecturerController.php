@@ -74,7 +74,7 @@ class LecturerController extends Controller
     }
 
     public function studentRequest(){
-        $students = auth()->user()->lecturer->students()->orderBy('lecturer_student.progress','ASC')->get();
+        $students = auth()->user()->lecturer->students()->orderBy('lecturer_student.progress','DESC')->get();
         $tooltip = [
             'red',
             'blue',
@@ -162,7 +162,7 @@ class LecturerController extends Controller
     }
 
     public function studentAttendance(Student $student){
-        $attendance = Attendance::where('lecturer_id',auth()->user()->lecturer->id)->where('student_id',$student->id)->orderBy('date_time','ASC')->get();
+        $attendance = Attendance::where('lecturer_id',auth()->user()->lecturer->id)->where('student_id',$student->id)->orderBy('date_time','DESC')->get();
         return view('dashboards.lecturer.attendance_detail',compact(['attendance','student']));
     }
 
